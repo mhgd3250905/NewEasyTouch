@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40sp"
+    android:id="@id/rl_item">
+
+    <ImageView
+        android:layout_marginStart="10dp"
+        android:id="@id/iv_item"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/vector_drawable_icon_touch" />
+
+    <TextView
+        android:layout_marginStart="10dp"
+        android:textSize="20sp"
+        android:id="@id/tv_item"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toEndOf="@id/iv_item"
+        android:layout_toStartOf="@+id/iv_checkable"
+        android:gravity="center|start"
+        android:text="悬浮窗权限" />
+
+    <ImageView
+        android:layout_marginEnd="20dp"
+        android:id="@id/iv_checkable"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/vector_drawable_icon_checked" />
+</RelativeLayout>

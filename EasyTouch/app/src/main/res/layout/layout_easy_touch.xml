@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/ll_touch_container"
+    android:layout_width="wrap_content"
+    android:layout_height="240dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@id/container_touch_linear"
+        android:layout_width="15dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@id/iv_touch_top"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:alpha="50" />
+
+        <ImageView
+            android:id="@id/iv_touch_mid"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:alpha="50" />
+
+        <ImageView
+            android:id="@id/iv_touch_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:alpha="50" />
+    </LinearLayout>
+
+</LinearLayout>

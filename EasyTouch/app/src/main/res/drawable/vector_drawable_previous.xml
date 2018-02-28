@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:viewportWidth="1024"
+    android:viewportHeight="1024" android:width="1024dp" android:height="1024dp">
+    <group>
+        <path android:fillColor="#00000000" android:name="canvas_background"
+            android:pathData="M-1,-1.0L581,-1L581,401L-1,401z" />
+    </group>
+    <group>
+        <path android:fillColor="#AAFF56"
+            android:pathData="M512,-0,C794.77,-0,1024,229.23,1024,512,C1024,794.77,794.77,1024,512,1024,C229.23,1024,0,794.77,0,512,C0,229.23,229.23,-0,512,-0z" />
+        <path android:fillColor="#FFFFFF"
+            android:pathData="m768.910897,270.857174l-347.552424,239.596332l347.552424,239.565721l0,-479.162054zm-408.829943,0l-81.797614,0l0,479.162054l81.797614,0l0,-479.162054z" />
+    </group>
+</vector>

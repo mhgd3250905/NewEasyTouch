@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="ivTouch" type="id">ivTouch</item>
+
+    <item name="ll_touch_container" type="id">ll_touch_container</item>
+    <item name="iv_touch_top" type="id">iv_touch_top</item>
+    <item name="iv_touch_mid" type="id">iv_touch_mid</item>
+    <item name="iv_touch_bottom" type="id">iv_touch_bottom</item>
+    <item name="container_settings" type="id">container_settings</item>
+    <item name="tv_settings_title" type="id">tv_settings_title</item>
+    <item name="tv_settings_value" type="id">tv_settings_value</item>
+    <item name="settings_item_shape" type="id">settings_item_shape</item>
+    <item name="settings_item_float" type="id">settings_item_float</item>
+    <item name="settings_item_assist" type="id">settings_item_assist</item>
+    <item name="settings_item_theme" type="id">settings_item_theme</item>
+    <item name="settings_item_lock" type="id">settings_item_lock</item>
+    <item name="tb_shape_settings" type="id">tb_shape_settings</item>
+    <item name="ivTouchBall" type="id">ivTouchBall</item>
+    <item name="btn_touch_ball" type="id">btn_touch_ball</item>
+    <item name="btn_touch_line" type="id">btn_touch_line</item>
+    <item name="ll_menu_container" type="id">ll_menu_container</item>
+    <item name="sb_system_audio" type="id">sb_system_audio</item>
+    <item name="sb_media_audio" type="id">sb_media_audio</item>
+    <item name="sb_alarm_audio" type="id">sb_alarm_audio</item>
+    <item name="iv_audio_system" type="id">iv_audio_system</item>
+    <item name="iv_audio_media" type="id">iv_audio_media</item>
+    <item name="iv_audio_alarm" type="id">iv_audio_alarm</item>
+    <item name="tv_audio_mode" type="id">tv_audio_mode</item>
+    <item name="switch_mode" type="id">switch_mode</item>
+    <item name="ll_menu_bottom_container" type="id">ll_menu_bottom_container</item>
+    <item name="iv_scan_alipay" type="id">iv_scan_alipay</item>
+    <item name="iv_pay_alipay" type="id">iv_pay_alipay</item>
+    <item name="iv_scan_weixin" type="id">iv_scan_weixin</item>
+    <item name="container_menu_ball" type="id">container_menu_ball</item>
+    <item name="iv_menu_ball_1" type="id">iv_menu_ball_1</item>
+    <item name="iv_menu_ball_2" type="id">iv_menu_ball_2</item>
+    <item name="iv_menu_ball_3" type="id">iv_menu_ball_3</item>
+    <item name="container_ball_menu_detail_voice" type="id">container_ball_menu_detail_voice</item>
+    <item name="iv_menu_detail_back" type="id">iv_menu_detail_back</item>
+    <item name="container_ball_menu_detail_pay" type="id">container_ball_menu_detail_pay</item>
+    <item name="containerMenuDetailBack" type="id">containerMenuDetailBack</item>
+    <item name="fl_app_select" type="id">fl_app_select</item>
+    <item name="rv_apps" type="id">rv_apps</item>
+    <item name="iv_item_icon" type="id">iv_item_icon</item>
+    <item name="iv_item_item_app_add" type="id">iv_item_item_app_add</item>
+    <item name="tv_app_name" type="id">tv_app_name</item>
+    <item name="tv_item_app_name" type="id">tv_item_app_name</item>
+    <item name="settings_item_touch_detail" type="id">settings_item_touch_detail</item>
+    <item name="test" type="id">test</item>
+    <item name="containerAppsMenuDetailBack" type="id">containerAppsMenuDetailBack</item>
+    <item name="container_ball_menu_detail_apps" type="id">container_ball_menu_detail_apps</item>
+    <item name="container_ball_menu_detail_short_cut" type="id">
+        container_ball_menu_detail_short_cut
+    </item>
+    <item name="container_ball_menu_detail_app_top" type="id">container_ball_menu_detail_app_top
+    </item>
+    <item name="container_ball_menu_detail_app_bottom" type="id">
+        container_ball_menu_detail_app_bottom
+    </item>
+    <item name="iv_menu_ball_4" type="id">iv_menu_ball_4</item>
+    <item name="iv_menu_ball_0" type="id">iv_menu_ball_0</item>
+    <item name="iv_menu_ball_5" type="id">iv_menu_ball_5</item>
+    <item name="container_ball_menu_detail_app_back" type="id">container_ball_menu_detail_app_back
+    </item>
+    <item name="container_ball_menu_detail_pay_content" type="id">
+        container_ball_menu_detail_pay_content
+    </item>
+    <item name="container_ball_menu_detail_pay_back" type="id">container_ball_menu_detail_pay_back
+    </item>
+    <item name="container_ball_menu_detail_voice_content" type="id">
+        container_ball_menu_detail_voice_content
+    </item>
+    <item name="container_ball_menu_detail_voice_back" type="id">
+        container_ball_menu_detail_voice_back
+    </item>
+    <item name="container_ball_menu_detail_app_content" type="id">
+        container_ball_menu_detail_app_content
+    </item>
+    <item name="iv_menu_detail_pay_back" type="id">iv_menu_detail_pay_back</item>
+    <item name="iv_menu_detail_app_back" type="id">iv_menu_detail_app_back</item>
+    <item name="iv_menu_detail_voice_back" type="id">iv_menu_detail_voice_back</item>
+    <item name="rg_touch_style" type="id">rg_touch_style</item>
+    <item name="rb_touch_style_linear" type="id">rb_touch_style_linear</item>
+    <item name="rb_touch_style_ball" type="id">rb_touch_style_ball</item>
+    <item name="settings_item_func" type="id">settings_item_func</item>
+    <item name="tl_setting_shape" type="id">tl_setting_shape</item>
+    <item name="vp_setting_shape" type="id">vp_setting_shape</item>
+    <item name="sb_radius" type="id">sb_radius</item>
+    <item name="tb_ball_drawable_select" type="id">tb_ball_drawable_select</item>
+    <item name="rv_ball_drawable_select" type="id">rv_ball_drawable_select</item>
+    <item name="item_drawable_select" type="id">item_drawable_select</item>
+    <item name="iv_item_drawable_select" type="id">iv_item_drawable_select</item>
+    <item name="rg_ball_drawable" type="id">rg_ball_drawable</item>
+    <item name="rb_ball_theme" type="id">rb_ball_theme</item>
+    <item name="rb_ball_drawable_system" type="id">rb_ball_drawable_system</item>
+    <item name="rb_ball_drawable_custom" type="id">rb_ball_drawable_custom</item>
+    <item name="tv_ball_drawable_system" type="id">tv_ball_drawable_system</item>
+    <item name="tv_ball_drawable" type="id">tv_ball_drawable</item>
+    <item name="tb_function_select" type="id">tb_function_select</item>
+    <item name="tl_function_select" type="id">tl_function_select</item>
+    <item name="vp_function_select" type="id">vp_function_select</item>
+    <item name="siv_function_click" type="id">siv_function_click</item>
+    <item name="siv_function_long_click" type="id">siv_function_long_click</item>
+    <item name="siv_function_touch_left" type="id">siv_function_touch_left</item>
+    <item name="siv_function_touch_right" type="id">siv_function_touch_right</item>
+    <item name="siv_function_touch_up" type="id">siv_function_touch_up</item>
+    <item name="siv_function_touch_down" type="id">siv_function_touch_down</item>
+    <item name="siv_function_menu_number" type="id">siv_function_menu_number</item>
+    <item name="tb_function_detail_select" type="id">tb_function_detail_select</item>
+    <item name="vp_function_detail_select" type="id">vp_function_detail_select</item>
+    <item name="tl_function_detail_select" type="id">tl_function_detail_select</item>
+    <item name="tv_item_back" type="id">tv_item_back</item>
+    <item name="tv_item_home" type="id">tv_item_home</item>
+    <item name="tv_item_location" type="id">tv_item_location</item>
+    <item name="tv_item_voice" type="id">tv_item_voice</item>
+    <item name="tv_item_pay" type="id">tv_item_pay</item>
+    <item name="tv_item_app" type="id">tv_item_app</item>
+    <item name="tv_item_notification" type="id">tv_item_notification</item>
+    <item name="tv_item_recent" type="id">tv_item_recent</item>
+    <item name="tv_item_menu" type="id">tv_item_menu</item>
+    <item name="tv_item_previous_app" type="id">tv_item_previous_app</item>
+    <item name="container_function_menu_number" type="id">container_function_menu_number</item>
+    <item name="tv_item_lock_screen" type="id">tv_item_lock_screen</item>
+    <item name="fl_function_detail_base" type="id">fl_function_detail_base</item>
+    <item name="siv_function_top_click" type="id">siv_function_top_click</item>
+    <item name="siv_function_top_fling_up" type="id">siv_function_top_fling_up</item>
+    <item name="siv_function_top_fling_down" type="id">siv_function_top_fling_down</item>
+    <item name="siv_function_mid_click" type="id">siv_function_mid_click</item>
+    <item name="siv_function_mid_fling_up" type="id">siv_function_mid_fling_up</item>
+    <item name="siv_function_mid_fling_down" type="id">siv_function_mid_fling_down</item>
+    <item name="siv_function_bottom_click" type="id">siv_function_bottom_click</item>
+    <item name="siv_function_bottom_fling_up" type="id">siv_function_bottom_fling_up</item>
+    <item name="siv_function_bottom_fling_down" type="id">siv_function_bottom_fling_down</item>
+    <item name="tb_app_select" type="id">tb_app_select</item>
+    <item name="settings_item_about" type="id">settings_item_about</item>
+    <item name="tb_about" type="id">tb_about</item>
+    <item name="settings_item_version" type="id">settings_item_version</item>
+    <item name="settings_item_email" type="id">settings_item_email</item>
+    <item name="settings_item_qq" type="id">settings_item_qq</item>
+    <item name="settings_item_github" type="id">settings_item_github</item>
+    <item name="container_whole_menu_detail_voice" type="id">container_whole_menu_detail_voice
+    </item>
+    <item name="container_whole_menu" type="id">container_whole_menu</item>
+    <item name="container_whole_menu_apps" type="id">container_whole_menu_apps</item>
+    <item name="container_whole_menu_functions" type="id">container_whole_menu_functions</item>
+    <item name="container_whole_menu_clipboard" type="id">container_whole_menu_clipboard</item>
+    <item name="container_whole_menu_bg" type="id">container_whole_menu_bg</item>
+    <item name="iv_shot_screen_preview" type="id">iv_shot_screen_preview</item>
+    <item name="tv_item_shot_screen" type="id">tv_item_shot_screen</item>
+    <item name="settings_item_shot" type="id">settings_item_shot</item>
+    <item name="rg_hide_theme" type="id">rg_hide_theme</item>
+    <item name="rb_hide_line_1" type="id">rb_hide_line_1</item>
+    <item name="rb_hide_line_2" type="id">rb_hide_line_2</item>
+    <item name="rb_hide_rect" type="id">rb_hide_rect</item>
+    <item name="container_touch_linear" type="id">container_touch_linear</item>
+    <item name="swicth_settings" type="id">swicth_settings</item>
+    <item name="ssiv_pos_freeze" type="id">ssiv_pos_freeze</item>
+    <item name="tv_ball_pos_custom" type="id">tv_ball_pos_custom</item>
+    <item name="tv_item" type="id">tv_item</item>
+    <item name="iv_item" type="id">iv_item</item>
+    <item name="rl_item" type="id">rl_item</item>
+    <item name="item_check_touch_permissions" type="id">item_check_touch_permissions</item>
+    <item name="item_check_accessable_permissions" type="id">item_check_accessable_permissions
+    </item>
+    <item name="item_check_lock_permissions" type="id">item_check_lock_permissions</item>
+    <item name="item_check_shotscreen_permissions" type="id">item_check_shotscreen_permissions
+    </item>
+    <item name="item_check_shape_setting" type="id">item_check_shape_setting</item>
+    <item name="item_check_func_setting" type="id">item_check_func_setting</item>
+    <item name="item_check_about_setting" type="id">item_check_about_setting</item>
+</resources>

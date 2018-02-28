@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">白开水悬浮助手</string>
+    <string name="action_settings">Settings</string>
+    <string name="accessibility">打开开关，才可以使用悬浮球功能。</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="function_menu_ball_title">菜单%d</string>
+    <string name="function_item_message">点击设置</string>
+    <string name="function_menu_number_value">当前菜单元素%d个</string>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/ll_touch_container"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:orientation="vertical">
+
+    <com.skkk.easytouch.View.CircleImageView
+        android:layout_centerVertical="true"
+        android:id="@id/ivTouchBall"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ball_0" />
+
+</RelativeLayout>

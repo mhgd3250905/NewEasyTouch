@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <declare-styleable name="SettingItemView">
+        <attr name="title" format="string" />
+        <attr name="value" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="SettingSwitchItemView">
+        <attr name="switchTitle" format="string" />
+        <attr name="switchChecked" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="SettingItemCheckableView">
+        <attr name="titleIcon" format="reference"/>
+        <attr name="checkedIcon" format="reference"/>
+        <attr name="uncheckIcon" format="reference"/>
+        <attr name="content" format="string"/>
+        <attr name="showCheckable" format="boolean"/>
+    </declare-styleable>
+</resources>
