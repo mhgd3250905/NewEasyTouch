@@ -227,7 +227,7 @@ public class BallDrawableSelectActivity extends AppCompatActivity {
         if (requestCode == PERMISSION_REQUEST_CODE && hasAllPermissionsGranted(grantResults)) {
 
         } else {
-            DialogUtils.showDialog(BallDrawableSelectActivity.this, R.drawable.ic_warning,
+            DialogUtils.createDialog(BallDrawableSelectActivity.this, R.drawable.ic_warning,
                     "提醒", "当前应用缺少必要权限，\n请点击\"设置\"-\"权限\"打开所需要的权限。",
                     "设置", new DialogInterface.OnClickListener() {
                         @Override

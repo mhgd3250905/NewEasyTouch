@@ -37,6 +37,7 @@ import com.skkk.easytouch.View.AboutActivity;
 import com.skkk.easytouch.View.FunctionSelect.FuncConfigs;
 import com.skkk.easytouch.View.FunctionSelect.FunctionSelectActivity;
 import com.skkk.easytouch.View.ScaleScrollView;
+import com.skkk.easytouch.View.SettingItemCheckableView;
 import com.skkk.easytouch.View.SettingItemView;
 import com.skkk.easytouch.View.ShapeSetting.ShapeSettingActivity;
 
@@ -76,11 +77,23 @@ public class MainActivity extends AppCompatActivity {
     SettingItemView settingsItemAbout;
     @Bind(R.id.settings_item_shot)
     SettingItemView settingsItemShot;
-
-
-
+    @Bind(R.id.item_check_touch_permissions)
+    SettingItemCheckableView itemCheckTouchPermissions;
+    @Bind(R.id.item_check_accessable_permissions)
+    SettingItemCheckableView itemCheckAccessablePermissions;
+    @Bind(R.id.item_check_lock_permissions)
+    SettingItemCheckableView itemCheckLockPermissions;
+    @Bind(R.id.item_check_shotscreen_permissions)
+    SettingItemCheckableView itemCheckShotscreenPermissions;
+    @Bind(R.id.item_check_shape_setting)
+    SettingItemCheckableView itemCheckShapeSetting;
+    @Bind(R.id.item_check_func_setting)
+    SettingItemCheckableView itemCheckFuncSetting;
+    @Bind(R.id.item_check_about_setting)
+    SettingItemCheckableView itemCheckAboutSetting;
 
     private static final String PACKAGE_URL_SCHEME = "package:"; // 方案
+
     private ComponentName mAdminName;
     private DevicePolicyManager mDPM;
     private int screenDensity;
@@ -174,6 +187,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             settingsItemAssist.setValue("已开启");
         }
+        itemCheckAccessablePermissions.setChecked(isAccessibilityServiceRunning("FloatService"));
+
 
         /**
          * 判断是否有悬浮窗权限
@@ -184,6 +199,8 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 settingsItemFloat.setValue("已开启");
             }
+            itemCheckTouchPermissions.setChecked(Settings.canDrawOverlays(this));
+
         }
 
         /**
@@ -197,12 +214,17 @@ public class MainActivity extends AppCompatActivity {
         } else {
             settingsItemLock.setValue("已开启");
         }
+        itemCheckLockPermissions.setChecked(mDPM.isAdminActive(mAdminName));
 
-        if (!ShotScreenUtils.checkServiceIsRun()){
+        /**
+         * 判断是否拥有截屏权限
+         */
+        if (!ShotScreenUtils.checkServiceIsRun()) {
             settingsItemShot.setWarning("未开启，截屏功能无法使用");
-        }else{
+        } else {
             settingsItemShot.setValue("已开启");
         }
+        itemCheckShotscreenPermissions.setChecked(ShotScreenUtils.checkServiceIsRun());
     }
 
     /**
@@ -219,12 +241,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void initEvent() {
 
-        settingsItemAssist.setSettingItemClickListener(new View.OnClickListener() {
+    private void initEvent() {
+        //设置辅助功能权限item事件
+        itemCheckAccessablePermissions.setOnItemClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtils.showDialog(MainActivity.this, R.drawable.ic_warning, "提醒", "为了保证EasyTouch的正常使用，您需要开启无障碍权限！",
+                DialogUtils.createDialog(MainActivity.this, R.drawable.ic_warning, "提醒", "为了保证EasyTouch的正常使用，您需要开启无障碍权限！",
                         "前往设置", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -234,7 +257,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        settingsItemAssist.setSettingItemClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogUtils.createDialog(MainActivity.this, R.drawable.ic_warning, "提醒", "为了保证EasyTouch的正常使用，您需要开启无障碍权限！",
+                        "前往设置", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(new Intent("android.settings.ACCESSIBILITY_SETTINGS"));
+                            }
+                        }, "算了", null).show();
+            }
+        });
 
+        //设置悬浮窗权限Item事件
+        itemCheckTouchPermissions.setOnItemClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!itemCheckTouchPermissions.isChecked()){
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                    intent.setData(Uri.parse("package:" + getPackageName()));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+            }
+        });
         settingsItemFloat.setSettingItemClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -245,7 +292,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        //设置锁屏权限Item事件
+        itemCheckLockPermissions.setOnItemClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!itemCheckLockPermissions.isChecked()){
+                    showAdminManagement(mAdminName);
+                }
+            }
+        });
         settingsItemLock.setSettingItemClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -253,6 +308,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //设置截屏权限item事件
+        itemCheckShotscreenPermissions.setOnItemClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!itemCheckShotscreenPermissions.isChecked()){
+                    if (Build.VERSION.SDK_INT >= M) {
+                        //版本为6.0以上，那么进行权限检测
+                        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                                && checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                            //如果已经具备了权限，那么可以操作
+                            if (Build.VERSION.SDK_INT >= LOLLIPOP) {
+                                requestCapturePermission();
+                            }
+                        } else {
+                            initPermissions();
+                        }
+                    }
+                }
+            }
+        });
         settingsItemShot.setSettingItemClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -264,7 +339,7 @@ public class MainActivity extends AppCompatActivity {
                         if (Build.VERSION.SDK_INT >= LOLLIPOP) {
                             requestCapturePermission();
                         }
-                    }else {
+                    } else {
                         initPermissions();
                     }
                 }
@@ -272,8 +347,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
         //设置形状
         settingsItemShape.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ShapeSettingActivity.class));
+            }
+        });
+        itemCheckShapeSetting.setOnItemClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, ShapeSettingActivity.class));
@@ -287,11 +369,30 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, FunctionSelectActivity.class));
             }
         });
+        itemCheckFuncSetting.setOnItemClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, FunctionSelectActivity.class));
+            }
+        });
+
+        //关于
+        settingsItemAbout.setSettingItemClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, AboutActivity.class));
+            }
+        });
+        itemCheckAboutSetting.setOnItemClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, AboutActivity.class));
+            }
+        });
 
         btnTouchLine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (Build.VERSION.SDK_INT >= M) {
                     if (!Settings.canDrawOverlays(MainActivity.this)) {
                         Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
@@ -359,12 +460,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        settingsItemAbout.setSettingItemClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, AboutActivity.class));
-            }
-        });
 
     }
 
@@ -479,7 +574,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == PERMISSION_REQUEST_CODE && hasAllPermissionsGranted(grantResults)) {
             requestCapturePermission();
         } else {
-            DialogUtils.showDialog(MainActivity.this, R.drawable.ic_warning,
+            DialogUtils.createDialog(MainActivity.this, R.drawable.ic_warning,
                     "提醒", "当前应用缺少必要权限，\n请点击\"设置\"-\"权限\"打开所需要的权限。",
                     "设置", new DialogInterface.OnClickListener() {
                         @Override

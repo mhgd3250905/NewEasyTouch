@@ -5,8 +5,8 @@ import android.content.res.TypedArray;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,21 +24,20 @@ import com.skkk.easytouch.R;
 */
 public class SettingItemCheckableView extends RelativeLayout {
 
-    private RelativeLayout rlItem;
+    private LinearLayout llItem;
     private ImageView ivItem;
     private TextView tvItem;
     private ImageView ivCheckable;
-    private @DrawableRes
+    private
+    @DrawableRes
     int checkedRes;//选中时候的图片
-    private @DrawableRes int unCheckedRes;//未选中时候的图片
-    private OnItemCheckChangeListener onItemCheckChangeListener;
+    private
+    @DrawableRes
+    int unCheckedRes;//未选中时候的图片
 
-    private boolean isChecked=false;
-    private boolean showCheckable=true;//是否显示选择框
+    private boolean isChecked = false;
+    private boolean showCheckable = true;//是否显示选择框
 
-    public interface OnItemCheckChangeListener{
-        void onItemCheckchanged(View view, boolean checked);
-    }
 
     public SettingItemCheckableView(Context context) {
         super(context);
@@ -59,27 +58,27 @@ public class SettingItemCheckableView extends RelativeLayout {
      * 初始化界面
      */
     private void initUI(AttributeSet attrs) {
-        LayoutInflater.from(getContext()).inflate(R.layout.layout_image_check_item,this,true);
-        rlItem = (RelativeLayout) findViewById(R.id.rl_item);
+        LayoutInflater.from(getContext()).inflate(R.layout.layout_image_check_item, this, true);
+        llItem = (LinearLayout) findViewById(R.id.ll_item);
         ivItem = (ImageView) findViewById(R.id.iv_item);
         tvItem = (TextView) findViewById(R.id.tv_item);
         ivCheckable = (ImageView) findViewById(R.id.iv_checkable);
 
-        if (attrs!=null) {
+        if (attrs != null) {
             TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.SettingItemCheckableView);
             String content = ta.getString(R.styleable.SettingItemCheckableView_content);
-            int titleIconRes = ta.getResourceId(R.styleable.SettingItemCheckableView_titleIcon,R.drawable.logo);
-            checkedRes = ta.getResourceId(R.styleable.SettingItemCheckableView_checkedIcon,R.drawable.logo);
-            unCheckedRes = ta.getResourceId(R.styleable.SettingItemCheckableView_uncheckIcon,R.drawable.logo);
-            showCheckable = ta.getBoolean(R.styleable.SettingItemCheckableView_showCheckable,true);
+            int titleIconRes = ta.getResourceId(R.styleable.SettingItemCheckableView_titleIcon, R.drawable.logo);
+            checkedRes = ta.getResourceId(R.styleable.SettingItemCheckableView_checkedIcon, R.drawable.logo);
+            unCheckedRes = ta.getResourceId(R.styleable.SettingItemCheckableView_uncheckIcon, R.drawable.logo);
+            showCheckable = ta.getBoolean(R.styleable.SettingItemCheckableView_showCheckable, true);
             ta.recycle();
 
             tvItem.setText(content);
             ivItem.setImageResource(titleIconRes);
         }
         //设置选中图片
-        ivCheckable.setImageResource(isChecked?checkedRes:unCheckedRes);
-        ivCheckable.setVisibility(showCheckable?VISIBLE:GONE);
+        ivCheckable.setImageResource(isChecked ? checkedRes : unCheckedRes);
+        ivCheckable.setVisibility(showCheckable ? VISIBLE : GONE);
         initEvent();
     }
 
@@ -87,52 +86,33 @@ public class SettingItemCheckableView extends RelativeLayout {
      * 初始化事件
      */
     private void initEvent() {
-        //点击条目切换选中状态
-        rlItem.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isChecked=!isChecked;
-                ivCheckable.setImageResource(isChecked?checkedRes:unCheckedRes);
-                //设置选中状态变化监听
-                if (onItemCheckChangeListener!=null){
-                    onItemCheckChangeListener.onItemCheckchanged(rlItem,isChecked);
-                }
-            }
-        });
-    }
-
-    /**
-     * 设置选中状态监听
-     * @param onItemCheckChangeListener
-     */
-    public void setOnItemCheckChangeListener(OnItemCheckChangeListener onItemCheckChangeListener) {
-        this.onItemCheckChangeListener = onItemCheckChangeListener;
     }
 
     /**
      * 当勾选框被隐藏的时候可以设置点击事件
+     *
      * @param onItemClickListener
      */
-    public void setOnItemClickListener(OnClickListener onItemClickListener){
-        if (!showCheckable){
-            if (rlItem!=null){
-                rlItem.setOnClickListener(onItemClickListener);
-            }
+    public void setOnItemClickListener(OnClickListener onItemClickListener) {
+        if (llItem != null) {
+            llItem.setOnClickListener(onItemClickListener);
         }
     }
 
     /**
      * 设置标题Icon
+     *
      * @param titleIcon
      */
-    public void setTitleIcon(@DrawableRes int titleIcon){
-        if (ivItem!=null){
+    public void setTitleIcon(@DrawableRes int titleIcon) {
+        if (ivItem != null) {
             ivItem.setImageResource(titleIcon);
         }
     }
 
     /**
      * 设置选中icon
+     *
      * @param checkedRes
      */
     public void setCheckedRes(@DrawableRes int checkedRes) {
@@ -141,6 +121,7 @@ public class SettingItemCheckableView extends RelativeLayout {
 
     /**
      * 设置未选中icon
+     *
      * @param unCheckedRes
      */
     public void setUnCheckedRes(@DrawableRes int unCheckedRes) {
@@ -149,11 +130,33 @@ public class SettingItemCheckableView extends RelativeLayout {
 
     /**
      * 设置文字内容
+     *
      * @param content
      */
-    public void setContent(String content){
-        if (tvItem!=null){
+    public void setContent(String content) {
+        if (tvItem != null) {
             tvItem.setText(content);
         }
     }
+
+    /**
+     * 设置是否勾选
+     *
+     * @param checked
+     */
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+        ivCheckable.setImageResource(isChecked ? checkedRes : unCheckedRes);
+    }
+
+    /**
+     * 获取是否勾选状态
+     *
+     * @return
+     */
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+
 }

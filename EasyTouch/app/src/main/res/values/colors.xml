@@ -51,5 +51,7 @@
     <color name="easy_touch_ball_menu_gray">#544A4A</color>
     <color name="easy_touch_ball_menu_green">#50783c</color>
     <color name="easy_touch_ball_menu_orange">#b4503c</color>
+    <color name="main_bg_light_gray_0">#eeeeee</color>
+    <color name="main_bg_light_gray_1">#dddddd</color>
 
 </resources>

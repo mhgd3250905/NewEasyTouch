@@ -168,4 +168,7 @@
     <item name="item_check_shape_setting" type="id">item_check_shape_setting</item>
     <item name="item_check_func_setting" type="id">item_check_func_setting</item>
     <item name="item_check_about_setting" type="id">item_check_about_setting</item>
+    <item name="tv_dialog_message" type="id">tv_dialog_message</item>
+    <item name="iv_dialog_message" type="id">iv_dialog_message</item>
+    <item name="ll_item" type="id">ll_item</item>
 </resources>

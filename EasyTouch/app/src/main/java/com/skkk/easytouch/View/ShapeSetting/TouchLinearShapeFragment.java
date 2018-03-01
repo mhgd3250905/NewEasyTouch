@@ -354,7 +354,7 @@ public class TouchLinearShapeFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //是否打开了悬浮球
                 if (isChecked) {//已经位置固定
-                    DialogUtils.showDialog(getContext(), R.drawable.ic_notifications, "提醒",
+                    DialogUtils.createDialog(getContext(), R.drawable.ic_notifications, "提醒",
                             "点击确认固定悬浮条位置，悬浮条将不可上下拖动。",
                             "确认", new DialogInterface.OnClickListener() {
                                 @Override
@@ -372,7 +372,7 @@ public class TouchLinearShapeFragment extends Fragment {
                             }, "取消", null)
                             .show();
                 } else {
-                    DialogUtils.showDialog(getContext(), R.drawable.ic_notifications, "提醒",
+                    DialogUtils.createDialog(getContext(), R.drawable.ic_notifications, "提醒",
                             "点击确认取消固定悬浮条位置，悬浮条将可以上下拖动。",
                             "确认", new DialogInterface.OnClickListener() {
                                 @Override
