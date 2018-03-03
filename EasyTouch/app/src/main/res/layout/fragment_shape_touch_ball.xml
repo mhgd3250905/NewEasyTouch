@@ -53,9 +53,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="悬浮球"
-                        android:textColor="@color/colorBlackBody"
-                        android:textSize="30sp"
-                        android:textStyle="bold" />
+                        android:textSize="12sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -68,7 +66,7 @@
                             android:layout_height="wrap_content"
                             android:text="半径"
                             android:textColor="@color/colorBlackBody"
-                            android:textSize="20sp" />
+                            android:textSize="15sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -83,7 +81,7 @@
                                 android:gravity="center"
                                 android:text="短"
                                 android:textColor="@color/colorAccent"
-                                android:textSize="15sp" />
+                                android:textSize="12sp" />
 
                             <android.support.v7.widget.AppCompatSeekBar
                                 android:id="@id/sb_radius"
@@ -98,7 +96,7 @@
                                 android:gravity="center"
                                 android:text="长"
                                 android:textColor="@color/colorAccent"
-                                android:textSize="15sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
 
 
@@ -115,7 +113,7 @@
                             android:layout_height="wrap_content"
                             android:text="按键震动"
                             android:textColor="@color/colorBlackBody"
-                            android:textSize="20sp" />
+                            android:textSize="15sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -129,7 +127,7 @@
                                 android:gravity="center"
                                 android:text="弱"
                                 android:textColor="@color/colorAccent"
-                                android:textSize="15sp" />
+                                android:textSize="12sp" />
 
                             <android.support.v7.widget.AppCompatSeekBar
                                 android:id="@+id/sb_vibrate"
@@ -144,7 +142,7 @@
                                 android:gravity="center"
                                 android:text="强"
                                 android:textColor="@color/colorAccent"
-                                android:textSize="15sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
 
 
@@ -161,7 +159,7 @@
                             android:layout_height="wrap_content"
                             android:text="透明度"
                             android:textColor="@color/colorBlackBody"
-                            android:textSize="20sp" />
+                            android:textSize="15sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -175,7 +173,7 @@
                                 android:gravity="center"
                                 android:text="透"
                                 android:textColor="@color/colorAccent"
-                                android:textSize="15sp" />
+                                android:textSize="12sp" />
 
                             <android.support.v7.widget.AppCompatSeekBar
                                 android:id="@+id/sb_alpha"
@@ -190,7 +188,7 @@
                                 android:gravity="center"
                                 android:text="实"
                                 android:textColor="@color/colorAccent"
-                                android:textSize="15sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -206,7 +204,7 @@
                             android:layout_height="wrap_content"
                             android:text="位置固定"
                             android:textColor="@color/colorBlackBody"
-                            android:textSize="20sp" />
+                            android:textSize="15sp" />
 
 
                         <TextView
@@ -218,7 +216,7 @@
                             android:buttonTint="@color/colorAccent"
                             android:text="点击说明"
                             android:textColor="@color/colorAccent"
-                            android:textSize="20sp" />
+                            android:textSize="15sp" />
 
                     </LinearLayout>
 
@@ -233,7 +231,7 @@
                             android:layout_height="wrap_content"
                             android:text="位置固定"
                             android:textColor="@color/colorBlackBody"
-                            android:textSize="20sp"
+                            android:textSize="15sp"
                             android:id="@+id/textView3" />
 
                         <com.skkk.easytouch.View.SettingSwitchItemView
@@ -255,8 +253,7 @@
                             android:layout_height="wrap_content"
                             android:text="图片"
                             android:textColor="@color/colorBlackBody"
-                            android:textSize="20sp" />
-
+                            android:textSize="15sp" />
 
                         <TextView
                             android:id="@id/tv_ball_drawable"
@@ -267,7 +264,7 @@
                             android:buttonTint="@color/colorAccent"
                             android:text="点击选择图片"
                             android:textColor="@color/colorAccent"
-                            android:textSize="20sp" />
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 

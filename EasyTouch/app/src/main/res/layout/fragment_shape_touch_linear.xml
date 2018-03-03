@@ -53,9 +53,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="悬浮条"
-                        android:textColor="@color/colorBlackBody"
-                        android:textSize="30sp"
-                        android:textStyle="bold" />
+                        android:textSize="12sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -68,7 +66,7 @@
                             android:layout_height="wrap_content"
                             android:text="高度"
                             android:textColor="@color/colorBlackBody"
-                            android:textSize="20sp" />
+                            android:textSize="15sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -83,7 +81,7 @@
                                 android:gravity="center"
                                 android:text="短"
                                 android:textColor="@color/colorAccent"
-                                android:textSize="15sp" />
+                                android:textSize="12sp" />
 
                             <android.support.v7.widget.AppCompatSeekBar
                                 android:id="@+id/sb_height"
@@ -98,7 +96,7 @@
                                 android:gravity="center"
                                 android:text="长"
                                 android:textColor="@color/colorAccent"
-                                android:textSize="15sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
 
 
@@ -115,7 +113,7 @@
                             android:layout_height="wrap_content"
                             android:text="宽度"
                             android:textColor="@color/colorBlackBody"
-                            android:textSize="20sp" />
+                            android:textSize="15sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -129,7 +127,7 @@
                                 android:gravity="center"
                                 android:text="窄"
                                 android:textColor="@color/colorAccent"
-                                android:textSize="15sp" />
+                                android:textSize="12sp" />
 
                             <android.support.v7.widget.AppCompatSeekBar
                                 android:id="@+id/sb_width"
@@ -144,7 +142,7 @@
                                 android:gravity="center"
                                 android:text="厚"
                                 android:textColor="@color/colorAccent"
-                                android:textSize="15sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -159,7 +157,7 @@
                             android:layout_height="wrap_content"
                             android:text="按键震动"
                             android:textColor="@color/colorBlackBody"
-                            android:textSize="20sp" />
+                            android:textSize="15sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -173,7 +171,7 @@
                                 android:gravity="center"
                                 android:text="弱"
                                 android:textColor="@color/colorAccent"
-                                android:textSize="15sp" />
+                                android:textSize="12sp" />
 
                             <android.support.v7.widget.AppCompatSeekBar
                                 android:id="@+id/sb_vibrate"
@@ -188,7 +186,7 @@
                                 android:gravity="center"
                                 android:text="强"
                                 android:textColor="@color/colorAccent"
-                                android:textSize="15sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -204,7 +202,7 @@
                             android:layout_height="wrap_content"
                             android:text="透明度"
                             android:textColor="@color/colorBlackBody"
-                            android:textSize="20sp" />
+                            android:textSize="15sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -218,7 +216,7 @@
                                 android:gravity="center"
                                 android:text="透"
                                 android:textColor="@color/colorAccent"
-                                android:textSize="15sp" />
+                                android:textSize="12sp" />
 
                             <android.support.v7.widget.AppCompatSeekBar
                                 android:id="@+id/sb_alpha"
@@ -233,7 +231,7 @@
                                 android:gravity="center"
                                 android:text="实"
                                 android:textColor="@color/colorAccent"
-                                android:textSize="15sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -248,7 +246,7 @@
                             android:layout_height="wrap_content"
                             android:text="位置固定"
                             android:textColor="@color/colorBlackBody"
-                            android:textSize="20sp"
+                            android:textSize="15sp"
                             android:id="@+id/textView3" />
 
                         <com.skkk.easytouch.View.SettingSwitchItemView
@@ -270,7 +268,7 @@
                             android:layout_height="wrap_content"
                             android:text="隐藏式主题"
                             android:textColor="@color/colorBlackBody"
-                            android:textSize="20sp" />
+                            android:textSize="15sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -284,6 +282,15 @@
                                 android:layout_height="match_parent">
 
                                 <RadioButton
+                                    android:textSize="12sp"
+                                    android:id="@id/rb_hide_line_0"
+                                    android:layout_weight="1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="传统" />
+
+                                <RadioButton
+                                    android:textSize="12sp"
                                     android:id="@id/rb_hide_line_1"
                                     android:layout_weight="1"
                                     android:layout_width="wrap_content"
@@ -291,6 +298,7 @@
                                     android:text="线1" />
 
                                 <RadioButton
+                                    android:textSize="12sp"
                                     android:id="@id/rb_hide_line_2"
                                     android:layout_weight="1"
                                     android:layout_width="wrap_content"
@@ -298,6 +306,7 @@
                                     android:text="线2" />
 
                                 <RadioButton
+                                    android:textSize="12sp"
                                     android:id="@id/rb_hide_rect"
                                     android:layout_weight="1"
                                     android:layout_width="wrap_content"

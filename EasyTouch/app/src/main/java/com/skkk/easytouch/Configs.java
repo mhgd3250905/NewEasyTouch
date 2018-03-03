@@ -140,6 +140,7 @@ public class Configs {
     public static final int TOUCH_UI_DIRECTION_LEFT = 0;
     public static final int TOUCH_UI_DIRECTION_RIGHT = 1;
 
+    public static final int TOUCH_UI_THEME_HIDE_LINE_NONE =  -1;
     public static final int TOUCH_UI_THEME_HIDE_LINE_1 = 0;
     public static final int TOUCH_UI_THEME_HIDE_LINE_2 = 1;
     public static final int TOUCH_UI_THEME_HIDE_RECT = 2;

@@ -79,6 +79,7 @@ public class TouchBallShapeFragment extends Fragment {
     private String drawableName;
     private boolean isServiceRunning = false;
     private boolean linearPosFreeze;//固定悬浮球位置
+    private CompoundButton.OnCheckedChangeListener onFreezeCheckChangeListener;
 
 
     public TouchBallShapeFragment() {
@@ -116,7 +117,7 @@ public class TouchBallShapeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_touch_ball_shape, container, false);
+        View view = inflater.inflate(R.layout.fragment_shape_touch_ball, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -125,6 +126,77 @@ public class TouchBallShapeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         vibrator = (Vibrator) getContext().getSystemService(VIBRATOR_SERVICE);
+
+        onFreezeCheckChangeListener=new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //是否打开了悬浮球
+                if (isChecked) {//已经位置固定
+                    DialogUtils.createDialog(getContext(), R.drawable.ic_notifications, "提醒",
+                            "点击确认固定悬浮条位置，悬浮条将不可上下拖动。",
+                            "确认", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    linearPosFreeze = true;
+                                    SpUtils.saveBoolean(getContext().getApplicationContext(), Configs.KEY_TOUCH_UI_POS_BALL_FREEZE, linearPosFreeze);
+                                    if (linearPosFreeze) {//已经固定
+                                        ssivPosFreeze.setTitle("固定");
+                                    } else {//未固定
+                                        ssivPosFreeze.setTitle("不固定");
+                                    }
+                                    restartService();
+                                    dialog.dismiss();
+                                }
+                            }, "取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (linearPosFreeze) {//已经固定
+                                        ssivPosFreeze.setTitle("固定");
+                                    } else {//未固定
+                                        ssivPosFreeze.setTitle("不固定");
+                                    }
+                                    ssivPosFreeze.setOnSwitchCheckedChangeListener(null);
+                                    ssivPosFreeze.setSwichChecked(linearPosFreeze);
+                                    ssivPosFreeze.setOnSwitchCheckedChangeListener(onFreezeCheckChangeListener);
+                                }
+                            })
+                            .show();
+                } else {
+                    DialogUtils.createDialog(getContext(), R.drawable.ic_notifications, "提醒",
+                            "点击确认取消固定悬浮条位置，悬浮条将可以上下拖动。",
+                            "确认", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    linearPosFreeze = false;
+                                    SpUtils.saveBoolean(getContext().getApplicationContext(), Configs.KEY_TOUCH_UI_POS_BALL_FREEZE, linearPosFreeze);
+                                    if (linearPosFreeze) {//已经固定
+                                        ssivPosFreeze.setTitle("固定");
+                                    } else {//未固定
+                                        ssivPosFreeze.setTitle("不固定");
+                                    }
+                                    restartService();
+                                    dialog.dismiss();
+
+                                }
+                            }, "取消",new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (linearPosFreeze) {//已经固定
+                                        ssivPosFreeze.setTitle("固定");
+                                    } else {//未固定
+                                        ssivPosFreeze.setTitle("不固定");
+                                    }
+                                    ssivPosFreeze.setOnSwitchCheckedChangeListener(null);
+                                    ssivPosFreeze.setSwichChecked(linearPosFreeze);
+                                    ssivPosFreeze.setOnSwitchCheckedChangeListener(onFreezeCheckChangeListener);
+
+                                }
+                            })
+                            .show();
+                }
+
+            }
+        };
         initUI();
         initEvent();
     }
@@ -267,51 +339,7 @@ public class TouchBallShapeFragment extends Fragment {
             }
         });
 
-        ssivPosFreeze.setOnSwitchCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                //是否打开了悬浮球
-                    if (isChecked) {//已经位置固定
-                        DialogUtils.createDialog(getContext(), R.drawable.ic_notifications, "提醒",
-                                "点击确认固定悬浮条位置，悬浮条将不可上下拖动。",
-                                "确认", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        linearPosFreeze = true;
-                                        SpUtils.saveBoolean(getContext().getApplicationContext(), Configs.KEY_TOUCH_UI_POS_BALL_FREEZE, linearPosFreeze);
-                                        if (linearPosFreeze) {//已经固定
-                                            ssivPosFreeze.setTitle("固定");
-                                        } else {//未固定
-                                            ssivPosFreeze.setTitle("不固定");
-                                        }
-                                        restartService();
-                                        dialog.dismiss();
-                                    }
-                                }, "取消", null)
-                                .show();
-                    } else {
-                        DialogUtils.createDialog(getContext(), R.drawable.ic_notifications, "提醒",
-                                "点击确认取消固定悬浮条位置，悬浮条将可以上下拖动。",
-                                "确认", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        linearPosFreeze = false;
-                                        SpUtils.saveBoolean(getContext().getApplicationContext(), Configs.KEY_TOUCH_UI_POS_BALL_FREEZE, linearPosFreeze);
-                                        if (linearPosFreeze) {//已经固定
-                                            ssivPosFreeze.setTitle("固定");
-                                        } else {//未固定
-                                            ssivPosFreeze.setTitle("不固定");
-                                        }
-                                        restartService();
-                                        dialog.dismiss();
-
-                                    }
-                                }, "取消", null)
-                                .show();
-                    }
-
-            }
-        });
+        ssivPosFreeze.setOnSwitchCheckedChangeListener(onFreezeCheckChangeListener);
 
 
     }

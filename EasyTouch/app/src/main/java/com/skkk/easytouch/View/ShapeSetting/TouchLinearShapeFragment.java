@@ -68,7 +68,8 @@ public class TouchLinearShapeFragment extends Fragment {
     @Bind(R.id.sb_alpha)
     AppCompatSeekBar sbAlpha;
 
-
+    @Bind(R.id.rb_hide_line_0)
+    RadioButton rbHideLine0;
     @Bind(R.id.rb_hide_line_1)
     RadioButton rbHideLine1;
     @Bind(R.id.rb_hide_line_2)
@@ -110,6 +111,8 @@ public class TouchLinearShapeFragment extends Fragment {
     private BroadcastReceiver receiver;
     private boolean linearPosFreeze=false;
 
+    private CompoundButton.OnCheckedChangeListener onFreezeCheckChangeListener;
+
     public TouchLinearShapeFragment() {
         // Required empty public constructor
     }
@@ -146,7 +149,7 @@ public class TouchLinearShapeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_touch_linear_shape, container, false);
+        View view = inflater.inflate(R.layout.fragment_shape_touch_linear, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -156,6 +159,77 @@ public class TouchLinearShapeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         vibrator = (Vibrator) getContext().getSystemService(VIBRATOR_SERVICE);
+
+        //位置固定切换事件监听
+        onFreezeCheckChangeListener=new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //是否打开了悬浮球
+                if (isChecked) {//已经位置固定
+                    DialogUtils.createDialog(getContext(), R.drawable.ic_notifications, "提醒",
+                            "点击确认固定悬浮条位置，悬浮条将不可上下拖动。",
+                            "确认", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    linearPosFreeze = true;
+                                    SpUtils.saveBoolean(getContext().getApplicationContext(), Configs.KEY_TOUCH_UI_POS_LINEAR_FREEZE, linearPosFreeze);
+                                    if (linearPosFreeze) {//已经固定
+                                        ssivPosFreeze.setTitle("固定");
+                                    } else {//未固定
+                                        ssivPosFreeze.setTitle("不固定");
+                                    }
+                                    restartService();
+                                    dialog.dismiss();
+                                }
+                            }, "取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (linearPosFreeze) {//已经固定
+                                        ssivPosFreeze.setTitle("固定");
+                                    } else {//未固定
+                                        ssivPosFreeze.setTitle("不固定");
+                                    }
+                                    ssivPosFreeze.setOnSwitchCheckedChangeListener(null);
+                                    ssivPosFreeze.setSwichChecked(linearPosFreeze);
+                                    ssivPosFreeze.setOnSwitchCheckedChangeListener(onFreezeCheckChangeListener);
+                                }
+                            })
+                            .show();
+                } else {
+                    DialogUtils.createDialog(getContext(), R.drawable.ic_notifications, "提醒",
+                            "点击确认取消固定悬浮条位置，悬浮条将可以上下拖动。",
+                            "确认", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    linearPosFreeze = false;
+                                    SpUtils.saveBoolean(getContext().getApplicationContext(), Configs.KEY_TOUCH_UI_POS_LINEAR_FREEZE, linearPosFreeze);
+                                    if (linearPosFreeze) {//已经固定
+                                        ssivPosFreeze.setTitle("固定");
+                                    } else {//未固定
+                                        ssivPosFreeze.setTitle("不固定");
+                                    }
+                                    restartService();
+                                    dialog.dismiss();
+
+                                }
+                            }, "取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (linearPosFreeze) {//已经固定
+                                        ssivPosFreeze.setTitle("固定");
+                                    } else {//未固定
+                                        ssivPosFreeze.setTitle("不固定");
+                                    }
+                                    ssivPosFreeze.setOnSwitchCheckedChangeListener(null);
+                                    ssivPosFreeze.setSwichChecked(linearPosFreeze);
+                                    ssivPosFreeze.setOnSwitchCheckedChangeListener(onFreezeCheckChangeListener);
+                                }
+                            })
+                            .show();
+                }
+
+            }
+        };
 
         ssivPosFreeze.setTitle("不固定");
         linearPosFreeze = SpUtils.getBoolean(getContext().getApplicationContext(), Configs.KEY_TOUCH_UI_POS_LINEAR_FREEZE, false);
@@ -194,8 +268,6 @@ public class TouchLinearShapeFragment extends Fragment {
 
         alpha = SpUtils.getInt(getContext().getApplicationContext(), Configs.KEY_TOUCH_UI_COLOR_ALPHA_LINEAR, Configs.DEFAULT_ALPHA);
         sbAlpha.setProgress(alpha);
-
-
 
     }
 
@@ -325,8 +397,10 @@ public class TouchLinearShapeFragment extends Fragment {
         });
 
         //设置隐藏式主题
-        theme = SpUtils.getInt(getContext().getApplicationContext(), Configs.KEY_TOUCH_UI_THEME_HIDE, -1);
-        if (theme == Configs.TOUCH_UI_THEME_HIDE_LINE_1) {
+        theme = SpUtils.getInt(getContext().getApplicationContext(), Configs.KEY_TOUCH_UI_THEME_HIDE, Configs.TOUCH_UI_THEME_HIDE_LINE_NONE);
+        if (theme == Configs.TOUCH_UI_THEME_HIDE_LINE_NONE) {
+            rbHideLine0.setChecked(true);
+        } else if (theme == Configs.TOUCH_UI_THEME_HIDE_LINE_1) {
             rbHideLine1.setChecked(true);
         } else if (theme == Configs.TOUCH_UI_THEME_HIDE_LINE_2) {
             rbHideLine2.setChecked(true);
@@ -336,7 +410,9 @@ public class TouchLinearShapeFragment extends Fragment {
         rgHideTheme.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.rb_hide_line_1) {
+                if (checkedId == R.id.rb_hide_line_0) {
+                    theme = Configs.TOUCH_UI_THEME_HIDE_LINE_NONE;
+                } else if (checkedId == R.id.rb_hide_line_1) {
                     theme = Configs.TOUCH_UI_THEME_HIDE_LINE_1;
                 } else if (checkedId == R.id.rb_hide_line_2) {
                     theme = Configs.TOUCH_UI_THEME_HIDE_LINE_2;
@@ -344,56 +420,17 @@ public class TouchLinearShapeFragment extends Fragment {
                     theme = Configs.TOUCH_UI_THEME_HIDE_RECT;
                 }
                 SpUtils.saveInt(getContext().getApplicationContext(), Configs.KEY_TOUCH_UI_THEME_HIDE, theme);
-                sbAlpha.setProgress(0);
-                upDateTouchViewShape(0, 0);
-            }
-        });
-
-        ssivPosFreeze.setOnSwitchCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                //是否打开了悬浮球
-                if (isChecked) {//已经位置固定
-                    DialogUtils.createDialog(getContext(), R.drawable.ic_notifications, "提醒",
-                            "点击确认固定悬浮条位置，悬浮条将不可上下拖动。",
-                            "确认", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    linearPosFreeze = true;
-                                    SpUtils.saveBoolean(getContext().getApplicationContext(), Configs.KEY_TOUCH_UI_POS_LINEAR_FREEZE, linearPosFreeze);
-                                    if (linearPosFreeze) {//已经固定
-                                        ssivPosFreeze.setTitle("固定");
-                                    } else {//未固定
-                                        ssivPosFreeze.setTitle("不固定");
-                                    }
-                                    restartService();
-                                    dialog.dismiss();
-                                }
-                            }, "取消", null)
-                            .show();
-                } else {
-                    DialogUtils.createDialog(getContext(), R.drawable.ic_notifications, "提醒",
-                            "点击确认取消固定悬浮条位置，悬浮条将可以上下拖动。",
-                            "确认", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    linearPosFreeze = false;
-                                    SpUtils.saveBoolean(getContext().getApplicationContext(), Configs.KEY_TOUCH_UI_POS_LINEAR_FREEZE, linearPosFreeze);
-                                    if (linearPosFreeze) {//已经固定
-                                        ssivPosFreeze.setTitle("固定");
-                                    } else {//未固定
-                                        ssivPosFreeze.setTitle("不固定");
-                                    }
-                                    restartService();
-                                    dialog.dismiss();
-
-                                }
-                            }, "取消", null)
-                            .show();
+                if (checkedId != R.id.rb_hide_line_0) {
+                    sbAlpha.setProgress(0);
+                    upDateTouchViewShape(0, 0);
+                }else {
+                    sbAlpha.setProgress(255);
+                    upDateTouchViewShape(0,0);
                 }
-
             }
         });
+
+        ssivPosFreeze.setOnSwitchCheckedChangeListener(onFreezeCheckChangeListener);
     }
 
     /**
@@ -434,7 +471,9 @@ public class TouchLinearShapeFragment extends Fragment {
             setImageViewDrawableColor(ivTouchMid, midDrawable, midColor, alpha);
             setImageViewDrawableColor(ivTouchBottom, bottomDrawable, bottomColor, alpha);
 
-            if (theme == Configs.TOUCH_UI_THEME_HIDE_LINE_1) {
+            if (theme == Configs.TOUCH_UI_THEME_HIDE_LINE_NONE) {
+                containerTouchLinear.setBackgroundResource(0);
+            }else if (theme == Configs.TOUCH_UI_THEME_HIDE_LINE_1) {
                 containerTouchLinear.setBackgroundResource(R.drawable.bg_linear_line_left_1);
             }else if (theme == Configs.TOUCH_UI_THEME_HIDE_LINE_2) {
                 containerTouchLinear.setBackgroundResource(R.drawable.bg_linear_line_left_2);
@@ -494,51 +533,55 @@ public class TouchLinearShapeFragment extends Fragment {
      * @param pos
      */
     public void showColorDialog(int pos) {
-        ColorPickerDialog colorPickerDialog = null;
-        if (pos == Configs.LinearPos.TOP.getValue()) {
-            colorPickerDialog = new ColorPickerDialog(getContext(),
-                    "请选择填充颜色", new ColorPickerDialog.OnColorChangedListener() {
-                @Override
-                public void colorChanged(int color) {
-                    GradientDrawable drawable = (GradientDrawable) ivTouchTop.getDrawable();
-                    drawable.setColor(color);
-                    topColor = color;
-                    ivTouchTop.setImageDrawable(drawable);
-                    SpUtils.saveInt(getContext().getApplicationContext(), Configs.KEY_TOUCH_UI_TOP_COLOR, color);
-                    upDateTouchViewShape(0, 0);
+        theme = SpUtils.getInt(getContext().getApplicationContext(), Configs.KEY_TOUCH_UI_THEME_HIDE, Configs.TOUCH_UI_THEME_HIDE_LINE_NONE);
+        //只有在非隐藏模式的时候才有选择颜色的选项
+        if (theme==Configs.TOUCH_UI_THEME_HIDE_LINE_NONE) {
+            ColorPickerDialog colorPickerDialog = null;
+            if (pos == Configs.LinearPos.TOP.getValue()) {
+                colorPickerDialog = new ColorPickerDialog(getContext(),
+                        "请选择填充颜色", new ColorPickerDialog.OnColorChangedListener() {
+                    @Override
+                    public void colorChanged(int color) {
+                        GradientDrawable drawable = (GradientDrawable) ivTouchTop.getDrawable();
+                        drawable.setColor(color);
+                        topColor = color;
+                        ivTouchTop.setImageDrawable(drawable);
+                        SpUtils.saveInt(getContext().getApplicationContext(), Configs.KEY_TOUCH_UI_TOP_COLOR, color);
+                        upDateTouchViewShape(0, 0);
 
-                }
-            });
-        } else if (pos == Configs.LinearPos.MID.getValue()) {
-            colorPickerDialog = new ColorPickerDialog(getContext(),
-                    "请选择填充颜色", new ColorPickerDialog.OnColorChangedListener() {
-                @Override
-                public void colorChanged(int color) {
-                    GradientDrawable drawable = (GradientDrawable) ivTouchMid.getDrawable();
-                    drawable.setColor(color);
-                    midColor = color;
-                    ivTouchMid.setImageDrawable(drawable);
-                    SpUtils.saveInt(getContext().getApplicationContext(), Configs.KEY_TOUCH_UI_MID_COLOR, color);
-                    upDateTouchViewShape(0, 0);
+                    }
+                });
+            } else if (pos == Configs.LinearPos.MID.getValue()) {
+                colorPickerDialog = new ColorPickerDialog(getContext(),
+                        "请选择填充颜色", new ColorPickerDialog.OnColorChangedListener() {
+                    @Override
+                    public void colorChanged(int color) {
+                        GradientDrawable drawable = (GradientDrawable) ivTouchMid.getDrawable();
+                        drawable.setColor(color);
+                        midColor = color;
+                        ivTouchMid.setImageDrawable(drawable);
+                        SpUtils.saveInt(getContext().getApplicationContext(), Configs.KEY_TOUCH_UI_MID_COLOR, color);
+                        upDateTouchViewShape(0, 0);
 
-                }
-            });
-        } else if (pos == Configs.LinearPos.BOTTOM.getValue()) {
-            colorPickerDialog = new ColorPickerDialog(getContext(), bottomColor,
-                    "请选择填充颜色", new ColorPickerDialog.OnColorChangedListener() {
-                @Override
-                public void colorChanged(int color) {
-                    GradientDrawable drawable = (GradientDrawable) ivTouchBottom.getDrawable();
-                    drawable.setColor(color);
-                    ivTouchBottom.setImageDrawable(drawable);
-                    bottomColor = color;
-                    SpUtils.saveInt(getContext().getApplicationContext(), KEY_TOUCH_UI_BOTTOM_COLOR, color);
-                    upDateTouchViewShape(0, 0);
+                    }
+                });
+            } else if (pos == Configs.LinearPos.BOTTOM.getValue()) {
+                colorPickerDialog = new ColorPickerDialog(getContext(), bottomColor,
+                        "请选择填充颜色", new ColorPickerDialog.OnColorChangedListener() {
+                    @Override
+                    public void colorChanged(int color) {
+                        GradientDrawable drawable = (GradientDrawable) ivTouchBottom.getDrawable();
+                        drawable.setColor(color);
+                        ivTouchBottom.setImageDrawable(drawable);
+                        bottomColor = color;
+                        SpUtils.saveInt(getContext().getApplicationContext(), KEY_TOUCH_UI_BOTTOM_COLOR, color);
+                        upDateTouchViewShape(0, 0);
 
-                }
-            });
+                    }
+                });
+            }
+            colorPickerDialog.show();
         }
-        colorPickerDialog.show();
     }
 
 
