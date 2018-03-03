@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_bg_light_gray_0"
     tools:context="com.skkk.easytouch.View.FunctionSelect.FunctionBallFragment">
 
     <LinearLayout
@@ -10,15 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@color/colorPrimary"
-            app:cardCornerRadius="5dp"
-            app:cardElevation="1.5dp">
-
             <LinearLayout
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_gray_border"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -30,10 +25,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:textStyle="bold"
                     android:text="上方按键"
-                    android:textColor="@color/colorBlackBody"
-                    android:textSize="30sp"
+                    android:textSize="12sp"
                     />
 
                 <com.skkk.easytouch.View.SettingItemView
@@ -68,17 +61,10 @@
                     app:value="通知" />
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@color/colorPrimary"
-            app:cardCornerRadius="5dp"
-            app:cardElevation="1.5dp">
 
             <LinearLayout
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_gray_border"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -89,10 +75,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:textStyle="bold"
                     android:text="中部按键"
-                    android:textColor="@color/colorBlackBody"
-                    android:textSize="30sp"
+                    android:textSize="12sp"
                     />
 
                 <com.skkk.easytouch.View.SettingItemView
@@ -127,17 +111,10 @@
                     app:value="位置下移" />
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@color/colorPrimary"
-            app:cardCornerRadius="5dp"
-            app:cardElevation="1.5dp">
 
             <LinearLayout
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_gray_border"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -148,10 +125,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:textStyle="bold"
                     android:text="下方按键"
-                    android:textColor="@color/colorBlackBody"
-                    android:textSize="30sp"
+                    android:textSize="12sp"
                     />
 
                 <com.skkk.easytouch.View.SettingItemView
@@ -186,18 +161,10 @@
                     app:value="无" />
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_margin="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@color/colorPrimary"
-            app:cardCornerRadius="5dp"
-            app:cardElevation="1.5dp">
 
             <LinearLayout
+                android:background="@drawable/bg_gray_border"
+                android:layout_marginTop="10dp"
                 android:id="@id/container_function_menu_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -209,10 +176,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:textStyle="bold"
                     android:text="菜单"
-                    android:textColor="@color/colorBlackBody"
-                    android:textSize="30sp"
+                    android:textSize="12sp"
                     />
 
                 <com.skkk.easytouch.View.SettingItemView
@@ -226,9 +191,6 @@
                     app:title="菜单数量"
                     app:value="当前菜单元素：1" />
             </LinearLayout>
-
-        </android.support.v7.widget.CardView>
-
 
     </LinearLayout>
 </com.skkk.easytouch.View.ScaleScrollView>

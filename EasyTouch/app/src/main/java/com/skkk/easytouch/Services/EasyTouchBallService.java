@@ -604,10 +604,6 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
                     return;
                 }
                 if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    if (mParams.y + 2 * dp2px(touchWidth) > h) {
-                        lastParamsY = mParams.y;
-                        mParams.y -= mParams.y + 2 * dp2px(touchWidth) - h + 100;
-                    }
                     if (Math.max(screenHeight, screenWidth) - h > flagSoftInputChangeHeight) {//呼出软键盘
                         if (isMenuDetailShow) {
                             try {
@@ -616,11 +612,6 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
                             } catch (Exception e) {
                                 Log.e(TAG, "onSoftInputSttateChange: 菜单详情已经删除过！");
                             }
-                            try {
-                                windowManager.addView(touchView, mParams);
-                            } catch (Exception e) {
-                                Log.e(TAG, "onSoftInputSttateChange: 悬浮球已经添加过！");
-                            }
                         } else if (isMenuShow) {
                             try {
                                 windowManager.removeView(menuView);
@@ -628,32 +619,21 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
                             } catch (Exception e) {
                                 Log.e(TAG, "onSoftInputSttateChange: 菜单已经删除过！");
                             }
-                            try {
-                                windowManager.updateViewLayout(touchView, mParams);
-                            } catch (Exception e) {
-                                Log.e(TAG, "onSoftInputSttateChange: 悬浮球未添加！");
-                            }
-
                         } else {
                             try {
-                                windowManager.updateViewLayout(touchView, mParams);
+                                windowManager.removeView(touchView);
                             } catch (Exception e) {
-                                Log.e(TAG, "onSoftInputSttateChange: 悬浮球未添加！");
+                                Log.e(TAG, "onSoftInputSttateChange: 悬浮球已经删除过！");
                             }
                         }
                     } else {//隐藏软键盘
-                        mParams.y = lastParamsY;
                         try {
-                            windowManager.updateViewLayout(touchView, mParams);
+                            windowManager.addView(touchView, mParams);
                         } catch (Exception e) {
-                            Log.e(TAG, "onSoftInputSttateChange: 悬浮球未添加！");
+                            Log.e(TAG, "onSoftInputSttateChange: 悬浮球已经添加过！");
                         }
                     }
                 } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    if (mParams.y + 2 * dp2px(touchWidth) > h) {
-                        lastParamsY = mParams.y;
-                        mParams.y -= mParams.y + 2 * dp2px(touchWidth) - h + 100;
-                    }
                     if (Math.min(screenHeight, screenWidth) - h > flagSoftInputChangeHeight) {//呼出软键盘
                         if (isMenuDetailShow) {
                             try {
@@ -661,40 +641,123 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
                                 isMenuDetailShow = false;
                             } catch (Exception e) {
                                 Log.e(TAG, "onSoftInputSttateChange: 菜单详情已经删除过！");
-                            }
-                            try {
-                                windowManager.addView(touchView, mParams);
-                            } catch (Exception e) {
-                                Log.e(TAG, "onSoftInputSttateChange: 悬浮球已经添加过！");
+
                             }
                         } else if (isMenuShow) {
                             try {
                                 windowManager.removeView(menuView);
-                            } catch (Exception e) {
                                 isMenuShow = false;
-                                Log.e(TAG, "onSoftInputSttateChange: 菜单已经删除过！");
-                            }
-                            try {
-                                windowManager.updateViewLayout(touchView, mParams);
                             } catch (Exception e) {
-                                Log.e(TAG, "onSoftInputSttateChange: 悬浮球未添加！");
+                                Log.e(TAG, "onSoftInputSttateChange: 菜单已经删除过！");
                             }
                         } else {
                             try {
-                                windowManager.updateViewLayout(touchView, mParams);
+                                windowManager.removeView(menuView);
                             } catch (Exception e) {
-                                Log.e(TAG, "onSoftInputSttateChange: 悬浮球未添加！");
+                                Log.e(TAG, "onSoftInputSttateChange: 悬浮球已经删除过！");
                             }
                         }
                     } else {//隐藏软键盘
-                        mParams.y = lastParamsY;
                         try {
-                            windowManager.updateViewLayout(touchView, mParams);
+                            windowManager.addView(touchView, mParams);
                         } catch (Exception e) {
-                            Log.e(TAG, "onSoftInputSttateChange: 悬浮球未添加！");
+                            Log.e(TAG, "onSoftInputSttateChange: 悬浮球已经添加过！");
                         }
                     }
                 }
+//                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+//                    if (mParams.y + 2 * dp2px(touchWidth) > h) {
+//                        lastParamsY = mParams.y;
+//                        mParams.y -= mParams.y + 2 * dp2px(touchWidth) - h + 100;
+//                    }
+//                    //呼出软键盘
+//                    if (Math.max(screenHeight, screenWidth) - h > flagSoftInputChangeHeight) {
+//                        if (isMenuDetailShow) {
+//                            try {
+//                                windowManager.removeView(menuDetailView);
+//                                isMenuDetailShow = false;
+//                            } catch (Exception e) {
+//                                Log.e(TAG, "onSoftInputSttateChange: 菜单详情已经删除过！");
+//                            }
+//                            try {
+//                                windowManager.addView(touchView, mParams);
+//                            } catch (Exception e) {
+//                                Log.e(TAG, "onSoftInputSttateChange: 悬浮球已经添加过！");
+//                            }
+//                        } else if (isMenuShow) {
+//                            try {
+//                                windowManager.removeView(menuView);
+//                                isMenuShow = false;
+//                            } catch (Exception e) {
+//                                Log.e(TAG, "onSoftInputSttateChange: 菜单已经删除过！");
+//                            }
+//                            try {
+//                                windowManager.updateViewLayout(touchView, mParams);
+//                            } catch (Exception e) {
+//                                Log.e(TAG, "onSoftInputSttateChange: 悬浮球未添加！");
+//                            }
+//
+//                        } else {
+//                            try {
+//                                windowManager.updateViewLayout(touchView, mParams);
+//                            } catch (Exception e) {
+//                                Log.e(TAG, "onSoftInputSttateChange: 悬浮球未添加！");
+//                            }
+//                        }
+//                    } else {//隐藏软键盘
+//                        mParams.y = lastParamsY;
+//                        try {
+//                            windowManager.updateViewLayout(touchView, mParams);
+//                        } catch (Exception e) {
+//                            Log.e(TAG, "onSoftInputSttateChange: 悬浮球未添加！");
+//                        }
+//                    }
+//                } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//                    if (mParams.y + 2 * dp2px(touchWidth) > h) {
+//                        lastParamsY = mParams.y;
+//                        mParams.y -= mParams.y + 2 * dp2px(touchWidth) - h + 100;
+//                    }
+//                    if (Math.min(screenHeight, screenWidth) - h > flagSoftInputChangeHeight) {//呼出软键盘
+//                        if (isMenuDetailShow) {
+//                            try {
+//                                windowManager.removeView(menuDetailView);
+//                                isMenuDetailShow = false;
+//                            } catch (Exception e) {
+//                                Log.e(TAG, "onSoftInputSttateChange: 菜单详情已经删除过！");
+//                            }
+//                            try {
+//                                windowManager.addView(touchView, mParams);
+//                            } catch (Exception e) {
+//                                Log.e(TAG, "onSoftInputSttateChange: 悬浮球已经添加过！");
+//                            }
+//                        } else if (isMenuShow) {
+//                            try {
+//                                windowManager.removeView(menuView);
+//                            } catch (Exception e) {
+//                                isMenuShow = false;
+//                                Log.e(TAG, "onSoftInputSttateChange: 菜单已经删除过！");
+//                            }
+//                            try {
+//                                windowManager.updateViewLayout(touchView, mParams);
+//                            } catch (Exception e) {
+//                                Log.e(TAG, "onSoftInputSttateChange: 悬浮球未添加！");
+//                            }
+//                        } else {
+//                            try {
+//                                windowManager.updateViewLayout(touchView, mParams);
+//                            } catch (Exception e) {
+//                                Log.e(TAG, "onSoftInputSttateChange: 悬浮球未添加！");
+//                            }
+//                        }
+//                    } else {//隐藏软键盘
+//                        mParams.y = lastParamsY;
+//                        try {
+//                            windowManager.updateViewLayout(touchView, mParams);
+//                        } catch (Exception e) {
+//                            Log.e(TAG, "onSoftInputSttateChange: 悬浮球未添加！");
+//                        }
+//                    }
+//                }
                 Log.d(TAG, "onSoftInputSttateChange() called with: w = [" + w + "], h = [" + h + "], oldw = [" + oldw + "], oldh = [" + oldh + "]");
             }
         });
