@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.v4.content.FileProvider;
 import android.widget.Toast;
 
@@ -18,16 +19,15 @@ import com.skkk.easytouch.Configs;
 import java.io.File;
 
 /**
- * 创建于 2017/11/13
- * 作者 admin
+ * @author shengk
+ * @date 2017/11/13$ 22:25
+ * 描    述：Intent 跳转管理
  */
-/*
-* 
-* 描    述：
-* 作    者：ksheng
-* 时    间：2017/11/13$ 22:25$.
-*/
 public class IntentUtils {
+    //酷市场 -- 酷安网
+    public static final String PACKAGE_COOL_MARKET = "com.coolapk.market";
+
+    private static final String INTENT_ACTION_ACCESSIBILITY_SETTINGS = "android.settings.ACCESSIBILITY_SETTINGS";
 
     /**
      * 跳转到微信
@@ -107,14 +107,16 @@ public class IntentUtils {
 
         Intent intent = new Intent("com.android.camera.action.CROP");
         //获取被裁剪图片路径
-        File inputFile = new File(Configs.SAVED_IMAGE_DIR_PATH+Configs.SAVED_IMAGE_NAME);
-        File outputFile = inputFile;//设置图片输出文件，这里设置为覆盖输入图片路径（在拍照裁剪情况下）
-
-        if (Build.VERSION.SDK_INT < 24) {//如果Android版本低于24
+        File inputFile = new File(Configs.SAVED_IMAGE_DIR_PATH + Configs.SAVED_IMAGE_NAME);
+        //设置图片输出文件，这里设置为覆盖输入图片路径（在拍照裁剪情况下）
+        File outputFile = inputFile;
+        //如果Android版本低于24
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             intent.setDataAndType(uri, "image/*");
-
-        } else {//如果是Android7.0
-            if (uri != null) {//如果是相册传入
+        } else {
+            //如果是Android7.0
+            //如果是相册传入
+            if (uri != null) {
                 inputFile = FileUtils.getFileByUri(context, uri);
             }
             intent.addFlags(Intent.FLAG_GRANT_PREFIX_URI_PERMISSION);
@@ -123,8 +125,10 @@ public class IntentUtils {
 
         // crop为true是设置在开启的intent中设置显示的view可以剪裁
         intent.putExtra("crop", "true");
-        intent.putExtra("scale", true);// 去黑边
-        intent.putExtra("scaleUpIfNeeded", true);// 去黑边
+        // 去黑边
+        intent.putExtra("scale", true);
+        // 去黑边
+        intent.putExtra("scaleUpIfNeeded", true);
         // aspectX aspectY 是宽高的比例
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
@@ -133,16 +137,17 @@ public class IntentUtils {
         intent.putExtra("outputX", size);
         intent.putExtra("outputY", size);
 
-        intent.putExtra("circleCrop",true);
+        intent.putExtra("circleCrop", true);
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("noFaceDetection", true);
 
         //设置裁剪完毕输出图片路径
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(outputFile));
-        intent.putExtra("return-data", false);//设置为不返回数据
+        //设置为不返回数据
+        intent.putExtra("return-data", false);
 
         //将保存用户图片的Uri保存
-        SpUtils.saveString(context,Configs.KEY_TOUCH_UI_BACKGROUND_BALL_CUSTOM, Uri.fromFile(outputFile).toString());
+        SpUtils.saveString(context, Configs.KEY_TOUCH_UI_BACKGROUND_BALL_CUSTOM, Uri.fromFile(outputFile).toString());
         context.startActivityForResult(intent, Configs.RESULT_PHOTO_REQUEST_CUT);
     }
 
@@ -150,21 +155,21 @@ public class IntentUtils {
     /**
      * 进入相机界面
      */
-    public static void takePhoto(Activity context,String cameraPath) {
+    public static void takePhoto(Activity context, String cameraPath) {
         // 指定相机拍摄照片保存地址
         String state = Environment.getExternalStorageState();
         if (state.equals(Environment.MEDIA_MOUNTED)) {
             Intent intent = new Intent();
             // 指定开启系统相机的Action
             intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-            String out_file_path = Configs.SAVED_IMAGE_DIR_PATH;
-            File dir = new File(out_file_path);
+            String outFilePath = Configs.SAVED_IMAGE_DIR_PATH;
+            File dir = new File(outFilePath);
             if (!dir.exists()) {
                 dir.mkdirs();
             }
             // 把文件地址转换成Uri格式
             Uri uri;
-            if (Build.VERSION.SDK_INT < 24) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                 // 从文件中创建uri
                 uri = Uri.fromFile(new File(cameraPath));
             } else {
@@ -191,5 +196,48 @@ public class IntentUtils {
         intent.setType("image/*");
         // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_GALLERY
         context.startActivityForResult(intent, Configs.RESULT_PHOTO_REQUEST_GALLERY);
+    }
+
+    /**
+     * 跳转到悬浮窗权限设置页面
+     */
+    public static void jump2TouchPermissionSetting(Activity activity) {
+        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+        intent.setData(Uri.parse("package:" + activity.getApplicationContext().getPackageName()));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.startActivityForResult(intent, Configs.REQUEST_PERMISS_REQUEST_FLOAT);
+    }
+
+
+    /**
+     * 跳转到辅助功能设置界面
+     *
+     * @param activity
+     */
+    public static void jump2AccessPermissionSetting(Activity activity, boolean forResult) {
+        if (forResult) {
+            activity.startActivityForResult(new Intent(INTENT_ACTION_ACCESSIBILITY_SETTINGS), Configs.REQUEST_PERMISS_REQUEST_ACCESSABLE);
+        } else {
+            activity.startActivity(new Intent(INTENT_ACTION_ACCESSIBILITY_SETTINGS));
+        }
+    }
+
+    /**
+     * 跳转到应用市场
+     */
+    public static void jump2AppMarket(Activity activity) {
+        if (PackageUtils.checkAppExist(activity, PACKAGE_COOL_MARKET)) {
+            //跳转到应用市场
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("market://details?id=" + activity.getPackageName()));
+            intent.setPackage(PACKAGE_COOL_MARKET);
+            activity.startActivity(intent);
+        } else {
+            //https://www.coolapk.com/apk/com.skkk.easytouch
+            String coolMarketUrl = "https://www.coolapk.com/apk/com.skkk.easytouch";
+            Uri uri = Uri.parse(coolMarketUrl);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            activity.startActivity(intent);
+        }
     }
 }

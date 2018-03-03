@@ -196,7 +196,7 @@ public class FunctionLinearFragment extends Fragment {
                 numberPicker.setValue(menuBallCount);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setIcon(R.drawable.ic_warning);
+                builder.setIcon(R.drawable.dialog_icon_warning);
                 builder.setView(numberPicker);
                 builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override

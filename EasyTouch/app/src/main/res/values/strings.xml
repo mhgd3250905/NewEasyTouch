@@ -8,4 +8,16 @@
     <string name="function_menu_ball_title">菜单%d</string>
     <string name="function_item_message">点击设置</string>
     <string name="function_menu_number_value">当前菜单元素%d个</string>
+    <string name="main_dialog_sop_warning_float_permission">悬浮窗权限是本应用必不可少的权限，点击「确认」前往进行设置或点击菜单悬浮窗权限菜单进行设置。</string>
+    <string name="main_dialog_sop_warning_access_permission">辅助功能为本应用必不可少的权限，点击「确认」前往设置或点击菜单「辅助功能」进行设置。\n\n设置说明：\n1.选择白开水悬浮助手\n2.打开服务</string>
+    <string name="main_dialog_sop_title">使用说明</string>
+    <string name="dialog_button_sure">确认</string>
+    <string name="dialog_button_cancel">取消</string>
+    <string name="main_dialog_sop_warning_lock_shotscreen_permission">本应用也提供了锁屏与截屏功能，点击菜单「锁屏功能」以及「截屏功能」进行设置。</string>
+    <string name="dialog_title_notice">提醒</string>
+    <string name="main_show_float_default_type_linear">您未选择悬浮助手类型，将默认为您开启悬浮条模式。</string>
+    <string name="dialog_message_jump_accessable">点击「前往设置」前往设置辅助功能。</string>
+    <string name="dialog_button_jump_setting">前往设置</string>
+    <string name="dialog_button_forget_it">算了</string>
+    <string name="version_update_content">更新日志：\n\n1.修复了悬浮条隐藏式主题左右切换时出现主题异常切换bug；\n2.修复悬浮条震动设置保存无效bug；</string>
 </resources>

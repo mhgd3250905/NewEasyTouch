@@ -2,16 +2,6 @@ package com.skkk.easytouch;
 
 import android.os.Environment;
 
-/**
- * 创建于 2017/10/25
- * 作者 admin
- */
-/*
-* 
-* 描    述：
-* 作    者：ksheng
-* 时    间：2017/10/25$ 23:24$.
-*/
 public class Configs {
 
     public static final String SAVED_IMAGE_NAME = "touchDrawable.png";
@@ -20,11 +10,18 @@ public class Configs {
     public static final int RESULT_PHOTO_REQUEST_TAKE_PHOTO = 101;
     public static final int RESULT_PHOTO_REQUEST_GALLERY = 102;
     public static final String KEY_PHOTO_CUSTOM_DRAWABLE = "key_photo_custom_drawable";
-    public static final int RESULT_PERMISS_REQUEST_FLOAT_LINEAR = 200;
-    public static final int RESULT_PERMISS_REQUEST_FLOAT_BALL = 201;
+    //悬浮窗权限Key
+    public static final int REQUEST_PERMISS_REQUEST_FLOAT = 200;
+    public static final int REQUEST_PERMISS_REQUEST_FLOAT_LINEAR = 201;
+    public static final int REQUEST_PERMISS_REQUEST_FLOAT_BALL = 202;
+
+    //辅助功能Key
+    public static final int REQUEST_PERMISS_REQUEST_ACCESSABLE = 300;
 
     //截屏传递Key
-    public static final int REQUEST_MEDIA_PROJECTION = 300;
+    public static final int REQUEST_MEDIA_PROJECTION = 400;
+
+
     public static String SAVED_IMAGE_DIR_PATH =
             Environment.getExternalStorageDirectory().getPath()
                     + "/EasyTouch/camera/";
@@ -157,5 +154,9 @@ public class Configs {
 
     public static final String KEY_TOUCH_UI_POS_BALL_FREEZE = "key_touch_ui_pos_ball_freeze";
     public static final String KEY_TOUCH_UI_POS_LINEAR_FREEZE = "key_touch_ui_pos_linear_freeze";
+
+    public static final String KEY_SAVE_TOUCH_TYPE="key_save_touch_type";
+
+    public static final String KEY_VERSION_UPDATE="key_version_update";//记录是否有版本更新
 
 }

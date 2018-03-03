@@ -1,10 +1,15 @@
 package com.skkk.easytouch.View;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -28,15 +33,22 @@ public class SettingItemCheckableView extends RelativeLayout {
     private ImageView ivItem;
     private TextView tvItem;
     private ImageView ivCheckable;
-    private
+    /**
+     * 选中时候的图片
+     */
     @DrawableRes
-    int checkedRes;//选中时候的图片
-    private
+    private int checkedRes;
+    /**
+     * 未选中时候的图片
+     */
     @DrawableRes
-    int unCheckedRes;//未选中时候的图片
+    private int unCheckedRes;
 
     private boolean isChecked = false;
-    private boolean showCheckable = true;//是否显示选择框
+    /**
+     * 是否显示选择框
+     */
+    private boolean showCheckable = true;
 
 
     public SettingItemCheckableView(Context context) {
@@ -67,9 +79,9 @@ public class SettingItemCheckableView extends RelativeLayout {
         if (attrs != null) {
             TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.SettingItemCheckableView);
             String content = ta.getString(R.styleable.SettingItemCheckableView_content);
-            int titleIconRes = ta.getResourceId(R.styleable.SettingItemCheckableView_titleIcon, R.drawable.logo);
-            checkedRes = ta.getResourceId(R.styleable.SettingItemCheckableView_checkedIcon, R.drawable.logo);
-            unCheckedRes = ta.getResourceId(R.styleable.SettingItemCheckableView_uncheckIcon, R.drawable.logo);
+            int titleIconRes = ta.getResourceId(R.styleable.SettingItemCheckableView_titleIcon, R.drawable.mian_item_title_icon_touch);
+            checkedRes = ta.getResourceId(R.styleable.SettingItemCheckableView_checkedIcon, R.drawable.main_item_conetnt_icon_checked);
+            unCheckedRes = ta.getResourceId(R.styleable.SettingItemCheckableView_uncheckIcon, R.drawable.main_item_conetnt_icon_uncheck);
             showCheckable = ta.getBoolean(R.styleable.SettingItemCheckableView_showCheckable, true);
             ta.recycle();
 
@@ -150,6 +162,75 @@ public class SettingItemCheckableView extends RelativeLayout {
     }
 
     /**
+     * 设置是否勾选带动画
+     *
+     * @param checked
+     */
+    public void setCheckedWithAnim(final boolean checked) {
+        final ObjectAnimator zoomOutXAnim=ObjectAnimator.ofFloat(ivCheckable,"scaleX",1f,0);
+        final ObjectAnimator zoomOutYAnim=ObjectAnimator.ofFloat(ivCheckable,"scaleY",1f,0);
+        final AnimatorSet zoomOutSet=new AnimatorSet();
+        zoomOutSet.play(zoomOutXAnim).with(zoomOutYAnim);
+        zoomOutSet.setDuration(100);
+        zoomOutSet.setInterpolator(new LinearInterpolator());
+        zoomOutSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                isChecked = checked;
+                ivCheckable.setImageResource(isChecked ? checkedRes : unCheckedRes);
+                ObjectAnimator zoomInXAnim=ObjectAnimator.ofFloat(ivCheckable,"scaleX",0,1f);
+                ObjectAnimator zoomInYAnim=ObjectAnimator.ofFloat(ivCheckable,"scaleY",0,1f);
+                AnimatorSet zoomInSet=new AnimatorSet();
+                zoomInSet.play(zoomInXAnim).with(zoomInYAnim);
+                zoomInSet.setDuration(100);
+                zoomInSet.setInterpolator(new LinearInterpolator());
+                zoomInSet.start();
+            }
+        });
+        zoomOutSet.start();
+    }
+
+    /**
+     * 开始消失动画
+     *
+     */
+    public void startZoomOutWithAnim() {
+        final ObjectAnimator zoomOutXAnim=ObjectAnimator.ofFloat(ivCheckable,"scaleX",1f,0);
+        final ObjectAnimator zoomOutYAnim=ObjectAnimator.ofFloat(ivCheckable,"scaleY",1f,0);
+        final AnimatorSet zoomOutSet=new AnimatorSet();
+        zoomOutSet.play(zoomOutXAnim).with(zoomOutYAnim);
+        zoomOutSet.setDuration(100);
+        zoomOutSet.setInterpolator(new LinearInterpolator());
+        zoomOutSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+            }
+        });
+        zoomOutSet.start();
+    }
+    /**
+     * 开始出现动画
+     *
+     */
+    public void startZoomInWithAnim() {
+        final ObjectAnimator zoomInXAnim=ObjectAnimator.ofFloat(ivCheckable,"scaleX",0,1f);
+        final ObjectAnimator zoomInYAnim=ObjectAnimator.ofFloat(ivCheckable,"scaleY",0,1f);
+        final AnimatorSet zoomInSet=new AnimatorSet();
+        zoomInSet.play(zoomInXAnim).with(zoomInYAnim);
+        zoomInSet.setDuration(100);
+        zoomInSet.setInterpolator(new LinearInterpolator());
+        zoomInSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+            }
+        });
+        zoomInSet.start();
+    }
+
+    /**
      * 获取是否勾选状态
      *
      * @return
@@ -157,6 +238,16 @@ public class SettingItemCheckableView extends RelativeLayout {
     public boolean isChecked() {
         return isChecked;
     }
+
+    /**
+     * 设置是否显示勾选框
+     * @param showCheckable 显示与否
+     */
+    public void setCheckIconShow(boolean showCheckable){
+        this.showCheckable=showCheckable;
+        ivCheckable.setVisibility(showCheckable?VISIBLE:GONE);
+    }
+
 
 
 }

@@ -18,6 +18,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class SpUtils {
     public static final String KEY_APP_IS_FIRST_RYN="key_app_is_first_ryn";//是否为第一次运行
     public static final String KEY_MENU_BALL_COUNT="key_menu_ball_count";//二级菜单的球有几个
+    public static final String KEY_CLIPBOARD_CONTENT = "KEY_CLIPBOARD_CONTENT";
 
     /**
      * 保存String

@@ -171,4 +171,9 @@
     <item name="tv_dialog_message" type="id">tv_dialog_message</item>
     <item name="iv_dialog_message" type="id">iv_dialog_message</item>
     <item name="ll_item" type="id">ll_item</item>
+    <item name="tv_clips_clear" type="id">tv_clips_clear</item>
+    <item name="rv_clip" type="id">rv_clip</item>
+    <item name="item_check_touch_start" type="id">item_check_touch_start</item>
+    <item name="item_check_type_ball" type="id">item_check_type_ball</item>
+    <item name="item_check_type_linear" type="id">item_check_type_linear</item>
 </resources>

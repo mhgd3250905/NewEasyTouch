@@ -3,7 +3,6 @@ package com.skkk.easytouch;
 import android.Manifest;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.annotation.TargetApi;
-import android.app.NotificationManager;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -15,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +29,7 @@ import com.skkk.easytouch.Services.EasyTouchBallService;
 import com.skkk.easytouch.Services.EasyTouchLinearService;
 import com.skkk.easytouch.Services.FloatService;
 import com.skkk.easytouch.Utils.DialogUtils;
+import com.skkk.easytouch.Utils.IntentUtils;
 import com.skkk.easytouch.Utils.PermissionsUtils;
 import com.skkk.easytouch.Utils.ServiceUtils;
 import com.skkk.easytouch.Utils.ShotScreenUtils;
@@ -51,6 +52,9 @@ import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static android.os.Build.VERSION_CODES.M;
 import static com.skkk.easytouch.R.id.settings_item_about;
 
+/**
+ * @author shengk
+ */
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
@@ -91,8 +95,18 @@ public class MainActivity extends AppCompatActivity {
     SettingItemCheckableView itemCheckFuncSetting;
     @Bind(R.id.item_check_about_setting)
     SettingItemCheckableView itemCheckAboutSetting;
+    @Bind(R.id.item_check_touch_start)
+    SettingItemCheckableView itemCheckTouchStart;
+    @Bind(R.id.item_check_type_ball)
+    SettingItemCheckableView itemCheckTypeBall;
+    @Bind(R.id.item_check_type_linear)
+    SettingItemCheckableView itemCheckTypeLinear;
 
-    private static final String PACKAGE_URL_SCHEME = "package:"; // 方案
+    /**
+     * 包前缀
+     */
+    private static final String PACKAGE_URL_SCHEME = "package:";
+
 
     private ComponentName mAdminName;
     private DevicePolicyManager mDPM;
@@ -100,15 +114,39 @@ public class MainActivity extends AppCompatActivity {
     private int screenWidth;
     private int screenHeight;
 
-    // 所需的全部权限
+    /**
+     * 选择的悬浮类型:初始类型为None
+     */
+    private int touchType = 2;
+
+    /**
+     * 是否开启了悬浮窗
+     */
+    private boolean hasShowTouch = false;
+    /**
+     * 所需的全部权限
+     */
     private static final String[] PERMISSIONS = new String[]{
             Manifest.permission.CAMERA,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
     };
-    private static final int PERMISSION_REQUEST_CODE = 0; // 系统权限管理页面的参数
-
-
+    /**
+     * 需要请求的权限容器
+     */
     private ArrayList<String> needRequestPermissions = new ArrayList<>();
+    /**
+     * 系统权限管理页面的参数
+     */
+    private static final int PERMISSION_REQUEST_CODE = 0;
+
+    /**
+     * 第一次打开应用SOP进展序号
+     */
+    private int sopStep = 1;
+    /**
+     * 是否正在展示SOP
+     */
+    private boolean isSopShow = false;
 
 
     @Override
@@ -125,18 +163,16 @@ public class MainActivity extends AppCompatActivity {
         screenWidth = metrics.widthPixels;
         screenHeight = metrics.heightPixels;
 
+        //获取保存的悬浮类型
+        touchType = SpUtils.getInt(getApplicationContext(), Configs.KEY_SAVE_TOUCH_TYPE, Configs.TouchType.NONE.getValue());
+        //获取悬浮窗是否打开
+        if (ServiceUtils.isServiceRun(getApplicationContext(), Configs.NAME_SERVICE_TOUCH_BALL)
+                || ServiceUtils.isServiceRun(getApplicationContext(), Configs.NAME_SERVICE_TOUCH_LINEAR)) {
+            hasShowTouch = true;
+        }
 
+        //进行是否第一次打开应用判断
         initFirstRunData();
-
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-//                && !notificationManager.isNotificationPolicyAccessGranted()) {
-//            Intent intent = new Intent(
-//                    Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
-//            startActivity(intent);
-//        }
 
     }
 
@@ -171,6 +207,14 @@ public class MainActivity extends AppCompatActivity {
             SpUtils.saveInt(getApplicationContext(), FuncConfigs.VALUE_FUNC_OP_MENU_BALL + 4, FuncConfigs.Func.SHOT_SCREEN.getValue());
 
             SpUtils.saveBoolean(getApplicationContext(), SpUtils.KEY_APP_IS_FIRST_RYN, false);
+
+            //弹窗提示开启权限
+            if (sopStep == 1) {
+                //进入SOP展示界面
+                isSopShow = true;
+                showSopDialog(sopStep);
+            }
+
         }
     }
 
@@ -179,20 +223,50 @@ public class MainActivity extends AppCompatActivity {
      * 设置UI
      */
     private void initUI() {
-        /**
-         * 判断是否有无障碍权限
-         */
+        updateAccessItemState();
+        updateFloatItemState();
+        updateLockItemState();
+        updateShotscreenItemState(false);
+        updateTypeItemState();
+        //如果需要展示新手说明，就不需要真是版本更新
+        if (!isSopShow) {
+            cheakVersionUpdate();
+        }
+    }
+
+    /**
+     * 更新类型Item显示
+     */
+    private void updateTypeItemState() {
+        if (touchType == Configs.TouchType.LINEAR.getValue()) {
+            itemCheckTypeLinear.setCheckIconShow(true);
+            itemCheckTypeLinear.setChecked(true);
+        } else if (touchType == Configs.TouchType.BALL.getValue()) {
+            itemCheckTypeBall.setCheckIconShow(true);
+            itemCheckTypeBall.setChecked(true);
+        } else {
+            itemCheckTypeBall.setCheckIconShow(false);
+            itemCheckTypeLinear.setCheckIconShow(false);
+        }
+    }
+
+    /**
+     * 判断是否有无障碍权限
+     */
+    private void updateAccessItemState() {
         if (!isAccessibilityServiceRunning("FloatService")) {
             settingsItemAssist.setWarning("未开启，操作功能无法使用");
         } else {
             settingsItemAssist.setValue("已开启");
         }
         itemCheckAccessablePermissions.setChecked(isAccessibilityServiceRunning("FloatService"));
+    }
 
+    /**
+     * 判断是否有悬浮窗权限
+     */
+    private void updateFloatItemState() {
 
-        /**
-         * 判断是否有悬浮窗权限
-         */
         if (Build.VERSION.SDK_INT >= M) {
             if (!Settings.canDrawOverlays(this)) {
                 settingsItemFloat.setWarning("未开启，无法显示悬浮内容");
@@ -202,10 +276,13 @@ public class MainActivity extends AppCompatActivity {
             itemCheckTouchPermissions.setChecked(Settings.canDrawOverlays(this));
 
         }
+    }
 
-        /**
-         * 判断是否有锁屏权限
-         */
+    /**
+     * 判断是否有锁屏权限
+     */
+    private void updateLockItemState() {
+
         //如果设备管理器尚未激活，这里会启动一个激活设备管理器的Intent,具体的表现就是第一次打开程序时，手机会弹出激活设备管理器的提示，激活即可。
         mAdminName = new ComponentName(this, AdminManageReceiver.class);
         mDPM = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
@@ -215,16 +292,22 @@ public class MainActivity extends AppCompatActivity {
             settingsItemLock.setValue("已开启");
         }
         itemCheckLockPermissions.setChecked(mDPM.isAdminActive(mAdminName));
+    }
 
-        /**
-         * 判断是否拥有截屏权限
-         */
+    /**
+     * 判断是否拥有截屏权限
+     */
+    private void updateShotscreenItemState(boolean withAnim) {
         if (!ShotScreenUtils.checkServiceIsRun()) {
             settingsItemShot.setWarning("未开启，截屏功能无法使用");
         } else {
             settingsItemShot.setValue("已开启");
         }
-        itemCheckShotscreenPermissions.setChecked(ShotScreenUtils.checkServiceIsRun());
+        if (withAnim) {
+            itemCheckShotscreenPermissions.setCheckedWithAnim(ShotScreenUtils.checkServiceIsRun());
+        } else {
+            itemCheckShotscreenPermissions.setChecked(ShotScreenUtils.checkServiceIsRun());
+        }
     }
 
     /**
@@ -233,40 +316,45 @@ public class MainActivity extends AppCompatActivity {
     private void checkAlertWindowPermission() {
         if (Build.VERSION.SDK_INT >= M) {
             if (!Settings.canDrawOverlays(this)) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-                intent.setData(Uri.parse("package:" + getPackageName()));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                IntentUtils.jump2TouchPermissionSetting(MainActivity.this);
             }
         }
     }
 
 
+    /**
+     * 初始化各种事件
+     */
     private void initEvent() {
         //设置辅助功能权限item事件
         itemCheckAccessablePermissions.setOnItemClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtils.createDialog(MainActivity.this, R.drawable.ic_warning, "提醒", "为了保证EasyTouch的正常使用，您需要开启无障碍权限！",
-                        "前往设置", new DialogInterface.OnClickListener() {
+                DialogUtils.createDialog(MainActivity.this,
+                        R.drawable.dialog_icon_warning,
+                        getString(R.string.dialog_title_notice),
+                        getString(R.string.dialog_message_jump_accessable),
+                        getString(R.string.dialog_button_jump_setting), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                startActivity(new Intent("android.settings.ACCESSIBILITY_SETTINGS"));
+                                IntentUtils.jump2AccessPermissionSetting(MainActivity.this, false);
                             }
-                        }, "算了", null).show();
+                        }, getString(R.string.dialog_button_forget_it), null).show();
             }
         });
 
         settingsItemAssist.setSettingItemClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtils.createDialog(MainActivity.this, R.drawable.ic_warning, "提醒", "为了保证EasyTouch的正常使用，您需要开启无障碍权限！",
-                        "前往设置", new DialogInterface.OnClickListener() {
+                DialogUtils.createDialog(MainActivity.this, R.drawable.dialog_icon_warning,
+                        getString(R.string.dialog_title_notice),
+                        getString(R.string.dialog_message_jump_accessable),
+                        getString(R.string.dialog_button_jump_setting), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                startActivity(new Intent("android.settings.ACCESSIBILITY_SETTINGS"));
+                                IntentUtils.jump2AccessPermissionSetting(MainActivity.this, false);
                             }
-                        }, "算了", null).show();
+                        }, getString(R.string.dialog_button_forget_it), null).show();
             }
         });
 
@@ -274,21 +362,15 @@ public class MainActivity extends AppCompatActivity {
         itemCheckTouchPermissions.setOnItemClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!itemCheckTouchPermissions.isChecked()){
-                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-                    intent.setData(Uri.parse("package:" + getPackageName()));
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
+                if (!itemCheckTouchPermissions.isChecked()) {
+                    IntentUtils.jump2TouchPermissionSetting(MainActivity.this);
                 }
             }
         });
         settingsItemFloat.setSettingItemClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-                intent.setData(Uri.parse("package:" + getPackageName()));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                IntentUtils.jump2TouchPermissionSetting(MainActivity.this);
             }
         });
 
@@ -296,7 +378,7 @@ public class MainActivity extends AppCompatActivity {
         itemCheckLockPermissions.setOnItemClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!itemCheckLockPermissions.isChecked()){
+                if (!itemCheckLockPermissions.isChecked()) {
                     showAdminManagement(mAdminName);
                 }
             }
@@ -312,7 +394,7 @@ public class MainActivity extends AppCompatActivity {
         itemCheckShotscreenPermissions.setOnItemClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!itemCheckShotscreenPermissions.isChecked()){
+                if (!itemCheckShotscreenPermissions.isChecked()) {
                     if (Build.VERSION.SDK_INT >= M) {
                         //版本为6.0以上，那么进行权限检测
                         if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
@@ -345,7 +427,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
 
 
         //设置形状
@@ -390,89 +471,63 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnTouchLine.setOnClickListener(new View.OnClickListener() {
+        /**
+         * 开始悬浮助手点击事件
+         */
+        itemCheckTouchStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= M) {
-                    if (!Settings.canDrawOverlays(MainActivity.this)) {
-                        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-                        intent.setData(Uri.parse("package:" + getPackageName()));
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivityForResult(intent, Configs.RESULT_PERMISS_REQUEST_FLOAT_LINEAR);
-                        return;
-                    } else {
-                        if (ServiceUtils.isServiceRun(getApplicationContext(), Configs.NAME_SERVICE_TOUCH_BALL)) {
-                            stopService(new Intent(MainActivity.this, EasyTouchBallService.class));
-                        }
-                        if (ServiceUtils.isServiceRun(getApplicationContext(), Configs.NAME_SERVICE_TOUCH_LINEAR)) {
-                            stopService(new Intent(MainActivity.this, EasyTouchLinearService.class));
-                        }
-                        startService(new Intent(MainActivity.this, EasyTouchLinearService.class));
-                        startService(new Intent(MainActivity.this, FloatService.class));
-                    }
-                } else {
-                    if (ServiceUtils.isServiceRun(getApplicationContext(), Configs.NAME_SERVICE_TOUCH_BALL)) {
-                        stopService(new Intent(MainActivity.this, EasyTouchBallService.class));
-                    }
-                    if (ServiceUtils.isServiceRun(getApplicationContext(), Configs.NAME_SERVICE_TOUCH_LINEAR)) {
-                        stopService(new Intent(MainActivity.this, EasyTouchLinearService.class));
-                    }
-                    startService(new Intent(MainActivity.this, EasyTouchLinearService.class));
-                    startService(new Intent(MainActivity.this, FloatService.class));
-
-                }
-
+                //如果当前类型为悬浮条类型
+                showTouchType();
+                //获取悬浮窗是否打开
 
             }
         });
 
-        btnTouchBall.setOnClickListener(new View.OnClickListener() {
+        //设置悬浮条类型选择事件
+        itemCheckTypeLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= M) {
-                    if (!Settings.canDrawOverlays(MainActivity.this)) {
-                        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-                        intent.setData(Uri.parse("package:" + getPackageName()));
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivityForResult(intent, Configs.RESULT_PERMISS_REQUEST_FLOAT_BALL);
-                        return;
-                    } else {
-                        if (ServiceUtils.isServiceRun(getApplicationContext(), Configs.NAME_SERVICE_TOUCH_LINEAR)) {
-                            stopService(new Intent(MainActivity.this, EasyTouchLinearService.class));
-                        }
-                        if (ServiceUtils.isServiceRun(getApplicationContext(), Configs.NAME_SERVICE_TOUCH_BALL)) {
-                            stopService(new Intent(MainActivity.this, EasyTouchBallService.class));
-                        }
-                        startService(new Intent(MainActivity.this, EasyTouchBallService.class));
-                        startService(new Intent(MainActivity.this, FloatService.class));
-                    }
-                } else {
-                    if (ServiceUtils.isServiceRun(getApplicationContext(), Configs.NAME_SERVICE_TOUCH_LINEAR)) {
-                        stopService(new Intent(MainActivity.this, EasyTouchLinearService.class));
-                    }
-                    if (ServiceUtils.isServiceRun(getApplicationContext(), Configs.NAME_SERVICE_TOUCH_BALL)) {
-                        stopService(new Intent(MainActivity.this, EasyTouchBallService.class));
-                    }
-                    startService(new Intent(MainActivity.this, EasyTouchBallService.class));
-                    startService(new Intent(MainActivity.this, FloatService.class));
-                }
+                //如果当前就是悬浮球模式
+                updateCheckTouchType(Configs.TouchType.LINEAR.getValue());
 
             }
         });
 
+        //设置悬浮球类型选择事件
+        itemCheckTypeBall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //如果当前就是悬浮球模式
+                updateCheckTouchType(Configs.TouchType.BALL.getValue());
+            }
+        });
 
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Configs.RESULT_PERMISS_REQUEST_FLOAT_LINEAR) {
+        if (requestCode == Configs.REQUEST_PERMISS_REQUEST_FLOAT) {
+            if (Build.VERSION.SDK_INT >= M) {
+                //如果正在展示SOP
+                if (isSopShow) {
+                    if (!Settings.canDrawOverlays(MainActivity.this)) {
+                        showSopDialog(sopStep);
+                    } else {
+                        sopStep++;
+                        showSopDialog(sopStep);
+                    }
+                }
+            }
+        } else if (requestCode == Configs.REQUEST_PERMISS_REQUEST_FLOAT_LINEAR) {
             if (Build.VERSION.SDK_INT >= M) {
                 if (!Settings.canDrawOverlays(MainActivity.this)) {
                     Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
                     intent.setData(Uri.parse("package:" + getPackageName()));
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivityForResult(intent, Configs.RESULT_PERMISS_REQUEST_FLOAT_LINEAR);
+                    startActivityForResult(intent, Configs.REQUEST_PERMISS_REQUEST_FLOAT_LINEAR);
                 } else {
                     if (ServiceUtils.isServiceRun(getApplicationContext(), Configs.NAME_SERVICE_TOUCH_BALL)) {
                         stopService(new Intent(MainActivity.this, EasyTouchBallService.class));
@@ -481,13 +536,13 @@ public class MainActivity extends AppCompatActivity {
                     startService(new Intent(MainActivity.this, FloatService.class));
                 }
             }
-        } else if (requestCode == Configs.RESULT_PERMISS_REQUEST_FLOAT_BALL) {
+        } else if (requestCode == Configs.REQUEST_PERMISS_REQUEST_FLOAT_BALL) {
             if (Build.VERSION.SDK_INT >= M) {
                 if (!Settings.canDrawOverlays(MainActivity.this)) {
                     Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
                     intent.setData(Uri.parse("package:" + getPackageName()));
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivityForResult(intent, Configs.RESULT_PERMISS_REQUEST_FLOAT_BALL);
+                    startActivityForResult(intent, Configs.REQUEST_PERMISS_REQUEST_FLOAT_BALL);
                 } else {
                     if (ServiceUtils.isServiceRun(getApplicationContext(), Configs.NAME_SERVICE_TOUCH_LINEAR)) {
                         stopService(new Intent(MainActivity.this, EasyTouchLinearService.class));
@@ -496,14 +551,22 @@ public class MainActivity extends AppCompatActivity {
                     startService(new Intent(MainActivity.this, FloatService.class));
                 }
             }
+        } else if (requestCode == Configs.REQUEST_PERMISS_REQUEST_ACCESSABLE) {
+            if (isSopShow) {
+                if (!isAccessibilityServiceRunning("FloatService")) {
+                    showSopDialog(sopStep);
+                } else {
+                    sopStep++;
+                    showSopDialog(sopStep);
+                }
+            }
         } else if (requestCode == Configs.REQUEST_MEDIA_PROJECTION) {
             if (resultCode == RESULT_OK && data != null) {
-//                MyApplication.setShotScreenIntent(data);
                 ShotScreenUtils.getInstance()
                         .setContext(getApplicationContext())
                         .setShotSize(screenWidth, screenHeight, screenDensity)
                         .setResultData(data);
-                initUI();
+                updateShotscreenItemState(true);
             }
         }
     }
@@ -574,19 +637,22 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == PERMISSION_REQUEST_CODE && hasAllPermissionsGranted(grantResults)) {
             requestCapturePermission();
         } else {
-            DialogUtils.createDialog(MainActivity.this, R.drawable.ic_warning,
-                    "提醒", "当前应用缺少必要权限，\n请点击\"设置\"-\"权限\"打开所需要的权限。",
-                    "设置", new DialogInterface.OnClickListener() {
+            DialogUtils.createDialog(MainActivity.this, R.drawable.dialog_icon_warning,
+                    "提醒", "当前应用缺少必要权限，\n请点击\"前往设置\"-\"权限\"打开所需要的权限。",
+                    getString(R.string.dialog_button_jump_setting), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                             intent.setData(Uri.parse(PACKAGE_URL_SCHEME + getPackageName()));
                             startActivity(intent);
                         }
-                    }, "算了", null).show();
+                    }, getString(R.string.dialog_button_forget_it), null).show();
         }
     }
 
+    /**
+     * 申请截屏权限
+     */
     public void requestCapturePermission() {
 
         if (Build.VERSION.SDK_INT < LOLLIPOP) {
@@ -624,4 +690,222 @@ public class MainActivity extends AppCompatActivity {
         needRequestPermissions.toArray(permissionArr);
         requestPermissions(permissionArr, PERMISSION_REQUEST_CODE);
     }
+
+    /**
+     * 显示悬浮窗权限的弹窗
+     */
+    private void showSopDialog(int sopStep) {
+        //弹窗内容
+        String message = "";
+        //弹窗对应图片
+        @DrawableRes int messageIconRes = R.drawable.dialog_sop_accessable_permission;
+        //弹窗确认点击事件
+        DialogInterface.OnClickListener onPositiveClickListener = null;
+        DialogInterface.OnClickListener onNegativeClickListener = null;
+        //判断当前步骤
+        switch (sopStep) {
+            //第一步，提示设置悬浮窗权限
+            case 0:
+                message = getString(R.string.main_dialog_sop_warning_float_permission);
+                messageIconRes = R.drawable.dialog_sop_accessable_permission;
+                onPositiveClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        IntentUtils.jump2TouchPermissionSetting(MainActivity.this);
+                        dialog.dismiss();
+                    }
+                };
+                break;
+            //第二部，提示设置辅助功能权限
+            case 1:
+                message = getString(R.string.main_dialog_sop_warning_access_permission);
+                messageIconRes = R.drawable.dialog_sop_accessable_permission;
+                onPositiveClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        IntentUtils.jump2AccessPermissionSetting(MainActivity.this, true);
+                        dialog.dismiss();
+                    }
+                };
+                break;
+            //第三部，提示设置锁屏权限以及截屏权限
+            case 2:
+                message = getString(R.string.main_dialog_sop_warning_lock_shotscreen_permission);
+                messageIconRes = R.drawable.dialog_sop_lock_shotscreen_permission;
+                onPositiveClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        isSopShow = false;
+                    }
+                };
+
+                break;
+            default:
+                isSopShow = false;
+        }
+        DialogUtils.createImageDialog(MainActivity.this,
+                R.drawable.dialog_icon_warning,
+                getString(R.string.main_dialog_sop_title),
+                message,
+                messageIconRes,
+                getString(R.string.dialog_button_sure),
+                onPositiveClickListener,
+                getString(R.string.dialog_button_cancel), null)
+                .show();
+    }
+
+    /**
+     * 更新当前选中的悬浮类型
+     *
+     * @param touchType
+     */
+    private void updateCheckTouchType(int touchType) {
+        if (touchType == Configs.TouchType.BALL.getValue()) {
+            //如果选择了悬浮球类型
+            itemCheckTypeBall.setCheckIconShow(true);
+            itemCheckTypeBall.setChecked(true);
+            itemCheckTypeBall.startZoomInWithAnim();
+            this.touchType = Configs.TouchType.BALL.getValue();
+            SpUtils.saveInt(getApplicationContext(), Configs.KEY_SAVE_TOUCH_TYPE, Configs.TouchType.BALL.getValue());
+            itemCheckTypeLinear.startZoomOutWithAnim();
+        } else if (touchType == Configs.TouchType.LINEAR.getValue()) {
+            //如果选择了悬浮条类型
+            itemCheckTypeLinear.setCheckIconShow(true);
+            itemCheckTypeLinear.setChecked(true);
+            itemCheckTypeLinear.startZoomInWithAnim();
+            this.touchType = Configs.TouchType.LINEAR.getValue();
+            SpUtils.saveInt(getApplicationContext(), Configs.KEY_SAVE_TOUCH_TYPE, Configs.TouchType.LINEAR.getValue());
+            itemCheckTypeBall.startZoomOutWithAnim();
+        }
+        if (ServiceUtils.isServiceRun(getApplicationContext(), Configs.NAME_SERVICE_TOUCH_BALL)
+                || ServiceUtils.isServiceRun(getApplicationContext(), Configs.NAME_SERVICE_TOUCH_LINEAR)) {
+            hasShowTouch = true;
+        } else {
+            hasShowTouch = false;
+        }
+        //如果悬浮窗已经显示那么切换模式重新刷新悬浮窗
+        if (hasShowTouch) {
+            showTouchType();
+        }
+    }
+
+    /**
+     * 显示对应类型的悬浮助手
+     */
+    private void showTouchType() {
+        if (touchType == Configs.TouchType.LINEAR.getValue()) {
+            if (Build.VERSION.SDK_INT >= M) {
+                if (!Settings.canDrawOverlays(MainActivity.this)) {
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                    intent.setData(Uri.parse("package:" + getPackageName()));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivityForResult(intent, Configs.REQUEST_PERMISS_REQUEST_FLOAT_LINEAR);
+                } else {
+                    if (ServiceUtils.isServiceRun(getApplicationContext(), Configs.NAME_SERVICE_TOUCH_BALL)) {
+                        stopService(new Intent(MainActivity.this, EasyTouchBallService.class));
+                    }
+                    if (ServiceUtils.isServiceRun(getApplicationContext(), Configs.NAME_SERVICE_TOUCH_LINEAR)) {
+                        stopService(new Intent(MainActivity.this, EasyTouchLinearService.class));
+                    }
+                    startService(new Intent(MainActivity.this, EasyTouchLinearService.class));
+                    startService(new Intent(MainActivity.this, FloatService.class));
+                }
+            } else {
+                if (ServiceUtils.isServiceRun(getApplicationContext(), Configs.NAME_SERVICE_TOUCH_BALL)) {
+                    stopService(new Intent(MainActivity.this, EasyTouchBallService.class));
+                }
+                if (ServiceUtils.isServiceRun(getApplicationContext(), Configs.NAME_SERVICE_TOUCH_LINEAR)) {
+                    stopService(new Intent(MainActivity.this, EasyTouchLinearService.class));
+                }
+                startService(new Intent(MainActivity.this, EasyTouchLinearService.class));
+                startService(new Intent(MainActivity.this, FloatService.class));
+
+            }
+        } else if (touchType == Configs.TouchType.BALL.getValue()) {
+            //如果当前类型为悬浮球类型
+            if (Build.VERSION.SDK_INT >= M) {
+                if (!Settings.canDrawOverlays(MainActivity.this)) {
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                    intent.setData(Uri.parse("package:" + getPackageName()));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivityForResult(intent, Configs.REQUEST_PERMISS_REQUEST_FLOAT_BALL);
+                } else {
+                    if (ServiceUtils.isServiceRun(getApplicationContext(), Configs.NAME_SERVICE_TOUCH_LINEAR)) {
+                        stopService(new Intent(MainActivity.this, EasyTouchLinearService.class));
+                    }
+                    if (ServiceUtils.isServiceRun(getApplicationContext(), Configs.NAME_SERVICE_TOUCH_BALL)) {
+                        stopService(new Intent(MainActivity.this, EasyTouchBallService.class));
+                    }
+                    startService(new Intent(MainActivity.this, EasyTouchBallService.class));
+                    startService(new Intent(MainActivity.this, FloatService.class));
+                }
+            } else {
+                if (ServiceUtils.isServiceRun(getApplicationContext(), Configs.NAME_SERVICE_TOUCH_LINEAR)) {
+                    stopService(new Intent(MainActivity.this, EasyTouchLinearService.class));
+                }
+                if (ServiceUtils.isServiceRun(getApplicationContext(), Configs.NAME_SERVICE_TOUCH_BALL)) {
+                    stopService(new Intent(MainActivity.this, EasyTouchBallService.class));
+                }
+                startService(new Intent(MainActivity.this, EasyTouchBallService.class));
+                startService(new Intent(MainActivity.this, FloatService.class));
+            }
+        } else {
+            DialogUtils.createImageDialog(MainActivity.this,
+                    R.drawable.dialog_icon_warning,
+                    getString(R.string.dialog_title_notice),
+                    getString(R.string.main_show_float_default_type_linear),
+                    R.drawable.dialog_sop_type_linear,
+                    getString(R.string.dialog_button_sure),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            touchType = Configs.TouchType.LINEAR.getValue();
+                            updateCheckTouchType(touchType);
+                            showTouchType();
+                        }
+                    }, getString(R.string.dialog_button_cancel),
+                    null).show();
+        }
+    }
+
+    /**
+     * 检测是否有版本更新，如果有版本更新那么就需要弹出版本更新内容
+     */
+    private void cheakVersionUpdate() {
+        int versionCode = 0;
+        try {
+            //获取软件版本号，对应AndroidManifest.xml下android:versionCode
+            versionCode = getPackageManager().
+                    getPackageInfo(getPackageName(), 0).versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        String verName = "";
+        try {
+            verName = getPackageManager().
+                    getPackageInfo(getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        int lastVersionCode = SpUtils.getInt(getApplicationContext(), Configs.KEY_VERSION_UPDATE, -1);
+        //需要弹出更新提示框
+        if (lastVersionCode == -1 || lastVersionCode < versionCode) {
+            DialogUtils.createDialog(this, R.drawable.dialog_icon_warning,
+                    "最新版本：" + verName,
+                    getString(R.string.version_update_content),
+                    "给个好评", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            IntentUtils.jump2AppMarket(MainActivity.this);
+                        }
+                    },
+                    "算了", null)
+                    .show();
+        }
+        SpUtils.saveInt(getApplicationContext(), Configs.KEY_VERSION_UPDATE, versionCode);
+    }
+
 }
