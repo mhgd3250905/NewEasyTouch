@@ -604,7 +604,8 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
                     return;
                 }
                 if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    if (Math.max(screenHeight, screenWidth) - h > flagSoftInputChangeHeight) {//呼出软键盘
+                    //呼出软键盘
+                    if (Math.max(screenHeight, screenWidth) - h > flagSoftInputChangeHeight) {
                         if (isMenuDetailShow) {
                             try {
                                 windowManager.removeView(menuDetailView);

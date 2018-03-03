@@ -158,6 +158,13 @@ public class Configs {
 
     public static final String KEY_SAVE_TOUCH_TYPE="key_save_touch_type";
 
-    public static final String KEY_VERSION_UPDATE="key_version_update";//记录是否有版本更新
+    /**
+     * 记录是否有版本更新
+     */
+    public static final String KEY_VERSION_UPDATE="key_version_update";
 
+    /**
+     * 广播Action，显示悬浮窗
+     */
+    public static final String ACTION_SHOW_FLOAT="com.skkk.easytouch.action_show_float";
 }

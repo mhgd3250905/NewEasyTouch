@@ -47,14 +47,35 @@ public class EasyTouchBaseService extends Service {
 
     private static final String TAG = "EasyTouchBaseService";
 
-    protected WindowManager windowManager;//窗口管理器
-    protected AudioManager audioManager;//音量管理器
-    protected ComponentName mAdminName;//组件名称
-    protected DevicePolicyManager mDPM;//设备安全管理器
-    protected Vibrator vibrator;//震动管理器
+    /**
+     * 窗口管理器
+     */
+    protected WindowManager windowManager;
+    /**
+     * 音量管理器
+     */
+    protected AudioManager audioManager;
+    /**
+     * 组件名称
+     */
+    protected ComponentName mAdminName;
+    /**
+     * 设备安全管理器
+     */
+    protected DevicePolicyManager mDPM;
+    /**
+     * 震动管理器
+     */
+    protected Vibrator vibrator;
 
-    protected int vibrateLevel = Configs.DEFAULT_VIBRATE_LEVEL;//震动等级
-    protected int direction = Configs.TOUCH_UI_DIRECTION_LEFT;//左右位置
+    /**
+     * 震动等级
+     */
+    protected int vibrateLevel = Configs.DEFAULT_VIBRATE_LEVEL;
+    /**
+     * 左右位置
+     */
+    protected int direction = Configs.TOUCH_UI_DIRECTION_LEFT;
 
 
     protected int menuDetailWidthMax = 320;
@@ -67,7 +88,10 @@ public class EasyTouchBaseService extends Service {
     private WindowManager.LayoutParams softInputLp;
     protected SoftInputListenerView softInputListenerView;
 
-    protected int lastParamsY;//软件盘弹出前的高度位置
+    /**
+     * 软件盘弹出前的高度位置
+     */
+    protected int lastParamsY;
     protected boolean hasConfigurationChanged = false;
 
     protected int flagSoftInputChangeHeight = 300;
@@ -275,5 +299,12 @@ public class EasyTouchBaseService extends Service {
         } else {
             Toast.makeText(this, "请确认截屏权限是否开启", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    /**
+     * 隐藏悬浮窗并且显示通知
+     */
+    protected void hideEasyTouchAndShowNotication(){
+
     }
 }
