@@ -119,7 +119,7 @@ public class FunctionDetailBaseFragment extends Fragment {
     @OnClick({R.id.tv_item_back, R.id.tv_item_home, R.id.tv_item_recent, R.id.tv_item_notification,
             R.id.tv_item_location, R.id.tv_item_voice, R.id.tv_item_pay, R.id.tv_item_app,
             R.id.tv_item_menu,R.id.tv_item_previous_app,R.id.tv_item_lock_screen,
-            R.id.tv_item_shot_screen})
+            R.id.tv_item_shot_screen,R.id.tv_item_show_app,R.id.tv_item_hide_float})
     public void onViewClicked(View view) {
         int funcType = 0;
         switch (view.getId()) {
@@ -159,6 +159,13 @@ public class FunctionDetailBaseFragment extends Fragment {
             case R.id.tv_item_shot_screen:
                 funcType = FuncConfigs.Func.SHOT_SCREEN.getValue();
                 break;
+            case R.id.tv_item_show_app:
+                funcType = FuncConfigs.Func.SHOW_APP.getValue();
+                break;
+            case R.id.tv_item_hide_float:
+                funcType = FuncConfigs.Func.HIDE_FLOAT.getValue();
+                break;
+            default:
         }
         SpUtils.saveInt(getContext().getApplicationContext(), opType, funcType);
         getActivity().finish();

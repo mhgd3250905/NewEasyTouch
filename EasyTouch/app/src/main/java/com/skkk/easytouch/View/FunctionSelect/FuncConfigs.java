@@ -46,7 +46,9 @@ public class FuncConfigs {
         MENU,
         PREVIOUS_APP,
         LOCK_SCREEN,
-        SHOT_SCREEN;
+        SHOT_SCREEN,
+        SHOW_APP,
+        HIDE_FLOAT;
         public int getValue() {
             return this.ordinal();
         }

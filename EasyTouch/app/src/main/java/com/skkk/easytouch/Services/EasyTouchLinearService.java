@@ -133,16 +133,16 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
     private ImageView ivMenuDetailAppBack;
     private GridLayout containerMenuDetailAppsContent;
 
+    private boolean isTouchShow = false;
+    private boolean isMenuShow = false;
     private boolean isMenuDetailShow = false;
 
     private ObjectAnimator hideMenuDetailAnim;
     private final int HIDE_MENU_DETAIL_FAST = 100;
-    private final int HIDE_MENU_DETAIL_SLOW = 200;
 
+    private final int HIDE_MENU_DETAIL_SLOW = 200;
     private View menuView;
     private RelativeLayout menuContainer;
-    //    private ImageView ivMenuBall0, ivMenuBall1, ivMenuBall2, ivMenuBall3, ivMenuBall4;
-    private boolean isMenuShow = false;
     private int menuWidth, menuHeight;
     private AnimatorSet ballMenuAnimSet;
     private ObjectAnimator menuBallScaleXAnim;
@@ -230,8 +230,10 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
         }
 
         //设置悬浮窗的位置
+        //获取上一次的Y位置
+        float saveLastY = SpUtils.getFloat(getApplicationContext(), SpUtils.KEY_MOVE_LAST_Y, screenHeight - dp2px(200f));
         mParams.x = directionX;
-        mParams.y = screenHeight - dp2px(200f);
+        mParams.y = (int) saveLastY;
 
         //初始化悬浮窗的控件内容
         touchView = View.inflate(getApplicationContext(), R.layout.layout_easy_touch, null);
@@ -305,6 +307,7 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
 
 
         windowManager.addView(touchView, mParams);
+        isTouchShow = true;
         initShotScreenEvent();
     }
 
@@ -353,13 +356,13 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
 
         colorAlpha = SpUtils.getInt(getApplicationContext(), Configs.KEY_TOUCH_UI_COLOR_ALPHA_LINEAR, DEFAULT_ALPHA);
 
-        theme = SpUtils.getInt(getApplicationContext(), Configs.KEY_TOUCH_UI_THEME_HIDE,-1);
+        theme = SpUtils.getInt(getApplicationContext(), Configs.KEY_TOUCH_UI_THEME_HIDE, -1);
 
 
         if (direction == TOUCH_UI_DIRECTION_LEFT) {
             if (theme == Configs.TOUCH_UI_THEME_HIDE_LINE_1) {
                 llTouchContainer.setBackgroundResource(R.drawable.bg_linear_line_left_1);
-            }else if (theme == Configs.TOUCH_UI_THEME_HIDE_LINE_2) {
+            } else if (theme == Configs.TOUCH_UI_THEME_HIDE_LINE_2) {
                 llTouchContainer.setBackgroundResource(R.drawable.bg_linear_line_left_2);
             } else if (theme == Configs.TOUCH_UI_THEME_HIDE_RECT) {
                 llTouchContainer.setBackgroundResource(R.drawable.bg_linear_rect_left);
@@ -367,7 +370,7 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
         } else {
             if (theme == Configs.TOUCH_UI_THEME_HIDE_LINE_1) {
                 llTouchContainer.setBackgroundResource(R.drawable.bg_linear_line_right_1);
-            }else if (theme == Configs.TOUCH_UI_THEME_HIDE_LINE_2) {
+            } else if (theme == Configs.TOUCH_UI_THEME_HIDE_LINE_2) {
                 llTouchContainer.setBackgroundResource(R.drawable.bg_linear_line_right_2);
             } else if (theme == Configs.TOUCH_UI_THEME_HIDE_RECT) {
                 llTouchContainer.setBackgroundResource(R.drawable.bg_linear_rect_right);
@@ -473,6 +476,10 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
             drawableId = R.drawable.vector_ball_menu_apps;
         } else if (funcType == FuncConfigs.Func.SHOT_SCREEN.getValue()) {
             drawableId = R.drawable.vector_drawable_shot;
+        }else if (funcType == FuncConfigs.Func.SHOW_APP.getValue()) {
+            drawableId = R.drawable.vector_drawable_float;
+        }else if (funcType == FuncConfigs.Func.HIDE_FLOAT.getValue()) {
+            drawableId = R.drawable.vector_drawable_hide_float;
         }
         ivBall.setImageResource(drawableId);
     }
@@ -547,6 +554,7 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
                         } else {
                             try {
                                 windowManager.removeView(touchView);
+                                isTouchShow = false;
                             } catch (Exception e) {
                                 Log.e(TAG, "onSoftInputSttateChange: 悬浮球已经删除过！");
                             }
@@ -554,6 +562,7 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
                     } else {//隐藏软键盘
                         try {
                             windowManager.addView(touchView, mParams);
+                            isTouchShow = true;
                         } catch (Exception e) {
                             Log.e(TAG, "onSoftInputSttateChange: 悬浮球已经添加过！");
                         }
@@ -585,6 +594,7 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
                     } else {//隐藏软键盘
                         try {
                             windowManager.addView(touchView, mParams);
+                            isTouchShow = true;
                         } catch (Exception e) {
                             Log.e(TAG, "onSoftInputSttateChange: 悬浮球已经添加过！");
                         }
@@ -618,6 +628,7 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
                 if (isMenuDetailShow) {
                     windowManager.removeView(menuDetailView);
                     windowManager.addView(touchView, mParams);
+                    isTouchShow = true;
                     isMenuDetailShow = false;
                 } else if (isMenuShow) {
                     windowManager.removeView(menuView);
@@ -637,6 +648,7 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
                 if (isMenuDetailShow) {
                     windowManager.removeView(menuDetailView);
                     windowManager.addView(touchView, mParams);
+                    isTouchShow = true;
                     isMenuDetailShow = false;
                 } else if (isMenuShow) {
                     windowManager.removeView(menuView);
@@ -1551,7 +1563,7 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
                     }
                 } else {
                     windowManager.removeView(touchView);
-                    isMenuShow = false;
+                    isTouchShow = false;
                 }
                 if (onAnimEndListener != null) {
                     onAnimEndListener.onAnimEnd();
@@ -1565,7 +1577,7 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
 
 
     private void refreshMovePlace(MotionEvent e2) {
-        if (touchFreeze){
+        if (touchFreeze) {
             return;
         }
         dx = e2.getRawX() - lastX;
@@ -1584,10 +1596,9 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //设置固定位置
-        touchFreeze=SpUtils.getBoolean(getApplicationContext(),Configs.KEY_TOUCH_UI_POS_LINEAR_FREEZE,false);
+        touchFreeze = SpUtils.getBoolean(getApplicationContext(), Configs.KEY_TOUCH_UI_POS_LINEAR_FREEZE, false);
         //设置悬浮类型
         MyApplication.setTouchType(Configs.TouchType.LINEAR);
-
 
         llTouchContainer.post(new Runnable() {
             @Override
@@ -1595,7 +1606,12 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
                 initTouchUI();
             }
         });
-        windowManager.updateViewLayout(touchView, mParams);
+        if (isTouchShow) {
+            windowManager.updateViewLayout(touchView, mParams);
+        } else {
+            windowManager.addView(touchView, mParams);
+            isTouchShow=true;
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -1828,7 +1844,7 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
         } else if (direction == Configs.Position.RIGHT.getValue()) {
 
         }
-        Animator circularReveal = ViewAnimationUtils.createCircularReveal(containerMenuDetail, mParams.x, mParams.y+dp2px(touchHeight)/2, 0, screenHeight);
+        Animator circularReveal = ViewAnimationUtils.createCircularReveal(containerMenuDetail, mParams.x, mParams.y + dp2px(touchHeight) / 2, 0, screenHeight);
         circularReveal.setDuration(500);
         circularReveal.start();
 
@@ -1898,7 +1914,7 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
         } else if (direction == Configs.Position.RIGHT.getValue()) {
 
         }
-        final Animator circularReveal = ViewAnimationUtils.createCircularReveal(containerMenuDetail, mParams.x, mParams.y+dp2px(touchHeight)/2, screenHeight,0);
+        final Animator circularReveal = ViewAnimationUtils.createCircularReveal(containerMenuDetail, mParams.x, mParams.y + dp2px(touchHeight) / 2, screenHeight, 0);
         circularReveal.setDuration(500);
         circularReveal.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -1925,7 +1941,7 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
 
                 if (theme == Configs.TOUCH_UI_THEME_HIDE_LINE_1) {
                     llTouchContainer.setBackgroundResource(R.drawable.bg_linear_line_right_1);
-                }else if (theme == Configs.TOUCH_UI_THEME_HIDE_LINE_2) {
+                } else if (theme == Configs.TOUCH_UI_THEME_HIDE_LINE_2) {
                     llTouchContainer.setBackgroundResource(R.drawable.bg_linear_line_right_2);
                 } else if (theme == Configs.TOUCH_UI_THEME_HIDE_RECT) {
                     llTouchContainer.setBackgroundResource(R.drawable.bg_linear_rect_right);
@@ -1939,7 +1955,7 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
 
                 if (theme == Configs.TOUCH_UI_THEME_HIDE_LINE_1) {
                     llTouchContainer.setBackgroundResource(R.drawable.bg_linear_line_left_1);
-                }else if (theme == Configs.TOUCH_UI_THEME_HIDE_LINE_2) {
+                } else if (theme == Configs.TOUCH_UI_THEME_HIDE_LINE_2) {
                     llTouchContainer.setBackgroundResource(R.drawable.bg_linear_line_left_2);
                 } else if (theme == Configs.TOUCH_UI_THEME_HIDE_RECT) {
                     llTouchContainer.setBackgroundResource(R.drawable.bg_linear_rect_left);
@@ -2049,6 +2065,10 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
             lockScreen();
         } else if (funcType == FuncConfigs.Func.SHOT_SCREEN.getValue()) {//app菜单
             shotScreen();
+        } else if (funcType == FuncConfigs.Func.SHOW_APP.getValue()) {//app菜单
+            showApp();
+        } else if (funcType == FuncConfigs.Func.HIDE_FLOAT.getValue()) {//app菜单
+            hideEasyTouchAndShowNotication();
         }
     }
 
@@ -2106,6 +2126,10 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
                     lockScreen();
                 } else if (funcType == FuncConfigs.Func.SHOT_SCREEN.getValue()) {//app菜单
                     shotScreen();
+                }else if (funcType == FuncConfigs.Func.SHOW_APP.getValue()) {//进入App
+                    showApp();
+                }else if (funcType == FuncConfigs.Func.HIDE_FLOAT.getValue()) {//隐藏悬浮窗
+                    hideEasyTouchAndShowNotication();
                 }
             }
         });
@@ -2131,16 +2155,19 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
     public void onDestroy() {
         try {
             windowManager.removeView(touchView);
+            isTouchShow = false;
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
             windowManager.removeView(menuView);
+            isMenuShow = false;
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
             windowManager.removeView(menuDetailView);
+            isMenuDetailShow = false;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -2149,6 +2176,9 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
         }
 
         MyApplication.setTouchType(Configs.TouchType.NONE);
+        //保存最后的Y坐标
+        SpUtils.saveFloat(getApplicationContext(),SpUtils.KEY_MOVE_LAST_Y,lastY);
+
 
         super.onDestroy();
     }
@@ -2186,5 +2216,27 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
             }
         }
         return false;
+    }
+
+    /**
+     * 复写隐藏悬浮窗并发送广播方法：隐藏悬浮球
+     */
+    @Override
+    protected void hideEasyTouchAndShowNotication() {
+        super.hideEasyTouchAndShowNotication();
+        try {
+            if (isMenuDetailShow) {
+                windowManager.removeView(menuDetailView);
+                isMenuDetailShow = false;
+            } else if (isMenuShow) {//如果一级菜单打开
+                windowManager.removeView(menuView);
+                isMenuShow = false;
+            } else if (isTouchShow) {//如果没有菜单打开
+                windowManager.removeView(touchView);
+                isTouchShow = false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

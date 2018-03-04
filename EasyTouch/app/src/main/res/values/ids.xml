@@ -177,4 +177,6 @@
     <item name="item_check_type_ball" type="id">item_check_type_ball</item>
     <item name="item_check_type_linear" type="id">item_check_type_linear</item>
     <item name="rb_hide_line_0" type="id">rb_hide_line_0</item>
+    <item name="tv_item_show_app" type="id">tv_item_show_app</item>
+    <item name="tv_item_hide_float" type="id">tv_item_hide_float</item>
 </resources>

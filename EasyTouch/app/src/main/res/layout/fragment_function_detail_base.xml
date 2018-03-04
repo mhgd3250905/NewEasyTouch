@@ -17,7 +17,7 @@
             android:gravity="center"
             android:paddingStart="10dp"
             android:text="返回"
-            android:textSize="20sp" />
+            android:textSize="15sp" />
 
         <View
             android:layout_marginStart="10dp"
@@ -34,7 +34,7 @@
             android:gravity="center"
             android:paddingStart="10dp"
             android:text="主页"
-            android:textSize="20sp" />
+            android:textSize="15sp" />
 
         <View
             android:layout_marginStart="10dp"
@@ -51,7 +51,7 @@
             android:gravity="center"
             android:paddingStart="10dp"
             android:text="任务"
-            android:textSize="20sp" />
+            android:textSize="15sp" />
 
         <View
             android:layout_marginStart="10dp"
@@ -68,7 +68,7 @@
             android:gravity="center"
             android:paddingStart="10dp"
             android:text="通知"
-            android:textSize="20sp" />
+            android:textSize="15sp" />
 
         <View
             android:layout_marginStart="10dp"
@@ -85,7 +85,7 @@
             android:gravity="center"
             android:paddingStart="10dp"
             android:text="菜单"
-            android:textSize="20sp" />
+            android:textSize="15sp" />
 
         <View
             android:layout_marginStart="10dp"
@@ -102,7 +102,7 @@
             android:gravity="center"
             android:paddingStart="10dp"
             android:text="锁屏"
-            android:textSize="20sp" />
+            android:textSize="15sp" />
 
         <View
             android:layout_marginStart="10dp"
@@ -119,7 +119,7 @@
             android:gravity="center"
             android:paddingStart="10dp"
             android:text="切换位置"
-            android:textSize="20sp" />
+            android:textSize="15sp" />
 
         <View
             android:layout_marginStart="10dp"
@@ -137,7 +137,7 @@
             android:gravity="center"
             android:paddingStart="10dp"
             android:text="音量菜单"
-            android:textSize="20sp" />
+            android:textSize="15sp" />
 
         <View
             android:layout_marginStart="10dp"
@@ -154,7 +154,7 @@
             android:gravity="center"
             android:paddingStart="10dp"
             android:text="支付菜单"
-            android:textSize="20sp" />
+            android:textSize="15sp" />
 
         <View
             android:layout_marginStart="10dp"
@@ -171,7 +171,7 @@
             android:gravity="center"
             android:paddingStart="10dp"
             android:text="快捷App菜单"
-            android:textSize="20sp" />
+            android:textSize="15sp" />
 
         <View
             android:layout_marginStart="10dp"
@@ -190,7 +190,7 @@
             android:gravity="center"
             android:paddingStart="10dp"
             android:text="上一个应用"
-            android:textSize="20sp" />
+            android:textSize="15sp" />
 
         <View
             android:layout_marginStart="10dp"
@@ -207,7 +207,39 @@
             android:gravity="center"
             android:paddingStart="10dp"
             android:text="截屏"
-            android:textSize="20sp" />
+            android:textSize="15sp" />
+
+        <View
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:background="@color/colorGray"/>
+        <TextView
+            android:id="@id/tv_item_show_app"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:drawableLeft="@drawable/vector_drawable_float"
+            android:gravity="center"
+            android:paddingStart="10dp"
+            android:text="显示APP"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:background="@color/colorGray"/>
+        <TextView
+            android:id="@id/tv_item_hide_float"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:drawableLeft="@drawable/vector_drawable_hide_float_black"
+            android:gravity="center"
+            android:paddingStart="10dp"
+            android:text="隐藏悬浮助手"
+            android:textSize="15sp" />
 
         <View
             android:layout_marginStart="10dp"

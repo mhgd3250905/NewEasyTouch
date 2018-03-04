@@ -19,5 +19,5 @@
     <string name="dialog_message_jump_accessable">点击「前往设置」前往设置辅助功能。</string>
     <string name="dialog_button_jump_setting">前往设置</string>
     <string name="dialog_button_forget_it">算了</string>
-    <string name="version_update_content">更新日志：\n\n1.修复了悬浮条隐藏式主题左右切换时出现主题异常切换bug；\n2.修复悬浮条震动设置保存无效bug；</string>
+    <string name="version_update_content">更新日志：\n\n1.获得了全新的UI界面；\n2.将软键盘弹出时悬浮球避开动作修改为隐藏；\n3.新增了更新内容提示窗；\n4.新增了简单的新手指引；\n5.新增了悬浮助手位置固定功能；\n6.新增了暂时隐藏悬浮助手功能；\n7.新增了进入应用界面功能；</string>
 </resources>

@@ -25,13 +25,15 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.skkk.easytouch.Configs;
+import com.skkk.easytouch.MainActivity;
 import com.skkk.easytouch.Receiver.AdminManageReceiver;
+import com.skkk.easytouch.Utils.NotificationUtils;
 import com.skkk.easytouch.Utils.ShotScreenUtils;
-import com.skkk.easytouch.Utils.SpUtils;
 import com.skkk.easytouch.View.AppSelect.AppSelectActivity;
 import com.skkk.easytouch.View.SoftInputListenerView;
 
 import static com.skkk.easytouch.Configs.TOUCH_UI_DIRECTION_LEFT;
+import static com.skkk.easytouch.Utils.SpUtils.getInt;
 
 /**
  * 创建于 2017/12/10
@@ -178,7 +180,7 @@ public class EasyTouchBaseService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        direction = SpUtils.getInt(getApplicationContext(), Configs.KEY_TOUCH_UI_DIRECTION, TOUCH_UI_DIRECTION_LEFT);
+        direction = getInt(getApplicationContext(), Configs.KEY_TOUCH_UI_DIRECTION, TOUCH_UI_DIRECTION_LEFT);
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -289,9 +291,22 @@ public class EasyTouchBaseService extends Service {
         return (int) (dp * scale + 0.1f);
     }
 
+
+
     /**
-     * 截屏
+     * 跳转到APP
      */
+    protected void showApp() {
+        Intent intent=new Intent();
+        intent.setClass(this, MainActivity.class);
+        startActivity(intent);
+
+    }
+
+
+        /**
+         * 截屏
+         */
     protected void shotScreen() {
         if (ShotScreenUtils.checkServiceIsRun()) {
             Toast.makeText(this, "开始截屏", Toast.LENGTH_SHORT).show();
@@ -305,6 +320,11 @@ public class EasyTouchBaseService extends Service {
      * 隐藏悬浮窗并且显示通知
      */
     protected void hideEasyTouchAndShowNotication(){
+        NotificationUtils.sendNotification(getApplicationContext());
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

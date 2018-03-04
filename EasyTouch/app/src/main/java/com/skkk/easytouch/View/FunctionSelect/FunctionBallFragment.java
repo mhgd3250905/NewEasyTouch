@@ -229,6 +229,10 @@ public class FunctionBallFragment extends Fragment {
             funcDesc = "锁屏";
         }else if (funcType == FuncConfigs.Func.SHOT_SCREEN.getValue()) {//app菜单
             funcDesc = "截屏";
+        }else if (funcType == FuncConfigs.Func.SHOW_APP.getValue()) {//app菜单
+            funcDesc = "显示APP";
+        }else if (funcType == FuncConfigs.Func.HIDE_FLOAT.getValue()) {//app菜单
+            funcDesc = "隐藏悬浮助手";
         }
         item.setValue(funcDesc);
     }

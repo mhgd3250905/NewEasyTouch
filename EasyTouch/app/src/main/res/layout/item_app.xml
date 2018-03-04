@@ -16,7 +16,8 @@
         android:layout_height="50dp" />
     <TextView
         android:id="@id/tv_item_app_name"
-        android:textSize="20sp"
+        android:textColor="@color/colorBlackBody"
+        android:textSize="15sp"
         android:layout_weight="1"
         android:gravity="center"
         android:text="微信"
