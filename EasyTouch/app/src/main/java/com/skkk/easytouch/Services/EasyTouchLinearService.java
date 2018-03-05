@@ -2177,7 +2177,7 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
 
         MyApplication.setTouchType(Configs.TouchType.NONE);
         //保存最后的Y坐标
-        SpUtils.saveFloat(getApplicationContext(),SpUtils.KEY_MOVE_LAST_Y,lastY);
+        SpUtils.saveFloat(getApplicationContext(),SpUtils.KEY_MOVE_LAST_Y,mParams.y);
 
 
         super.onDestroy();
