@@ -231,7 +231,7 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
 
         //设置悬浮窗的位置
         //获取上一次的Y位置
-        float saveLastY = SpUtils.getFloat(getApplicationContext(), SpUtils.KEY_MOVE_LAST_Y, screenHeight - dp2px(200f));
+        float saveLastY = SpUtils.getFloat(getApplicationContext(), SpUtils.KEY_MOVE_LAST_Y, screenHeight/2);
         mParams.x = directionX;
         mParams.y = (int) saveLastY;
 
@@ -796,10 +796,10 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
 
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
-//                Log.d(TAG, "onSingleTapUp() called with: e = [" + e + "]");
                 //震动30毫秒
                 vibrator.vibrate(vibrateLevel);
-                if (MyApplication.isSettingShape()) {
+                if (MyApplication.isSettingShape()
+                        &&SpUtils.getInt(getApplicationContext(), Configs.KEY_TOUCH_UI_THEME_HIDE, Configs.TOUCH_UI_THEME_HIDE_LINE_NONE)==Configs.TOUCH_UI_THEME_HIDE_LINE_NONE) {
                     sendShapeColorSettingBoardcast(Configs.LinearPos.TOP);
                 } else {
                     if (isMenuDetailShow) {
@@ -896,7 +896,8 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
             public boolean onSingleTapUp(MotionEvent e) {
                 //震动30毫秒
                 vibrator.vibrate(vibrateLevel);
-                if (MyApplication.isSettingShape()) {
+                if (MyApplication.isSettingShape()
+                        &&SpUtils.getInt(getApplicationContext(), Configs.KEY_TOUCH_UI_THEME_HIDE, Configs.TOUCH_UI_THEME_HIDE_LINE_NONE)==Configs.TOUCH_UI_THEME_HIDE_LINE_NONE) {
                     sendShapeColorSettingBoardcast(Configs.LinearPos.MID);
                 } else {
                     if (isMenuDetailShow) {
@@ -949,7 +950,8 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
             public boolean onSingleTapUp(MotionEvent e) {
                 //震动30毫秒
                 vibrator.vibrate(vibrateLevel);
-                if (MyApplication.isSettingShape()) {
+                if (MyApplication.isSettingShape()
+                        &&SpUtils.getInt(getApplicationContext(), Configs.KEY_TOUCH_UI_THEME_HIDE, Configs.TOUCH_UI_THEME_HIDE_LINE_NONE)==Configs.TOUCH_UI_THEME_HIDE_LINE_NONE) {
                     sendShapeColorSettingBoardcast(Configs.LinearPos.BOTTOM);
                 } else {
                     if (isMenuDetailShow) {

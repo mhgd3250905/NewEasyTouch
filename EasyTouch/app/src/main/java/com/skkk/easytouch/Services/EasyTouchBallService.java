@@ -245,7 +245,7 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
         }
 
         //获取上一次的Y位置
-        float saveLastY = SpUtils.getFloat(getApplicationContext(), SpUtils.KEY_MOVE_LAST_Y, screenHeight - dp2px(menuWidth));
+        float saveLastY = SpUtils.getFloat(getApplicationContext(), SpUtils.KEY_MOVE_LAST_Y, screenHeight);
         mParams.x = directionX;
         mParams.y = (int) saveLastY;
 
