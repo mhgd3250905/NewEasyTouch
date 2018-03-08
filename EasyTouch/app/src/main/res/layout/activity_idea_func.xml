@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg_light_gray_0"
+    android:fitsSystemWindows="true"
+    tools:context=".View.AboutActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@id/tb_about"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+        </android.support.design.widget.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_gray_border"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="持续更新，敬请期待..."
+                    android:textSize="12sp" />
+
+
+                <com.skkk.easytouch.View.SettingItemCheckableView
+                    android:id="@id/item_check_tick_light"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
+                    app:content="双击音量闪光灯"
+                    app:showCheckable="true"
+                    app:titleIcon="@drawable/idea_item_icon_tick_light"
+                    app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
+
+                <com.skkk.easytouch.View.SettingItemCheckableView
+                    android:id="@id/item_check_gravity_sensor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
+                    app:content="抬腕亮屏"
+                    app:showCheckable="true"
+                    app:titleIcon="@drawable/idea_item_icon_gravity_sensor"
+                    app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
+
+

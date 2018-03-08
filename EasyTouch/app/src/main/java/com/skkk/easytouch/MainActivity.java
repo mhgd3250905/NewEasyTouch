@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.TextView;
 
+import com.skkk.easytouch.IdeaFunc.IdeaFuncActivity;
 import com.skkk.easytouch.Receiver.AdminManageReceiver;
 import com.skkk.easytouch.Services.EasyTouchBallService;
 import com.skkk.easytouch.Services.EasyTouchLinearService;
@@ -101,7 +102,8 @@ public class MainActivity extends AppCompatActivity {
     SettingItemCheckableView itemCheckTypeBall;
     @Bind(R.id.item_check_type_linear)
     SettingItemCheckableView itemCheckTypeLinear;
-
+    @Bind(R.id.item_check_idea_func)
+    SettingItemCheckableView itemCheckIdeaFunc;
     /**
      * 包前缀
      */
@@ -503,6 +505,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //进入附加功能街界面
+        itemCheckIdeaFunc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, IdeaFuncActivity.class));
+            }
+        });
     }
 
 

@@ -179,4 +179,7 @@
     <item name="rb_hide_line_0" type="id">rb_hide_line_0</item>
     <item name="tv_item_show_app" type="id">tv_item_show_app</item>
     <item name="tv_item_hide_float" type="id">tv_item_hide_float</item>
+    <item name="item_check_idea_func" type="id">item_check_idea_func</item>
+    <item name="item_check_tick_light" type="id">item_check_tick_light</item>
+    <item name="item_check_gravity_sensor" type="id">item_check_gravity_sensor</item>
 </resources>

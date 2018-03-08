@@ -11,14 +11,20 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.hardware.display.VirtualDisplay;
 import android.media.AudioManager;
 import android.media.ImageReader;
 import android.media.projection.MediaProjection;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -108,6 +114,45 @@ public class EasyTouchBaseService extends Service {
     private VirtualDisplay mVirtualDisplay;
 
     private static Intent mResultData = null;
+    private long shakeTime;
+    private long showTime;
+    private SensorManager sensorManager;
+    private SensorEventListener sensorEventListener=new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            float[] values = event.values;
+            float x = values[0];//X轴方向的重力加速度，向右为正
+            float y = values[1];//Y轴方向的重力加速度，向前为正
+            float z = values[2];//Z轴方向的重力加速度，向上为正
+
+            int medumValue = 12;
+            //判断是否抬手
+            if (Math.abs(x) > medumValue || Math.abs(y) > medumValue
+                    || Math.abs(z) > medumValue) {
+                shakeTime = System.currentTimeMillis();
+            }
+
+            Log.i(TAG, String.format("X:%.2f Y:%.2f Z:%.2f",x,y,z));
+            if (z<9&&z>2&& -2 < x && x < 2 && 4 < y&&y<10) {
+
+
+                showTime=System.currentTimeMillis();
+                if (showTime-shakeTime>0&&showTime-shakeTime<500){
+                    Log.w(TAG, String.format("X:%.2f Y:%.2f Z:%.2f",x,y,z));
+
+                    shakeTime=0;
+                    wakeLock.acquire();
+                    wakeLock.release();
+                }
+            }
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
+    };;
+    private PowerManager.WakeLock wakeLock;
 
     @Override
     public void onCreate() {
@@ -159,6 +204,22 @@ public class EasyTouchBaseService extends Service {
 
         //设置剪贴板监听
 //        initClipBoard();
+
+        initSensorEvent();
+    }
+
+    /**
+     * 初始化重力感应
+     */
+    private void initSensorEvent() {
+
+
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        wakeLock = powerManager.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP
+                | PowerManager.SCREEN_DIM_WAKE_LOCK, "WakeLock");
+        Sensor accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorManager.registerListener(sensorEventListener, accelerometer, SensorManager.SENSOR_DELAY_UI);
     }
 
     /**
@@ -292,21 +353,20 @@ public class EasyTouchBaseService extends Service {
     }
 
 
-
     /**
      * 跳转到APP
      */
     protected void showApp() {
-        Intent intent=new Intent();
+        Intent intent = new Intent();
         intent.setClass(this, MainActivity.class);
         startActivity(intent);
 
     }
 
 
-        /**
-         * 截屏
-         */
+    /**
+     * 截屏
+     */
     protected void shotScreen() {
         if (ShotScreenUtils.checkServiceIsRun()) {
             Toast.makeText(this, "开始截屏", Toast.LENGTH_SHORT).show();
@@ -319,12 +379,14 @@ public class EasyTouchBaseService extends Service {
     /**
      * 隐藏悬浮窗并且显示通知
      */
-    protected void hideEasyTouchAndShowNotication(){
+    protected void hideEasyTouchAndShowNotication() {
         NotificationUtils.sendNotification(getApplicationContext());
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        sensorManager.unregisterListener(sensorEventListener);
     }
+
 }

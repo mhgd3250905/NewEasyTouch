@@ -74,6 +74,10 @@
             android:name=".View.FunctionSelect.FunctionSelectActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity
+            android:name=".IdeaFunc.IdeaFuncActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <!-- 适配Android7.0拍照 -->
         <provider
             android:name="android.support.v4.content.FileProvider"

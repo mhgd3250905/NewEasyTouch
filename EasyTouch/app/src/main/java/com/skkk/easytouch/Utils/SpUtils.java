@@ -23,6 +23,9 @@ public class SpUtils {
     public static final String KEY_MOVE_LAST_X="key_move_last_x";
     public static final String KEY_MOVE_LAST_Y="key_move_last_y";
 
+    public static final String KEY_IDEA_FUNC_TICK_LIGHT="key_idea_func_tick_light";
+    public static final String KEY_IDEA_FUNC_GRAVITY_SENSOR="key_idea_func_gravity_sensor";
+
     /**
      * 保存String
      *
