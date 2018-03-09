@@ -182,4 +182,6 @@
     <item name="item_check_idea_func" type="id">item_check_idea_func</item>
     <item name="item_check_tick_light" type="id">item_check_tick_light</item>
     <item name="item_check_gravity_sensor" type="id">item_check_gravity_sensor</item>
+    <item name="text_input_layout_item" type="id">text_input_layout_item</item>
+    <item name="iv_tip" type="id">iv_tip</item>
 </resources>

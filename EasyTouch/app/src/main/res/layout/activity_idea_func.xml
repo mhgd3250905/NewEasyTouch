@@ -50,6 +50,7 @@
 
 
                 <com.skkk.easytouch.View.SettingItemCheckableView
+                    app:showTip="true"
                     android:id="@id/item_check_tick_light"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -60,6 +61,7 @@
                     app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
 
                 <com.skkk.easytouch.View.SettingItemCheckableView
+                    app:showTip="true"
                     android:id="@id/item_check_gravity_sensor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

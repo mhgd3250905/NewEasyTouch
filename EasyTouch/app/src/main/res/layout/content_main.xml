@@ -240,7 +240,7 @@
                 android:layout_height="30dp"
                 android:layout_marginStart="10dp"
                 android:gravity="center|start"
-                android:text="白开水的试验田"
+                android:text="试验田"
                 android:textSize="12sp" />
 
             <View

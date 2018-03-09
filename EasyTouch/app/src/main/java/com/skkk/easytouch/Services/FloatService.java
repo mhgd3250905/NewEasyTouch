@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import android.view.accessibility.AccessibilityEvent;
 
 import com.skkk.easytouch.Utils.FlashLightUtils;
+import com.skkk.easytouch.Utils.SpUtils;
 
 import static android.content.ContentValues.TAG;
 
@@ -50,46 +51,50 @@ public class FloatService extends AccessibilityService {
 
     @Override
     protected boolean onKeyEvent(KeyEvent event) {
-        if (event.getAction() == KeyEvent.ACTION_DOWN) {
-            switch (event.getKeyCode()) {
-                case KeyEvent.KEYCODE_VOLUME_DOWN:
-                case KeyEvent.KEYCODE_VOLUME_UP:
-                    if (tickTimes == 0) {
-                        Log.i(TAG, "onKeyEvent: tickTimes:" + tickTimes);
-                        startTickTime = System.currentTimeMillis();
-                        tickTimes++;
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (tickTimes == 1) {
-                                    tickTimes = 0;
-                                    tickTimeGap = 0;
-                                }
-                            }
-                        }, 300);
-                    } else if (tickTimes == 1) {
-                        Log.i(TAG, "onKeyEvent: tickTimes:" + tickTimes);
-                        tickTimeGap = System.currentTimeMillis() - startTickTime;
-                        if (tickTimeGap < TICK_TIME_GAP) {
-                            FlashLightUtils.openFlashLight(getApplicationContext());
+        if (SpUtils.getBoolean(getApplicationContext(),SpUtils.KEY_IDEA_FUNC_TICK_LIGHT,false)) {
+            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                switch (event.getKeyCode()) {
+                    case KeyEvent.KEYCODE_VOLUME_DOWN:
+                    case KeyEvent.KEYCODE_VOLUME_UP:
+                        if (tickTimes == 0) {
+                            Log.i(TAG, "onKeyEvent: tickTimes:" + tickTimes);
+                            startTickTime = System.currentTimeMillis();
                             tickTimes++;
-                            Log.i(TAG, "openLight: tickTimes:" + tickTimes);
-                        } else {
-                            Log.i(TAG, "onKeyEvent: tickTimeGap:" + tickTimeGap);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (tickTimes == 1) {
+                                        tickTimes = 0;
+                                        tickTimeGap = 0;
+                                    }
+                                }
+                            }, 300);
+                        } else if (tickTimes == 1) {
+                            Log.i(TAG, "onKeyEvent: tickTimes:" + tickTimes);
+                            tickTimeGap = System.currentTimeMillis() - startTickTime;
+                            if (tickTimeGap < TICK_TIME_GAP) {
+                                FlashLightUtils.openFlashLight(getApplicationContext());
+                                tickTimes++;
+                                Log.i(TAG, "openLight: tickTimes:" + tickTimes);
+                            } else {
+                                Log.i(TAG, "onKeyEvent: tickTimeGap:" + tickTimeGap);
+                                tickTimes = 0;
+                                tickTimeGap = 0;
+                            }
+                        } else if (tickTimes == 2) {
+                            FlashLightUtils.closeFlashLight(getApplicationContext());
                             tickTimes = 0;
                             tickTimeGap = 0;
-                        }
-                    } else if (tickTimes == 2) {
-                        FlashLightUtils.closeFlashLight(getApplicationContext());
-                        tickTimes = 0;
-                        tickTimeGap = 0;
-                        Log.i(TAG, "closeLight: tickTimes:" + tickTimes);
+                            Log.i(TAG, "closeLight: tickTimes:" + tickTimes);
 
-                    }
-                    break;
-                default:
+                        }
+                        break;
+                    default:
+                }
             }
+            return super.onKeyEvent(event);
+        }else {
+            return super.onKeyEvent(event);
         }
-        return super.onKeyEvent(event);
     }
 }

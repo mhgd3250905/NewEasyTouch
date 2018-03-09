@@ -1,10 +1,9 @@
 package com.skkk.easytouch.Services;
 
 import android.accessibilityservice.AccessibilityService;
+import android.accessibilityservice.AccessibilityServiceInfo;
 import android.app.Service;
 import android.app.admin.DevicePolicyManager;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +27,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.Toast;
 
 import com.skkk.easytouch.Configs;
@@ -35,8 +35,12 @@ import com.skkk.easytouch.MainActivity;
 import com.skkk.easytouch.Receiver.AdminManageReceiver;
 import com.skkk.easytouch.Utils.NotificationUtils;
 import com.skkk.easytouch.Utils.ShotScreenUtils;
+import com.skkk.easytouch.Utils.SpUtils;
 import com.skkk.easytouch.View.AppSelect.AppSelectActivity;
+import com.skkk.easytouch.View.ClipsCollectionView;
 import com.skkk.easytouch.View.SoftInputListenerView;
+
+import java.util.List;
 
 import static com.skkk.easytouch.Configs.TOUCH_UI_DIRECTION_LEFT;
 import static com.skkk.easytouch.Utils.SpUtils.getInt;
@@ -117,7 +121,10 @@ public class EasyTouchBaseService extends Service {
     private long shakeTime;
     private long showTime;
     private SensorManager sensorManager;
-    private SensorEventListener sensorEventListener=new SensorEventListener() {
+    /**
+     * 处理重力感应监听
+     */
+    private SensorEventListener sensorEventListener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
             float[] values = event.values;
@@ -132,15 +139,15 @@ public class EasyTouchBaseService extends Service {
                 shakeTime = System.currentTimeMillis();
             }
 
-            Log.i(TAG, String.format("X:%.2f Y:%.2f Z:%.2f",x,y,z));
-            if (z<9&&z>2&& -2 < x && x < 2 && 4 < y&&y<10) {
+            Log.i(TAG, String.format("X:%.2f Y:%.2f Z:%.2f", x, y, z));
+            if (z < 9 && z > 2 && -2 < x && x < 2 && 4 < y && y < 10) {
 
 
-                showTime=System.currentTimeMillis();
-                if (showTime-shakeTime>0&&showTime-shakeTime<500){
-                    Log.w(TAG, String.format("X:%.2f Y:%.2f Z:%.2f",x,y,z));
+                showTime = System.currentTimeMillis();
+                if (showTime - shakeTime > 0 && showTime - shakeTime < 500) {
+                    Log.w(TAG, String.format("X:%.2f Y:%.2f Z:%.2f", x, y, z));
 
-                    shakeTime=0;
+                    shakeTime = 0;
                     wakeLock.acquire();
                     wakeLock.release();
                 }
@@ -151,8 +158,13 @@ public class EasyTouchBaseService extends Service {
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
         }
-    };;
+    };
+    ;
+    //亮屏
     private PowerManager.WakeLock wakeLock;
+    //剪贴板布局
+    private WindowManager.LayoutParams mClipsParam;
+    private ClipsCollectionView clipsCollectionView;
 
     @Override
     public void onCreate() {
@@ -205,6 +217,7 @@ public class EasyTouchBaseService extends Service {
         //设置剪贴板监听
 //        initClipBoard();
 
+        //初始化重力感应
         initSensorEvent();
     }
 
@@ -212,31 +225,42 @@ public class EasyTouchBaseService extends Service {
      * 初始化重力感应
      */
     private void initSensorEvent() {
-
-
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-        wakeLock = powerManager.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP
-                | PowerManager.SCREEN_DIM_WAKE_LOCK, "WakeLock");
-        Sensor accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorManager.registerListener(sensorEventListener, accelerometer, SensorManager.SENSOR_DELAY_UI);
+        if (SpUtils.getBoolean(getApplicationContext(), SpUtils.KEY_IDEA_FUNC_GRAVITY_SENSOR, false)) {
+            PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+            wakeLock = powerManager.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP
+                    | PowerManager.SCREEN_DIM_WAKE_LOCK, "WakeLock");
+            Sensor accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            sensorManager.registerListener(sensorEventListener, accelerometer, SensorManager.SENSOR_DELAY_UI);
+        } else {
+            sensorManager.unregisterListener(sensorEventListener);
+        }
     }
 
     /**
      * 设置剪贴板监听
      */
     private void initClipBoard() {
-        // 获取系统剪贴板
-        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        //设置悬浮窗的LP
+        mClipsParam = new WindowManager.LayoutParams();
+        mClipsParam.packageName = getPackageName();
+        mClipsParam.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        mClipsParam.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        mClipsParam.flags = WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR
+                | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
+        mClipsParam.type = WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;
+        mClipsParam.format = PixelFormat.RGBA_8888;
+        mClipsParam.gravity = Gravity.LEFT | Gravity.TOP;
 
-        // 获取剪贴板的剪贴数据集
-        ClipData clipData = clipboard.getPrimaryClip();
+        clipsCollectionView = new ClipsCollectionView(this);
+        ViewGroup.LayoutParams clipViewLp = new ViewGroup.LayoutParams(screenWidth*2/3,screenHeight/4);
+        clipsCollectionView.setLayoutParams(clipViewLp);
 
-        if (clipData != null && clipData.getItemCount() > 0) {
-            // 从数据集中获取（粘贴）第一条文本数据
-            CharSequence text = clipData.getItemAt(0).getText();
-            System.out.println("text: " + text);
-        }
+        mClipsParam.x=screenWidth/6;
+        mClipsParam.y=100;
+
+        windowManager.addView(clipsCollectionView,mClipsParam);
     }
 
     @Override
@@ -386,7 +410,25 @@ public class EasyTouchBaseService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        sensorManager.unregisterListener(sensorEventListener);
+    }
+
+    /**
+     * 判断是否存在置顶的无障碍服务
+     *
+     * @param name
+     * @return
+     */
+    public boolean isAccessibilityServiceRunning(String name) {
+        AccessibilityManager am = (AccessibilityManager) getSystemService(Context.ACCESSIBILITY_SERVICE);
+        List<AccessibilityServiceInfo> enableServices
+                = am.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC);
+        for (AccessibilityServiceInfo enableService : enableServices) {
+//            Log.i(TAG, "installService.id-->" + enableService.getId());
+            if (enableService.getId().endsWith(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

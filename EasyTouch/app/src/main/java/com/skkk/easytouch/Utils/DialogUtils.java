@@ -26,7 +26,7 @@ public class DialogUtils {
     public static AlertDialog createDialog(Context context, @DrawableRes int iconRes, String title, String message
             , String positiveTitle, DialogInterface.OnClickListener positiveClickListener,
                                            String negativeTitle, DialogInterface.OnClickListener negativeClickListener) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.AlertDialogCustom);
         builder.setIcon(iconRes);
         builder.setTitle(title);
         builder.setMessage(message);
@@ -39,7 +39,7 @@ public class DialogUtils {
     public static AlertDialog createImageDialog(Context context, @DrawableRes int iconRes, String title, String message
             ,@DrawableRes int messageImgRes, String positiveTitle, DialogInterface.OnClickListener positiveClickListener,
                                                 String negativeTitle, DialogInterface.OnClickListener negativeClickListener) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.AlertDialogCustom);
         builder.setIcon(iconRes);
         builder.setTitle(title);
         View messageView = LayoutInflater.from(context).inflate(R.layout.dialog_layout_image_content, null, false);

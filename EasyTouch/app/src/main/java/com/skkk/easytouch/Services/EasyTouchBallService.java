@@ -1,13 +1,11 @@
 package com.skkk.easytouch.Services;
 
-import android.accessibilityservice.AccessibilityServiceInfo;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.admin.DevicePolicyManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
@@ -25,7 +23,6 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.accessibility.AccessibilityManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
@@ -53,8 +50,6 @@ import com.skkk.easytouch.Utils.SpUtils;
 import com.skkk.easytouch.View.CircleImageView;
 import com.skkk.easytouch.View.FunctionSelect.FuncConfigs;
 import com.skkk.easytouch.View.SoftInputListenerView;
-
-import java.util.List;
 
 import static com.skkk.easytouch.Configs.DEFAULT_TOUCH_WIDTH_BALL;
 import static com.skkk.easytouch.Configs.DEFAULT_VIBRATE_LEVEL;
@@ -2393,24 +2388,7 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
         Toast.makeText(this, "请确认辅助功能是否开启！", Toast.LENGTH_SHORT).show();
     }
 
-    /**
-     * 判断是否存在置顶的无障碍服务
-     *
-     * @param name
-     * @return
-     */
-    public boolean isAccessibilityServiceRunning(String name) {
-        AccessibilityManager am = (AccessibilityManager) getSystemService(Context.ACCESSIBILITY_SERVICE);
-        List<AccessibilityServiceInfo> enableServices
-                = am.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC);
-        for (AccessibilityServiceInfo enableService : enableServices) {
-//            Log.i(TAG, "installService.id-->" + enableService.getId());
-            if (enableService.getId().endsWith(name)) {
-                return true;
-            }
-        }
-        return false;
-    }
+
 
     /**
      * 复写隐藏悬浮窗并发送广播方法：隐藏悬浮球

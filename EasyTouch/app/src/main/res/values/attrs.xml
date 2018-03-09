@@ -18,5 +18,6 @@
         <attr name="uncheckIcon" format="reference"/>
         <attr name="content" format="string"/>
         <attr name="showCheckable" format="boolean"/>
+        <attr name="showTip" format="boolean"/>
     </declare-styleable>
 </resources>

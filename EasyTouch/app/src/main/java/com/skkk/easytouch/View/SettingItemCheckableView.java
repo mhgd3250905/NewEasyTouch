@@ -33,6 +33,7 @@ public class SettingItemCheckableView extends RelativeLayout {
     private ImageView ivItem;
     private TextView tvItem;
     private ImageView ivCheckable;
+    private ImageView ivTip;
     /**
      * 选中时候的图片
      */
@@ -49,6 +50,7 @@ public class SettingItemCheckableView extends RelativeLayout {
      * 是否显示选择框
      */
     private boolean showCheckable = true;
+    private boolean showTip=false;
 
 
     public SettingItemCheckableView(Context context) {
@@ -75,6 +77,7 @@ public class SettingItemCheckableView extends RelativeLayout {
         ivItem = (ImageView) findViewById(R.id.iv_item);
         tvItem = (TextView) findViewById(R.id.tv_item);
         ivCheckable = (ImageView) findViewById(R.id.iv_checkable);
+        ivTip= (ImageView) findViewById(R.id.iv_tip);
 
         if (attrs != null) {
             TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.SettingItemCheckableView);
@@ -83,6 +86,7 @@ public class SettingItemCheckableView extends RelativeLayout {
             checkedRes = ta.getResourceId(R.styleable.SettingItemCheckableView_checkedIcon, R.drawable.main_item_conetnt_icon_checked);
             unCheckedRes = ta.getResourceId(R.styleable.SettingItemCheckableView_uncheckIcon, R.drawable.main_item_conetnt_icon_uncheck);
             showCheckable = ta.getBoolean(R.styleable.SettingItemCheckableView_showCheckable, true);
+            showTip = ta.getBoolean(R.styleable.SettingItemCheckableView_showTip, false);
             ta.recycle();
 
             tvItem.setText(content);
@@ -91,6 +95,7 @@ public class SettingItemCheckableView extends RelativeLayout {
         //设置选中图片
         ivCheckable.setImageResource(isChecked ? checkedRes : unCheckedRes);
         ivCheckable.setVisibility(showCheckable ? VISIBLE : GONE);
+        ivTip.setVisibility(showTip ? VISIBLE : GONE);
         initEvent();
     }
 
@@ -248,6 +253,16 @@ public class SettingItemCheckableView extends RelativeLayout {
         ivCheckable.setVisibility(showCheckable?VISIBLE:GONE);
     }
 
+    /**
+     * 设置警告未实现
+     * @param tipMessage
+     */
+    public void setTip(String tipMessage,OnClickListener onClickListener){
+        if (ivTip!=null) {
+            ivTip.setVisibility(VISIBLE);
+            ivTip.setOnClickListener(onClickListener);
+        }
+    }
 
 
 }

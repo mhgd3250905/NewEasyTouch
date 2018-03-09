@@ -1,5 +1,7 @@
 package com.skkk.easytouch.View;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,7 +24,7 @@ import butterknife.ButterKnife;
 public class ClipsCollectionView extends LinearLayout {
 
 
-    public final static String CLIP_SPLIT_FLAG="^&&$";
+    public final static String CLIP_SPLIT_FLAG="αβγ";
 
     private TextView tvClipsClear;
     private RecyclerView rvClip;
@@ -47,6 +49,8 @@ public class ClipsCollectionView extends LinearLayout {
     }
 
     private void initUI() {
+        initClipsListener();
+
         LayoutInflater.from(getContext()).inflate(R.layout.clip_layout_collection, this, true);
         tvClipsClear = (TextView) findViewById(R.id.tv_clips_clear);
         rvClip = (RecyclerView) findViewById(R.id.rv_clip);
@@ -55,6 +59,35 @@ public class ClipsCollectionView extends LinearLayout {
         adapter=new ClipAdapter(getContext(),getDefaultClipDate());
         rvClip.setLayoutManager(linearLayoutManager);
         rvClip.setAdapter(adapter);
+    }
+
+    /**
+     * 设置剪贴板监听
+     */
+    private void initClipsListener() {
+        // 获取系统剪贴板
+        final ClipboardManager clipboard = (ClipboardManager) getContext().getApplicationContext().getSystemService(Context.CLIPBOARD_SERVICE);
+
+        clipboard.addPrimaryClipChangedListener(new ClipboardManager.OnPrimaryClipChangedListener() {
+            @Override
+            public void onPrimaryClipChanged() {
+                // 获取剪贴板的剪贴数据集
+                ClipData clipData = clipboard.getPrimaryClip();
+
+                if (clipData != null && clipData.getItemCount() > 0) {
+                    // 从数据集中获取（粘贴）第一条文本数据
+                    CharSequence clip = clipData.getItemAt(0).getText();
+                    String saveClipContent = SpUtils.getString(getContext(), SpUtils.KEY_CLIPBOARD_CONTENT, "");
+                    if (saveClipContent.isEmpty()){
+                        SpUtils.saveString(getContext(), SpUtils.KEY_CLIPBOARD_CONTENT, clip.toString());
+                    }else {
+                        String newClip=clip.toString()+CLIP_SPLIT_FLAG+saveClipContent;
+                        SpUtils.saveString(getContext(),SpUtils.KEY_CLIPBOARD_CONTENT,newClip);
+                    }
+                }
+            }
+        });
+
     }
 
     /**
