@@ -18,12 +18,12 @@
 
 - 必须是可以自定义背景的；
 
-
-![微信图片_20180113190844](images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20180113190844.png)
-![微信图片_20180113190848](images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20180113190848.png)
-![微信图片_20180113190852](images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20180113190852.png)
-![微信图片_20180113190856](images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20180113190856.png)
-![微信图片_20180113191006](images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20180113191006.png)
+![easytouch_show_1](images/easytouch_show_1.png)
+![easytouch_show_2](images/easytouch_show_2.png)
+![easytouch_show_3](images/easytouch_show_3.png)
+![easytouch_show_4](images/easytouch_show_4.png)
+![easytouch_show_5](images/easytouch_show_5.png)
+![easytouch_show_6](images/easytouch_show_6.png)
 
 ---
  
@@ -41,6 +41,8 @@
 3.修复了部分机型在首次开启悬浮条/悬浮球出现闪退的bug；
 
 4.修复了功能设置界面，在切换菜单数量后子菜单功能显示异常bug；
+
+
 
 5.修复了悬浮条外观自定义界面出现悬浮条点击功能异常bug；
 
@@ -84,7 +86,7 @@
 
 7.新增了进入应用界面功能；
 
-### 2.0
+### 2.1
 1.加入试验田模块；
 
 2.加入双击音量打开手电功能；
