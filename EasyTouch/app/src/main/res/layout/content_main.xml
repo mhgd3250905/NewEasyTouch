@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.skkk.easytouch.View.ScaleScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_main"
@@ -12,512 +12,520 @@
     tools:context="com.skkk.easytouch.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <LinearLayout
+    <com.skkk.easytouch.View.ScaleScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_gray_border"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginStart="10dp"
-                android:gravity="center|start"
-                android:text="使用"
-                android:textSize="12sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_marginStart="10dp"
-                android:background="@color/main_bg_light_gray_1" />
-
-            <com.skkk.easytouch.View.SettingItemCheckableView
-                android:id="@id/item_check_touch_start"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
-                app:content="开启悬浮助手"
-                app:showCheckable="false"
-                app:titleIcon="@drawable/mian_item_title_icon_touch"
-                app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:layout_marginTop="10dp"
-            android:background="@drawable/bg_gray_border"
             android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginStart="10dp"
-                android:gravity="center|start"
-                android:text="功能权限"
-                android:textSize="12sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_marginStart="10dp"
-                android:background="@color/main_bg_light_gray_1" />
-
-            <com.skkk.easytouch.View.SettingItemCheckableView
-                android:id="@id/item_check_touch_permissions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
-                app:content="悬浮窗权限"
-                app:titleIcon="@drawable/mian_item_title_icon_touch"
-                app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_marginStart="40dp"
-                android:background="@color/main_bg_light_gray_1"
-                android:visibility="gone" />
-
-            <com.skkk.easytouch.View.SettingItemCheckableView
-                android:id="@id/item_check_accessable_permissions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
-                app:content="辅助功能"
-                app:titleIcon="@drawable/main_item_title_icon_access"
-                app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_marginStart="40dp"
-                android:background="@color/main_bg_light_gray_1" />
-
-            <com.skkk.easytouch.View.SettingItemCheckableView
-                android:id="@id/item_check_lock_permissions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
-                app:content="锁屏功能"
-                app:titleIcon="@drawable/main_item_title_icon_lock"
-                app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_marginStart="40dp"
-                android:background="@color/main_bg_light_gray_1" />
-
-            <com.skkk.easytouch.View.SettingItemCheckableView
-                android:id="@id/item_check_shotscreen_permissions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
-                app:content="截屏功能"
-                app:titleIcon="@drawable/mian_item_title_icon_shotscreen"
-                app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/bg_gray_border"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginStart="10dp"
-                android:gravity="center|start"
-                android:text="悬浮类型"
-                android:textSize="12sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_marginStart="10dp"
-                android:background="@color/main_bg_light_gray_1" />
-
-            <com.skkk.easytouch.View.SettingItemCheckableView
-                android:id="@id/item_check_type_linear"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
-                app:content="悬浮条"
-                app:showCheckable="false"
-                app:titleIcon="@drawable/main_item_title_icon_linear"
-                app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_marginStart="40dp"
-                android:background="@color/main_bg_light_gray_1" />
-
-            <com.skkk.easytouch.View.SettingItemCheckableView
-                android:id="@id/item_check_type_ball"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
-                app:content="悬浮球"
-                app:showCheckable="false"
-                app:titleIcon="@drawable/main_item_title_icon_ball"
-                app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/bg_gray_border"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginStart="10dp"
-                android:gravity="center|start"
-                android:text="自定义"
-                android:textSize="12sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_marginStart="10dp"
-                android:background="@color/main_bg_light_gray_1" />
-
-            <com.skkk.easytouch.View.SettingItemCheckableView
-                android:id="@id/item_check_shape_setting"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
-                app:content="外观设置"
-                app:showCheckable="false"
-                app:titleIcon="@drawable/main_item_title_icon_shape"
-                app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_marginStart="40dp"
-                android:background="@color/main_bg_light_gray_1" />
-
-            <com.skkk.easytouch.View.SettingItemCheckableView
-                android:id="@id/item_check_func_setting"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
-                app:content="功能设置"
-                app:showCheckable="false"
-                app:titleIcon="@drawable/main_item_title_icon_func"
-                app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/bg_gray_border"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginStart="10dp"
-                android:gravity="center|start"
-                android:text="试验田"
-                android:textSize="12sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_marginStart="10dp"
-                android:background="@color/main_bg_light_gray_1" />
-
-            <com.skkk.easytouch.View.SettingItemCheckableView
-                android:id="@id/item_check_idea_func"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
-                app:content="附加功能"
-                app:showCheckable="false"
-                app:titleIcon="@drawable/main_item_icon_idea"
-                app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/bg_gray_border"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginStart="10dp"
-                android:gravity="center|start"
-                android:text="其他"
-                android:textSize="12sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_marginStart="10dp"
-                android:background="@color/main_bg_light_gray_1" />
-
-            <com.skkk.easytouch.View.SettingItemCheckableView
-                android:id="@id/item_check_about_setting"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
-                app:content="关于本应用"
-                app:showCheckable="false"
-                app:titleIcon="@drawable/main_item_title_icon_about"
-                app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
-        </LinearLayout>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@color/colorPrimary"
-            android:visibility="gone"
-            app:cardCornerRadius="5dp"
-            app:cardElevation="1.5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:background="@drawable/bg_gray_border"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
+                    android:gravity="center|start"
+                    android:text="使用"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/main_bg_light_gray_1" />
+
+                <com.skkk.easytouch.View.SettingItemCheckableView
+                    android:id="@id/item_check_touch_start"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
+                    app:content="开启悬浮助手"
+                    app:showCheckable="false"
+                    app:titleIcon="@drawable/mian_item_title_icon_touch"
+                    app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_gray_border"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center|start"
                     android:text="功能权限"
-                    android:textColor="@color/colorBlackBody"
-                    android:textSize="30sp"
-                    android:textStyle="bold" />
+                    android:textSize="12sp" />
 
-                <com.skkk.easytouch.View.SettingItemView
-                    android:id="@id/settings_item_float"
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/main_bg_light_gray_1" />
+
+                <com.skkk.easytouch.View.SettingItemCheckableView
+                    android:id="@id/item_check_touch_permissions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    app:title="悬浮窗权限"
-                    app:value="未打开" />
+                    android:visibility="gone"
+                    app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
+                    app:content="悬浮窗权限"
+                    app:titleIcon="@drawable/mian_item_title_icon_touch"
+                    app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
 
-                <com.skkk.easytouch.View.SettingItemView
-                    android:id="@id/settings_item_assist"
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginStart="40dp"
+                    android:background="@color/main_bg_light_gray_1"
+                    android:visibility="gone" />
+
+                <com.skkk.easytouch.View.SettingItemCheckableView
+                    android:id="@id/item_check_accessable_permissions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    app:title="辅助功能"
-                    app:value="未打开" />
+                    app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
+                    app:content="辅助功能"
+                    app:titleIcon="@drawable/main_item_title_icon_access"
+                    app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
 
-                <com.skkk.easytouch.View.SettingItemView
-                    android:id="@id/settings_item_lock"
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginStart="40dp"
+                    android:background="@color/main_bg_light_gray_1" />
+
+                <com.skkk.easytouch.View.SettingItemCheckableView
+                    android:id="@id/item_check_lock_permissions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    app:title="锁屏功能"
-                    app:value="未开启" />
+                    app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
+                    app:content="锁屏功能"
+                    app:titleIcon="@drawable/main_item_title_icon_lock"
+                    app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
 
-                <com.skkk.easytouch.View.SettingItemView
-                    android:id="@id/settings_item_shot"
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginStart="40dp"
+                    android:background="@color/main_bg_light_gray_1" />
+
+                <com.skkk.easytouch.View.SettingItemCheckableView
+                    android:id="@id/item_check_shotscreen_permissions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    app:title="截屏功能"
-                    app:value="未开启" />
-
-
+                    app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
+                    app:content="截屏功能"
+                    app:titleIcon="@drawable/mian_item_title_icon_shotscreen"
+                    app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
             </LinearLayout>
-
-        </android.support.v7.widget.CardView>
-
-
-        <!--<ImageView-->
-        <!--android:scaleType="fitXY"-->
-        <!--android:src="@drawable/mian_title_custom"-->
-        <!--android:layout_width="141dp"-->
-        <!--android:layout_height="50dp" />-->
-
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@color/colorPrimary"
-            android:visibility="gone"
-            app:cardCornerRadius="5dp"
-            app:cardElevation="1.5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_gray_border"
                 android:orientation="vertical">
 
+
                 <TextView
-                    android:id="@+id/textView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
+                    android:gravity="center|start"
+                    android:text="悬浮类型"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/main_bg_light_gray_1" />
+
+                <com.skkk.easytouch.View.SettingItemCheckableView
+                    android:id="@id/item_check_type_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
+                    app:content="悬浮条"
+                    app:showCheckable="false"
+                    app:titleIcon="@drawable/main_item_title_icon_linear"
+                    app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginStart="40dp"
+                    android:background="@color/main_bg_light_gray_1" />
+
+                <com.skkk.easytouch.View.SettingItemCheckableView
+                    android:id="@id/item_check_type_ball"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
+                    app:content="悬浮球"
+                    app:showCheckable="false"
+                    app:titleIcon="@drawable/main_item_title_icon_ball"
+                    app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_gray_border"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center|start"
                     android:text="自定义"
-                    android:textColor="@color/colorBlackBody"
-                    android:textSize="30sp"
-                    android:textStyle="bold" />
+                    android:textSize="12sp" />
 
-                <com.skkk.easytouch.View.SettingItemView
-                    android:id="@id/settings_item_shape"
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/main_bg_light_gray_1" />
+
+                <com.skkk.easytouch.View.SettingItemCheckableView
+                    android:id="@id/item_check_shape_setting"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    app:title="外观设置"
-                    app:value="点击设置" />
+                    app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
+                    app:content="外观设置"
+                    app:showCheckable="false"
+                    app:titleIcon="@drawable/main_item_title_icon_shape"
+                    app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
 
-                <com.skkk.easytouch.View.SettingItemView
-                    android:id="@id/settings_item_func"
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginStart="40dp"
+                    android:background="@color/main_bg_light_gray_1" />
+
+                <com.skkk.easytouch.View.SettingItemCheckableView
+                    android:id="@id/item_check_func_setting"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    app:title="功能设置"
-                    app:value="点击设置" />
-
+                    app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
+                    app:content="功能设置"
+                    app:showCheckable="false"
+                    app:titleIcon="@drawable/main_item_title_icon_func"
+                    app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
             </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@color/colorPrimary"
-            android:visibility="gone"
-            app:cardCornerRadius="5dp"
-            app:cardElevation="1.5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_gray_border"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="其他"
-                    android:textColor="@color/colorBlackBody"
-                    android:textSize="30sp"
-                    android:textStyle="bold" />
+                    android:gravity="center|start"
+                    android:text="试验田"
+                    android:textSize="12sp" />
 
-                <com.skkk.easytouch.View.SettingItemView
-                    android:id="@id/settings_item_about"
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/main_bg_light_gray_1" />
+
+                <com.skkk.easytouch.View.SettingItemCheckableView
+                    android:id="@id/item_check_idea_func"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    app:title="关于本应用"
-                    app:value="点击了解" />
-
-
+                    app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
+                    app:content="附加功能"
+                    app:showCheckable="false"
+                    app:titleIcon="@drawable/main_item_icon_idea"
+                    app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
             </LinearLayout>
 
-        </android.support.v7.widget.CardView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_gray_border"
+                android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center|start"
+                    android:text="其他"
+                    android:textSize="12sp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/main_bg_light_gray_1" />
+
+                <com.skkk.easytouch.View.SettingItemCheckableView
+                    android:id="@id/item_check_about_setting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
+                    app:content="关于本应用"
+                    app:showCheckable="false"
+                    app:titleIcon="@drawable/main_item_title_icon_about"
+                    app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:visibility="invisible"></LinearLayout>
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:layout_weight="1"
                 android:background="@color/colorPrimary"
+                android:visibility="gone"
                 app:cardCornerRadius="5dp"
                 app:cardElevation="1.5dp">
 
-                <TextView
-                    android:id="@id/btn_touch_line"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="悬浮条"
-                    android:textColor="@color/colorBlackBody"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="功能权限"
+                        android:textColor="@color/colorBlackBody"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
+
+                    <com.skkk.easytouch.View.SettingItemView
+                        android:id="@id/settings_item_float"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        app:title="悬浮窗权限"
+                        app:value="未打开" />
+
+                    <com.skkk.easytouch.View.SettingItemView
+                        android:id="@id/settings_item_assist"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        app:title="辅助功能"
+                        app:value="未打开" />
+
+                    <com.skkk.easytouch.View.SettingItemView
+                        android:id="@id/settings_item_lock"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        app:title="锁屏功能"
+                        app:value="未开启" />
+
+                    <com.skkk.easytouch.View.SettingItemView
+                        android:id="@id/settings_item_shot"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        app:title="截屏功能"
+                        app:value="未开启" />
+
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+
+            <!--<ImageView-->
+            <!--android:scaleType="fitXY"-->
+            <!--android:src="@drawable/mian_title_custom"-->
+            <!--android:layout_width="141dp"-->
+            <!--android:layout_height="50dp" />-->
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/colorPrimary"
+                android:visibility="gone"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="1.5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="自定义"
+                        android:textColor="@color/colorBlackBody"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
+
+                    <com.skkk.easytouch.View.SettingItemView
+                        android:id="@id/settings_item_shape"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        app:title="外观设置"
+                        app:value="点击设置" />
+
+                    <com.skkk.easytouch.View.SettingItemView
+                        android:id="@id/settings_item_func"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        app:title="功能设置"
+                        app:value="点击设置" />
+
+                </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:layout_weight="1"
                 android:background="@color/colorPrimary"
+                android:visibility="gone"
                 app:cardCornerRadius="5dp"
                 app:cardElevation="1.5dp">
 
-                <TextView
-                    android:id="@id/btn_touch_ball"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="其他"
+                        android:textColor="@color/colorBlackBody"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
+
+                    <com.skkk.easytouch.View.SettingItemView
+                        android:id="@id/settings_item_about"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        app:title="关于本应用"
+                        app:value="点击了解" />
+
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="悬浮球"
-                    android:textColor="@color/colorBlackBody"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-            </android.support.v7.widget.CardView>
+                    android:background="@color/colorPrimary"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="1.5dp">
+
+                    <TextView
+                        android:id="@id/btn_touch_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="悬浮条"
+                        android:textColor="@color/colorBlackBody"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="1.5dp">
+
+                    <TextView
+                        android:id="@id/btn_touch_ball"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="悬浮球"
+                        android:textColor="@color/colorBlackBody"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
         </LinearLayout>
-
-
-    </LinearLayout>
-</com.skkk.easytouch.View.ScaleScrollView>
+    </com.skkk.easytouch.View.ScaleScrollView>
+</android.support.design.widget.CoordinatorLayout>

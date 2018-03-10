@@ -23,7 +23,6 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -139,13 +138,13 @@ public class EasyTouchBaseService extends Service {
                 shakeTime = System.currentTimeMillis();
             }
 
-            Log.i(TAG, String.format("X:%.2f Y:%.2f Z:%.2f", x, y, z));
+//            Log.i(TAG, String.format("X:%.2f Y:%.2f Z:%.2f", x, y, z));
             if (z < 9 && z > 2 && -2 < x && x < 2 && 4 < y && y < 10) {
 
 
                 showTime = System.currentTimeMillis();
                 if (showTime - shakeTime > 0 && showTime - shakeTime < 500) {
-                    Log.w(TAG, String.format("X:%.2f Y:%.2f Z:%.2f", x, y, z));
+//                    Log.w(TAG, String.format("X:%.2f Y:%.2f Z:%.2f", x, y, z));
 
                     shakeTime = 0;
                     wakeLock.acquire();

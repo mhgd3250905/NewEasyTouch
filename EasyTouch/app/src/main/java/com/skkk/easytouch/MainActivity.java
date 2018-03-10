@@ -38,7 +38,6 @@ import com.skkk.easytouch.Utils.SpUtils;
 import com.skkk.easytouch.View.AboutActivity;
 import com.skkk.easytouch.View.FunctionSelect.FuncConfigs;
 import com.skkk.easytouch.View.FunctionSelect.FunctionSelectActivity;
-import com.skkk.easytouch.View.ScaleScrollView;
 import com.skkk.easytouch.View.SettingItemCheckableView;
 import com.skkk.easytouch.View.SettingItemView;
 import com.skkk.easytouch.View.ShapeSetting.ShapeSettingActivity;
@@ -76,8 +75,6 @@ public class MainActivity extends AppCompatActivity {
     TextView btnTouchLine;
     @Bind(R.id.btn_touch_ball)
     TextView btnTouchBall;
-    @Bind(R.id.content_main)
-    ScaleScrollView contentMain;
     @Bind(settings_item_about)
     SettingItemView settingsItemAbout;
     @Bind(R.id.settings_item_shot)

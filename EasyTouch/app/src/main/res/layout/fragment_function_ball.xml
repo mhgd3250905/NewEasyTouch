@@ -1,10 +1,14 @@
-<com.skkk.easytouch.View.ScaleScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_bg_light_gray_0"
     tools:context="com.skkk.easytouch.View.FunctionSelect.FunctionBallFragment">
+
+    <com.skkk.easytouch.View.ScaleScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -125,4 +129,5 @@
         </LinearLayout>
 
     </LinearLayout>
-</com.skkk.easytouch.View.ScaleScrollView>
+    </com.skkk.easytouch.View.ScaleScrollView>
+</android.support.design.widget.CoordinatorLayout>

@@ -20,4 +20,5 @@
     <string name="dialog_button_jump_setting">前往设置</string>
     <string name="dialog_button_forget_it">算了</string>
     <string name="version_update_content">更新日志：\n\n1.获得了全新的UI界面；\n2.将软键盘弹出时悬浮球避开动作修改为隐藏；\n3.新增了更新内容提示窗；\n4.新增了简单的新手指引；\n5.新增了悬浮助手位置固定功能；\n6.新增了暂时隐藏悬浮助手功能；\n7.新增了进入应用界面功能；</string>
+    <string name="app_github">本App全部代码托管于Github开源，如有侵权（不太可能吧）等问题，请通过上方联系方式告知开发者，感谢！</string>
 </resources>

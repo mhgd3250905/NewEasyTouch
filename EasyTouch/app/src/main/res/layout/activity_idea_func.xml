@@ -42,12 +42,17 @@
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
+                    android:gravity="center|start"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
                     android:text="持续更新，敬请期待..."
                     android:textSize="12sp" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/main_bg_light_gray_1" />
 
                 <com.skkk.easytouch.View.SettingItemCheckableView
                     app:showTip="true"
@@ -59,6 +64,13 @@
                     app:showCheckable="true"
                     app:titleIcon="@drawable/idea_item_icon_tick_light"
                     app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginStart="40dp"
+                    android:background="@color/main_bg_light_gray_1"
+                    android:visibility="gone" />
 
                 <com.skkk.easytouch.View.SettingItemCheckableView
                     app:showTip="true"
