@@ -93,6 +93,7 @@
 
 3.加入抬腕亮屏功能；
 
-
+### 2.2
+1.修复部分机型后台退出后出现显示异常bug；
 
 [点击进入下载页面](https://www.coolapk.com/apk/com.skkk.easytouch)

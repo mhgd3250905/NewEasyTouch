@@ -286,7 +286,6 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
         ivMenuDetailAppBack = (ImageView) menuDetailView.findViewById(R.id.iv_menu_detail_app_back);
         containerMenuDetailAppsContent = (GridLayout) menuDetailView.findViewById(R.id.container_ball_menu_detail_app_content);
 
-        windowManager.addView(touchView, mParams);
         isTouchShow = true;
         initShotScreenEvent();
     }
@@ -1107,7 +1106,8 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
                 if (!canMove) {
                     canMove = true;
                     if (!isMenuShow) {
-                        showMenuContainer();
+                        goOpEvent(FuncConfigs.VALUE_FUNC_OP_LONG_CLICK);
+//                        showMenuContainer();
                     }
                 }
                 return false;
@@ -2017,6 +2017,13 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        try {
+            windowManager.addView(touchView, mParams);
+        }catch (Exception e){
+            Log.i(TAG, "addView: view已经存在");
+        }
+
+
         //设置是否固定位置
         touchFreeze = SpUtils.getBoolean(getApplicationContext(), Configs.KEY_TOUCH_UI_POS_BALL_FREEZE, false);
 

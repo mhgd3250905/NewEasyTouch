@@ -301,7 +301,6 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
         containerMenuDetailAppsContent = (GridLayout) menuDetailView.findViewById(R.id.container_ball_menu_detail_app_content);
 
 
-        windowManager.addView(touchView, mParams);
         isTouchShow = true;
         initShotScreenEvent();
     }
@@ -1592,6 +1591,11 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        try {
+            windowManager.addView(touchView, mParams);
+        }catch (Exception e){
+            Log.i(TAG, "addView: view已经存在");
+        }
         //设置固定位置
         touchFreeze = SpUtils.getBoolean(getApplicationContext(), Configs.KEY_TOUCH_UI_POS_LINEAR_FREEZE, false);
         //设置悬浮类型
