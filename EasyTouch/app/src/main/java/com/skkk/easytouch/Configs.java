@@ -167,4 +167,19 @@ public class Configs {
      * 广播Action，显示悬浮窗
      */
     public static final String ACTION_SHOW_FLOAT="com.skkk.easytouch.action_show_float";
+
+    /**
+     * 悬浮条悬浮球在横屏时隐藏
+     */
+    public static final String KEY_TOUCH_LANDSCAPE_HIDE="key_touch_landscape_hide";
+
+    /**
+     * 悬浮球躲避功能
+     */
+    public static final String KEY_TOUCH_BALL_AUTO_HIDE="key_touch_ball_auto_hide";
+
+    /**
+     * 开机启动
+     */
+    public static final String KEY_BOOT_START="key_boot_start";
 }

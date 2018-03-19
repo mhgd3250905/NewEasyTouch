@@ -10,124 +10,134 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
         <LinearLayout
-            android:layout_marginTop="10dp"
-            android:background="@drawable/bg_gray_border"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:text="悬浮球"
-                android:textSize="12sp" />
 
-            <com.skkk.easytouch.View.SettingItemView
-                android:id="@id/siv_function_click"
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_gray_border"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                app:title="单击"
-                app:value="返回" />
+                android:layout_gravity="center"
+                android:orientation="vertical">
 
-            <com.skkk.easytouch.View.SettingItemView
-                android:id="@id/siv_function_long_click"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="悬浮球"
+                    android:textSize="12sp" />
+
+                <com.skkk.easytouch.View.SettingItemView
+                    android:id="@id/siv_function_click"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    app:title="单击"
+                    app:value="返回" />
+
+                <com.skkk.easytouch.View.SettingItemView
+                    android:id="@id/siv_function_double_click"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    app:title="双击"
+                    app:value="锁屏" />
+
+                <com.skkk.easytouch.View.SettingItemView
+                    android:id="@id/siv_function_long_click"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    app:title="长按"
+                    app:value="二级菜单" />
+
+                <com.skkk.easytouch.View.SettingItemView
+                    android:id="@id/siv_function_touch_left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    app:title="左滑"
+                    app:value="未开启" />
+
+                <com.skkk.easytouch.View.SettingItemView
+                    android:id="@id/siv_function_touch_right"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    app:title="右滑"
+                    app:value="主页" />
+
+                <com.skkk.easytouch.View.SettingItemView
+                    android:id="@id/siv_function_touch_up"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    app:title="上滑"
+                    app:value="最近任务" />
+
+                <com.skkk.easytouch.View.SettingItemView
+                    android:id="@id/siv_function_touch_down"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    app:title="下滑"
+                    app:value="通知栏" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:id="@id/container_function_menu_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                app:title="长按"
-                app:value="二级菜单" />
+                android:layout_gravity="center"
+                android:background="@drawable/bg_gray_border"
+                android:orientation="vertical">
 
-            <com.skkk.easytouch.View.SettingItemView
-                android:id="@id/siv_function_touch_left"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                app:title="左滑"
-                app:value="未开启" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="菜单"
+                    android:textSize="12sp" />
 
-            <com.skkk.easytouch.View.SettingItemView
-                android:id="@id/siv_function_touch_right"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                app:title="右滑"
-                app:value="主页" />
-
-            <com.skkk.easytouch.View.SettingItemView
-                android:id="@id/siv_function_touch_up"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                app:title="上滑"
-                app:value="最近任务" />
-
-            <com.skkk.easytouch.View.SettingItemView
-                android:id="@id/siv_function_touch_down"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                app:title="下滑"
-                app:value="通知栏" />
+                <com.skkk.easytouch.View.SettingItemView
+                    android:id="@id/siv_function_menu_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    app:title="菜单数量"
+                    app:value="当前菜单元素：1" />
+            </LinearLayout>
 
         </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_marginTop="10dp"
-            android:id="@id/container_function_menu_number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/bg_gray_border"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:text="菜单"
-                android:textSize="12sp" />
-
-            <com.skkk.easytouch.View.SettingItemView
-                android:id="@id/siv_function_menu_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                app:title="菜单数量"
-                app:value="当前菜单元素：1" />
-        </LinearLayout>
-
-    </LinearLayout>
     </com.skkk.easytouch.View.ScaleScrollView>
 </android.support.design.widget.CoordinatorLayout>

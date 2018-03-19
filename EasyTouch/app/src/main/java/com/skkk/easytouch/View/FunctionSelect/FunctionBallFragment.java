@@ -45,6 +45,8 @@ public class FunctionBallFragment extends Fragment {
     SettingItemView sivFunctionMenuNumber;
     @Bind(R.id.container_function_menu_number)
     LinearLayout containerFunctionMenuNumber;
+    @Bind(R.id.siv_function_double_click)
+    SettingItemView sivFunctionDoubleClick;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -103,6 +105,7 @@ public class FunctionBallFragment extends Fragment {
      */
     public void initUI() {
         setItemDesc(FuncConfigs.VALUE_FUNC_OP_CLICK, sivFunctionClick);
+        setItemDesc(FuncConfigs.VALUE_FUNC_OP_DOUBLE_CLICK, sivFunctionDoubleClick);
         setItemDesc(FuncConfigs.VALUE_FUNC_OP_LONG_CLICK, sivFunctionLongClick);
         setItemDesc(FuncConfigs.VALUE_FUNC_OP_FLING_UP, sivFunctionTouchUp);
         setItemDesc(FuncConfigs.VALUE_FUNC_OP_FLING_LEFT, sivFunctionTouchLeft);
@@ -263,12 +266,15 @@ public class FunctionBallFragment extends Fragment {
      *
      * @param view
      */
-    @OnClick({R.id.siv_function_click, R.id.siv_function_long_click, R.id.siv_function_touch_left, R.id.siv_function_touch_right, R.id.siv_function_touch_up, R.id.siv_function_touch_down, R.id.siv_function_menu_number})
+    @OnClick({R.id.siv_function_click,R.id.siv_function_double_click, R.id.siv_function_long_click, R.id.siv_function_touch_left, R.id.siv_function_touch_right, R.id.siv_function_touch_up, R.id.siv_function_touch_down, R.id.siv_function_menu_number})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.siv_function_click:
                 intent.putExtra(FuncConfigs.KEY_FUNC_OP, FuncConfigs.VALUE_FUNC_OP_CLICK);
+                break;
+            case R.id.siv_function_double_click:
+                intent.putExtra(FuncConfigs.KEY_FUNC_OP, FuncConfigs.VALUE_FUNC_OP_DOUBLE_CLICK);
                 break;
             case R.id.siv_function_long_click:
                 intent.putExtra(FuncConfigs.KEY_FUNC_OP, FuncConfigs.VALUE_FUNC_OP_LONG_CLICK);

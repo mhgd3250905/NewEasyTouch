@@ -400,6 +400,10 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
             if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
 
                 //横屏
+                if (needLandscapeHide) {
+                    hideEasyTouchAndShowNotication();
+                }
+
                 // 1.获取当前的位置
                 rightBorder = Math.max(screenWidth, screenHeight);
 
@@ -430,6 +434,15 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
 
             } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 //竖屏
+
+                if (needLandscapeHide) {
+                    try {
+                        windowManager.addView(touchView, mParams);
+                        isTouchShow = true;
+                    } catch (Exception e) {
+                        Log.i(TAG, "addView: view已经存在");
+                    }
+                }
 
                 rightBorder = Math.min(screenWidth, screenHeight);
 
@@ -1117,7 +1130,10 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
 
         touchView.setOnTouchListener(this);
 
-        ballDetector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
+
+
+
+        ballDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onDown(MotionEvent e) {
                 Log.i(TAG, "onDown: ");
@@ -1144,6 +1160,14 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
                 }
                 showTouchBallClickAnim();
                 return false;
+            }
+
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                Log.i(TAG, "onDoubleTap() called with: e = [" + e + "]");
+                goOpEvent(FuncConfigs.VALUE_FUNC_OP_DOUBLE_CLICK);
+
+                return super.onDoubleTap(e);
             }
 
             @Override
@@ -1213,9 +1237,12 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
 
                 return false;
             }
+
+
         });
 
         ballDetector.setIsLongpressEnabled(false);
+
 
     }
 
@@ -1948,7 +1975,10 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
             handler.removeCallbacks(pressRunnable);
             handler.postDelayed(pressRunnable, 1000);
             handler.removeCallbacks(hideRunnable);
-            handler.postDelayed(hideRunnable, 3000);
+            //根据设置判断是否需要进行悬浮球自动异常
+            if(SpUtils.getBoolean(getApplicationContext(),Configs.KEY_TOUCH_BALL_AUTO_HIDE,false)) {
+                handler.postDelayed(hideRunnable, 3000);
+            }
         }
 
     }
@@ -2017,8 +2047,10 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
         try {
             windowManager.addView(touchView, mParams);
+            isTouchShow = true;
         }catch (Exception e){
             Log.i(TAG, "addView: view已经存在");
         }
@@ -2100,9 +2132,9 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
                 mParams.x = (int) animX;
                 windowManager.updateViewLayout(touchView, mParams);
                 if (isFinalLeft) {
-                    Log.i(TAG, "mParams.x: " + mParams.x);
+//                    Log.i(TAG, "mParams.x: " + mParams.x);
                 } else {
-                    Log.i(TAG, "mParams.x: " + (rightBorder - dp2px(touchWidth) - mParams.x));
+//                    Log.i(TAG, "mParams.x: " + (rightBorder - dp2px(touchWidth) - mParams.x));
                 }
 
             }

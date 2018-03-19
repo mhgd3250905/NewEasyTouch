@@ -24,7 +24,6 @@ import android.view.View;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.TextView;
 
-import com.skkk.easytouch.IdeaFunc.IdeaFuncActivity;
 import com.skkk.easytouch.Receiver.AdminManageReceiver;
 import com.skkk.easytouch.Services.EasyTouchBallService;
 import com.skkk.easytouch.Services.EasyTouchLinearService;
@@ -36,8 +35,9 @@ import com.skkk.easytouch.Utils.ServiceUtils;
 import com.skkk.easytouch.Utils.ShotScreenUtils;
 import com.skkk.easytouch.Utils.SpUtils;
 import com.skkk.easytouch.View.AboutActivity;
+import com.skkk.easytouch.View.FuncSetting.FuncAllActivity;
 import com.skkk.easytouch.View.FunctionSelect.FuncConfigs;
-import com.skkk.easytouch.View.FunctionSelect.FunctionSelectActivity;
+import com.skkk.easytouch.View.IdeaFunc.IdeaFuncActivity;
 import com.skkk.easytouch.View.SettingItemCheckableView;
 import com.skkk.easytouch.View.SettingItemView;
 import com.skkk.easytouch.View.ShapeSetting.ShapeSettingActivity;
@@ -184,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
         if (isFirstRun) {
             //设置第一次进入时候的悬浮球、悬浮条、二级菜单功能
             SpUtils.saveInt(getApplicationContext(), FuncConfigs.VALUE_FUNC_OP_CLICK, FuncConfigs.Func.BACK.getValue());
+            SpUtils.saveInt(getApplicationContext(), FuncConfigs.VALUE_FUNC_OP_DOUBLE_CLICK, FuncConfigs.Func.LOCK_SCREEN.getValue());
             SpUtils.saveInt(getApplicationContext(), FuncConfigs.VALUE_FUNC_OP_LONG_CLICK, FuncConfigs.Func.MENU.getValue());
             SpUtils.saveInt(getApplicationContext(), FuncConfigs.VALUE_FUNC_OP_FLING_UP, FuncConfigs.Func.HOME.getValue());
             SpUtils.saveInt(getApplicationContext(), FuncConfigs.VALUE_FUNC_OP_FLING_LEFT, FuncConfigs.Func.PREVIOUS_APP.getValue());
@@ -206,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
             SpUtils.saveInt(getApplicationContext(), FuncConfigs.VALUE_FUNC_OP_MENU_BALL + 4, FuncConfigs.Func.SHOT_SCREEN.getValue());
 
             SpUtils.saveBoolean(getApplicationContext(), SpUtils.KEY_APP_IS_FIRST_RYN, false);
+            SpUtils.saveBoolean(getApplicationContext(), Configs.KEY_TOUCH_BALL_AUTO_HIDE, true);
 
             //弹窗提示开启权限
             if (sopStep == 1) {
@@ -446,13 +448,14 @@ public class MainActivity extends AppCompatActivity {
         settingsItemFunc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, FunctionSelectActivity.class));
+                startActivity(new Intent(MainActivity.this, FuncAllActivity.class));
             }
         });
+
         itemCheckFuncSetting.setOnItemClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, FunctionSelectActivity.class));
+                startActivity(new Intent(MainActivity.this, FuncAllActivity.class));
             }
         });
 

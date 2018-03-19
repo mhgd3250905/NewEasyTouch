@@ -164,6 +164,8 @@ public class EasyTouchBaseService extends Service {
     //剪贴板布局
     private WindowManager.LayoutParams mClipsParam;
     private ClipsCollectionView clipsCollectionView;
+    //是否需要横屏隐藏
+    protected boolean needLandscapeHide;
 
     @Override
     public void onCreate() {
@@ -265,6 +267,8 @@ public class EasyTouchBaseService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         direction = getInt(getApplicationContext(), Configs.KEY_TOUCH_UI_DIRECTION, TOUCH_UI_DIRECTION_LEFT);
+        NotificationUtils.removeNotification(this);
+        needLandscapeHide = SpUtils.getBoolean(getApplicationContext(), Configs.KEY_TOUCH_LANDSCAPE_HIDE,false);
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -381,9 +385,9 @@ public class EasyTouchBaseService extends Service {
      */
     protected void showApp() {
         Intent intent = new Intent();
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setClass(this, MainActivity.class);
         startActivity(intent);
-
     }
 
 

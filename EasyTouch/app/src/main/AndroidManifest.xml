@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:name=".MyApplication"
@@ -76,7 +77,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".IdeaFunc.IdeaFuncActivity"
+            android:name=".View.IdeaFunc.IdeaFuncActivity"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".View.FuncSetting.FuncAllActivity"
             android:theme="@style/AppTheme" />
 
         <!-- 适配Android7.0拍照 -->
@@ -94,9 +99,20 @@
         <activity android:name=".PreviewShotScreenActivity"
             android:theme="@style/TranslucentTheme"></activity>
 
-        <receiver android:name=".ShowBroadcastReceiver">
+        <receiver android:name=".Receiver.ShowBroadcastReceiver">
             <intent-filter>
                 <action android:name="com.skkk.easytouch.action_show_float"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".Receiver.BootBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <category android:name="android.intent.category.HOME"/>
             </intent-filter>
         </receiver>
     </application>

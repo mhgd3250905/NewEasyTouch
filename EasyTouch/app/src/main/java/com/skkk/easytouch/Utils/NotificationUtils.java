@@ -21,6 +21,7 @@ import com.skkk.easytouch.R;
 * 时    间：2018/3/4$ 0:52$.
 */
 public class NotificationUtils {
+    private static final int ID_NOTIFICATION=1;
     /**
      * 发送通知
      *
@@ -49,6 +50,17 @@ public class NotificationUtils {
         //通过builder.build()方法生成Notification对象,并发送通知,id=1
         Notification notification = builder.build();
         notification.flags |= Notification.FLAG_ONGOING_EVENT;
-        notifyManager.notify(1, notification);
+        notifyManager.notify(ID_NOTIFICATION, notification);
+    }
+
+
+    /**
+     * 取消通知
+     * @param context
+     */
+    public static void removeNotification(Context context){
+        NotificationManager notifyManager = (NotificationManager) context.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        notifyManager.cancel(ID_NOTIFICATION);
+
     }
 }

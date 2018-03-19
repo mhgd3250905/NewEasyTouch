@@ -1,4 +1,4 @@
-package com.skkk.easytouch.IdeaFunc;
+package com.skkk.easytouch.View.IdeaFunc;
 
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.Context;

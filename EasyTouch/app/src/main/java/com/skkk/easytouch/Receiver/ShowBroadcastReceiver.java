@@ -1,9 +1,10 @@
-package com.skkk.easytouch;
+package com.skkk.easytouch.Receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.skkk.easytouch.Configs;
 import com.skkk.easytouch.Services.EasyTouchBallService;
 import com.skkk.easytouch.Services.EasyTouchLinearService;
 import com.skkk.easytouch.Utils.SpUtils;
@@ -21,7 +22,7 @@ import com.skkk.easytouch.Utils.SpUtils;
 public class ShowBroadcastReceiver extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
-        int touchType= SpUtils.getInt(context.getApplicationContext(),Configs.KEY_SAVE_TOUCH_TYPE,0);
+        int touchType= SpUtils.getInt(context.getApplicationContext(), Configs.KEY_SAVE_TOUCH_TYPE,0);
         if (touchType==Configs.TouchType.BALL.getValue()) {
             context.startService(new Intent(context,EasyTouchBallService.class));
         }else if (touchType==Configs.TouchType.LINEAR.getValue()){

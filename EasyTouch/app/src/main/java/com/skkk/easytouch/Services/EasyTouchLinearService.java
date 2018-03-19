@@ -608,10 +608,14 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+
         hasConfigurationChanged = true;
         try {
             if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 //横屏
+                if (needLandscapeHide) {
+                    hideEasyTouchAndShowNotication();
+                }
                 // 1.获取当前的位置
                 rightBorder = Math.max(screenWidth, screenHeight);
 
@@ -633,6 +637,15 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
                 }
             } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 //竖屏
+                if(needLandscapeHide){
+                    try {
+                        windowManager.addView(touchView, mParams);
+                        isTouchShow=true;
+                    }catch (Exception e){
+                        Log.i(TAG, "addView: view已经存在");
+                    }
+                }
+
                 rightBorder = Math.min(screenWidth, screenHeight);
 
                 mParams.y = mParams.y * Math.max(screenWidth, screenHeight) / Math.min(screenWidth, screenHeight);
@@ -1593,6 +1606,7 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
     public int onStartCommand(Intent intent, int flags, int startId) {
         try {
             windowManager.addView(touchView, mParams);
+            isTouchShow=true;
         }catch (Exception e){
             Log.i(TAG, "addView: view已经存在");
         }

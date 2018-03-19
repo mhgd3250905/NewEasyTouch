@@ -15,6 +15,7 @@ public class FuncConfigs {
     public static final String KEY_FUNC_OP="key_func_op";
 
     public static final String VALUE_FUNC_OP_CLICK="value_func_op_click";
+    public static final String VALUE_FUNC_OP_DOUBLE_CLICK="value_func_op_double_click";
     public static final String VALUE_FUNC_OP_LONG_CLICK="value_func_op_long_click";
     public static final String VALUE_FUNC_OP_FLING_UP="value_func_op_fling_up";
     public static final String VALUE_FUNC_OP_FLING_LEFT="value_func_op_fling_left";

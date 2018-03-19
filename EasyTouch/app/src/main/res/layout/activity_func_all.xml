@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg_light_gray_0"
+    android:fitsSystemWindows="true"
+    tools:context=".View.AboutActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@id/tb_about"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+        </android.support.design.widget.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_gray_border"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:gravity="center|start"
+                    android:layout_marginStart="10dp"
+                    android:text="手势功能"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/main_bg_light_gray_1" />
+
+                <com.skkk.easytouch.View.SettingItemCheckableView
+                    app:showTip="false"
+                    android:id="@id/item_check_func_motion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
+                    app:content="手势功能"
+                    app:showCheckable="false"
+                    app:titleIcon="@drawable/mian_item_title_icon_touch"
+                    app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_gray_border"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:gravity="center|start"
+                    android:layout_marginStart="10dp"
+                    android:text="其他设置"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/main_bg_light_gray_1" />
+
+
+                <com.skkk.easytouch.View.SettingItemCheckableView
+                    app:showTip="false"
+                    android:id="@id/item_check_auto_hide"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
+                    app:content="悬浮球自动躲避"
+                    app:showCheckable="true"
+                    app:titleIcon="@drawable/func_item_title_auto_hide"
+                    app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginStart="40dp"
+                    android:background="@color/main_bg_light_gray_1"
+                    android:visibility="gone" />
+
+
+                <com.skkk.easytouch.View.SettingItemCheckableView
+                    app:showTip="false"
+                    android:id="@id/item_check_landscape_hide"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
+                    app:content="横向隐藏助手"
+                    app:showCheckable="true"
+                    app:titleIcon="@drawable/func_item_title_landscape_hide"
+                    app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginStart="40dp"
+                    android:background="@color/main_bg_light_gray_1"
+                    android:visibility="gone" />
+
+                <com.skkk.easytouch.View.SettingItemCheckableView
+                    app:showTip="false"
+                    android:id="@id/item_check_boot_start"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
+                    app:content="开机启动"
+                    app:showCheckable="true"
+                    app:titleIcon="@drawable/func_item_title_boot_start"
+                    app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
+
+
