@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg_light_gray_1"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@id/rl_tomato_setup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_above="@id/tv_set_desc"
+            android:id="@id/tv_set_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:elevation="10dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:shadowColor="@color/colorBlack55"
+            android:text="地狱番茄"
+            android:textColor="@color/colorBlackBody77"
+            android:textSize="50sp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@id/divide"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_alignEnd="@id/tv_set_title"
+            android:layout_alignStart="@id/tv_set_title"
+            android:layout_below="@id/tv_set_title"
+            android:background="@color/colorBlackBody77" />
+
+        <TextView
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:id="@id/tv_set_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/et_set_title"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="地狱番茄会在未来的25分钟里占领你的手机，除了查看通知，你什么也干不了，只能好好学习或工作！"
+            android:textColor="@color/colorBlackBody77"
+            android:textSize="20sp" />
+
+
+        <EditText
+            android:layout_centerInParent="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:id="@id/et_set_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_gray_rect_border"
+            android:gravity="center"
+            android:hint="点击输入待办事项"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:textColor="@color/colorBlackBody77"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@id/btn_start"
+            android:background="@color/colorBlackBody77"
+            android:text="开始"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/et_set_title"
+            android:layout_alignStart="@id/et_set_title"
+            android:layout_alignEnd="@id/et_set_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@id/btn_close"
+            android:background="@drawable/bg_gray_rect_border"
+            android:text="关闭"
+            android:textColor="@color/colorBlackBody77"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/btn_start"
+            android:layout_alignStart="@id/et_set_title"
+            android:layout_alignEnd="@id/et_set_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@id/rl_tomato_start"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:elevation="10dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:shadowColor="@color/colorBlack55"
+            android:text="25:00"
+            android:textColor="@color/colorBlackBody77"
+            android:textSize="100sp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@id/divide"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_alignEnd="@id/tv_time"
+            android:layout_alignStart="@id/tv_time"
+            android:layout_below="@id/tv_time"
+            android:background="@color/colorBlackBody77" />
+
+        <TextView
+            android:id="@id/tv_to_do"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/tv_time"
+            android:layout_alignStart="@id/tv_time"
+            android:layout_below="@id/divide"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="撸代码"
+            android:textColor="@color/colorBlackBody77"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@id/et_close"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/tv_time"
+            android:layout_alignStart="@id/tv_time"
+            android:layout_below="@id/tv_to_do"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_gray_rect_border"
+            android:elevation="10dp"
+            android:gravity="center"
+            android:hint="倒序输入上方文字立即结束"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:shadowColor="@color/colorBlack55"
+            android:textColor="@color/colorBlackBody77"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

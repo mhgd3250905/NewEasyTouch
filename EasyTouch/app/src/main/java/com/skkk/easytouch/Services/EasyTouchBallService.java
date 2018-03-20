@@ -1153,8 +1153,9 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
                 Log.i(TAG, "onSingleTapUp: ");
                 //震动30毫秒
                 if (!isMenuShow) {
+                    setupTomato();
 //                  showTouchBall();
-                    goOpEvent(FuncConfigs.VALUE_FUNC_OP_CLICK);
+//                    goOpEvent(FuncConfigs.VALUE_FUNC_OP_CLICK);
 //                  shotScreen();
 //                    hideEasyTouchAndShowNotication();
                 }

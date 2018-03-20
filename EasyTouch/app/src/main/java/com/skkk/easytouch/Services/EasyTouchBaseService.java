@@ -19,18 +19,28 @@ import android.media.AudioManager;
 import android.media.ImageReader;
 import android.media.projection.MediaProjection;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.skkk.easytouch.Configs;
 import com.skkk.easytouch.MainActivity;
+import com.skkk.easytouch.R;
 import com.skkk.easytouch.Receiver.AdminManageReceiver;
 import com.skkk.easytouch.Utils.NotificationUtils;
 import com.skkk.easytouch.Utils.ShotScreenUtils;
@@ -99,6 +109,16 @@ public class EasyTouchBaseService extends Service {
     private WindowManager.LayoutParams softInputLp;
     protected SoftInputListenerView softInputListenerView;
 
+    private WindowManager.LayoutParams tomatoLp;
+    protected RelativeLayout tomatoView;
+    protected RelativeLayout rlTomatoSetup;
+    protected RelativeLayout rlTomatoStart;
+    private TextView tvTomatoTime;
+    private TextView tvTomatoToDo;
+    private EditText etClose;
+    private EditText etSetTitle;
+    private Button btnStart;
+
     /**
      * 软件盘弹出前的高度位置
      */
@@ -127,9 +147,12 @@ public class EasyTouchBaseService extends Service {
         @Override
         public void onSensorChanged(SensorEvent event) {
             float[] values = event.values;
-            float x = values[0];//X轴方向的重力加速度，向右为正
-            float y = values[1];//Y轴方向的重力加速度，向前为正
-            float z = values[2];//Z轴方向的重力加速度，向上为正
+            //X轴方向的重力加速度，向右为正
+            float x = values[0];
+            //Y轴方向的重力加速度，向前为正
+            float y = values[1];
+            //Z轴方向的重力加速度，向上为正
+            float z = values[2];
 
             int medumValue = 12;
             //判断是否抬手
@@ -138,13 +161,11 @@ public class EasyTouchBaseService extends Service {
                 shakeTime = System.currentTimeMillis();
             }
 
-//            Log.i(TAG, String.format("X:%.2f Y:%.2f Z:%.2f", x, y, z));
             if (z < 9 && z > 2 && -2 < x && x < 2 && 4 < y && y < 10) {
 
 
                 showTime = System.currentTimeMillis();
                 if (showTime - shakeTime > 0 && showTime - shakeTime < 500) {
-//                    Log.w(TAG, String.format("X:%.2f Y:%.2f Z:%.2f", x, y, z));
 
                     shakeTime = 0;
                     wakeLock.acquire();
@@ -158,7 +179,6 @@ public class EasyTouchBaseService extends Service {
 
         }
     };
-    ;
     //亮屏
     private PowerManager.WakeLock wakeLock;
     //剪贴板布局
@@ -166,6 +186,8 @@ public class EasyTouchBaseService extends Service {
     private ClipsCollectionView clipsCollectionView;
     //是否需要横屏隐藏
     protected boolean needLandscapeHide;
+    private CountDownTimer countDownTimer;
+
 
     @Override
     public void onCreate() {
@@ -202,6 +224,22 @@ public class EasyTouchBaseService extends Service {
 
     private void initUI() {
         //设置输入法监听的悬浮view
+        initSoftInput();
+
+        //设置剪贴板监听
+//        initClipBoard();
+
+        //初始化番茄学习功能
+        initTomato();
+
+        //初始化重力感应
+        initSensorEvent();
+    }
+
+    /**
+     * 设置输入法监听的悬浮view
+     */
+    private void initSoftInput() {
         softInputLp = new WindowManager.LayoutParams();
         softInputLp.width = 0;
         softInputLp.x = 0;
@@ -214,12 +252,68 @@ public class EasyTouchBaseService extends Service {
         softInputListenerView = new SoftInputListenerView(this);
         softInputListenerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         windowManager.addView(softInputListenerView, softInputLp);
+    }
 
-        //设置剪贴板监听
-//        initClipBoard();
+    /**
+     * 初始化番茄学习功能
+     */
+    private void initTomato() {
+        tomatoLp = new WindowManager.LayoutParams();
+        tomatoLp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        tomatoLp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        tomatoLp.x = 0;
+        tomatoLp.y = 0;
+        tomatoLp.type = WindowManager.LayoutParams.TYPE_PHONE;
+        tomatoLp.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
+        tomatoLp.format = PixelFormat.TRANSPARENT;
+        tomatoLp.gravity = Gravity.LEFT | Gravity.TOP;
+        tomatoView = (RelativeLayout) View.inflate(getApplicationContext(), R.layout.layout_tomato_view, null);
+        rlTomatoSetup = (RelativeLayout) tomatoView.findViewById(R.id.rl_tomato_setup);
+        rlTomatoStart = (RelativeLayout) tomatoView.findViewById(R.id.rl_tomato_start);
+        tvTomatoTime = (TextView) tomatoView.findViewById(R.id.tv_time);
+        tvTomatoToDo = (TextView) tomatoView.findViewById(R.id.tv_to_do);
+        etClose = (EditText) tomatoView.findViewById(R.id.et_close);
+        etSetTitle = (EditText) tomatoView.findViewById(R.id.et_set_title);
+        btnStart = (Button) tomatoView.findViewById(R.id.btn_start);
 
-        //初始化重力感应
-        initSensorEvent();
+        //设置开始按钮
+        btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (etSetTitle.length() <= 0) {
+                    etSetTitle.setError("请输入待办事项");
+                    return;
+                }
+                SpUtils.saveString(getApplicationContext(), SpUtils.KEY_TOMATO_TITLE, etSetTitle.getText().toString().trim());
+                startTomato();
+            }
+        });
+
+        //设置关闭番茄学习的编辑框
+        etClose.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String title = tvTomatoToDo.getText().toString().trim();
+                char[] chars = title.toCharArray();
+                StringBuffer buf = new StringBuffer();
+                for (int i = chars.length - 1; i >= 0; i--) {
+                    buf.append(chars[i]);
+                }
+                if (buf.toString().equals(s.toString())) {
+                    closeTomato();
+                }
+            }
+        });
     }
 
     /**
@@ -255,20 +349,20 @@ public class EasyTouchBaseService extends Service {
         mClipsParam.gravity = Gravity.LEFT | Gravity.TOP;
 
         clipsCollectionView = new ClipsCollectionView(this);
-        ViewGroup.LayoutParams clipViewLp = new ViewGroup.LayoutParams(screenWidth*2/3,screenHeight/4);
+        ViewGroup.LayoutParams clipViewLp = new ViewGroup.LayoutParams(screenWidth * 2 / 3, screenHeight / 4);
         clipsCollectionView.setLayoutParams(clipViewLp);
 
-        mClipsParam.x=screenWidth/6;
-        mClipsParam.y=100;
+        mClipsParam.x = screenWidth / 6;
+        mClipsParam.y = 100;
 
-        windowManager.addView(clipsCollectionView,mClipsParam);
+        windowManager.addView(clipsCollectionView, mClipsParam);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         direction = getInt(getApplicationContext(), Configs.KEY_TOUCH_UI_DIRECTION, TOUCH_UI_DIRECTION_LEFT);
         NotificationUtils.removeNotification(this);
-        needLandscapeHide = SpUtils.getBoolean(getApplicationContext(), Configs.KEY_TOUCH_LANDSCAPE_HIDE,false);
+        needLandscapeHide = SpUtils.getBoolean(getApplicationContext(), Configs.KEY_TOUCH_LANDSCAPE_HIDE, false);
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -426,12 +520,60 @@ public class EasyTouchBaseService extends Service {
         List<AccessibilityServiceInfo> enableServices
                 = am.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC);
         for (AccessibilityServiceInfo enableService : enableServices) {
-//            Log.i(TAG, "installService.id-->" + enableService.getId());
             if (enableService.getId().endsWith(name)) {
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * 设置番茄工作
+     */
+    public void setupTomato() {
+        try {
+            windowManager.addView(tomatoView, tomatoLp);
+            rlTomatoSetup.setVisibility(View.VISIBLE);
+            rlTomatoStart.setVisibility(View.GONE);
+        } catch (Exception e) {
+            Log.e(TAG, "添加番茄界面失败：已经存在");
+        }
+    }
+
+    /**
+     * 开始番茄计时
+     */
+    public void startTomato() {
+        rlTomatoSetup.setVisibility(View.GONE);
+        rlTomatoStart.setVisibility(View.VISIBLE);
+
+        tvTomatoToDo.setText(SpUtils.getString(getApplicationContext(), SpUtils.KEY_TOMATO_TITLE, "番茄学习法"));
+        tvTomatoTime.requestFocus();
+        countDownTimer = new CountDownTimer(25 * 60 * 1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                Log.i(TAG, "onTick: " + millisUntilFinished);
+                tvTomatoTime.setText(String.format("%02d:%02d", millisUntilFinished / (1000 * 60), millisUntilFinished % (1000 * 60) / 1000));
+            }
+
+            @Override
+            public void onFinish() {
+                closeTomato();
+            }
+        };
+        countDownTimer.start();
+
+
+    }
+
+    public void closeTomato() {
+        try {
+            windowManager.removeView(tomatoView);
+            tvTomatoToDo.setText("完成");
+            countDownTimer.cancel();
+        } catch (Exception e) {
+            Log.e(TAG, "删除番茄界面失败：不存在");
+        }
     }
 
 }

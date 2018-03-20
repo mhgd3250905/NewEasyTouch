@@ -26,6 +26,9 @@ public class SpUtils {
     public static final String KEY_IDEA_FUNC_TICK_LIGHT="key_idea_func_tick_light";
     public static final String KEY_IDEA_FUNC_GRAVITY_SENSOR="key_idea_func_gravity_sensor";
 
+    public static final String KEY_TOMATO_TITLE="key_tomato_title";
+    public static final String KEY_TOMATO_TIME="key_tomato_time";
+
     /**
      * 保存String
      *

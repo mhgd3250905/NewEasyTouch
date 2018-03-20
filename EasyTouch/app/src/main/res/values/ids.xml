@@ -189,4 +189,17 @@
     <item name="item_check_landscape_hide" type="id">item_check_landscape_hide</item>
     <item name="item_check_auto_hide" type="id">item_check_auto_hide</item>
     <item name="item_check_boot_start" type="id">item_check_boot_start</item>
+    <item name="et_close" type="id">et_close</item>
+    <item name="tv_to_do" type="id">tv_to_do</item>
+    <item name="divide" type="id">divide</item>
+    <item name="tv_time" type="id">tv_time</item>
+    <item name="rl_tomato_start" type="id">rl_tomato_start</item>
+    <item name="rl_tomato_setup" type="id">rl_tomato_setup</item>
+    <item name="tv_setup_to_do" type="id">tv_setup_to_do</item>
+    <item name="et_set_time" type="id">et_set_time</item>
+    <item name="et_set_title" type="id">et_set_title</item>
+    <item name="btn_start" type="id">btn_start</item>
+    <item name="tv_set_title" type="id">tv_set_title</item>
+    <item name="tv_set_desc" type="id">tv_set_desc</item>
+    <item name="btn_close" type="id">btn_close</item>
 </resources>
