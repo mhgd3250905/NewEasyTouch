@@ -118,6 +118,7 @@ public class EasyTouchBaseService extends Service {
     private EditText etClose;
     private EditText etSetTitle;
     private Button btnStart;
+    private Button btnClose;
 
     /**
      * 软件盘弹出前的高度位置
@@ -275,6 +276,7 @@ public class EasyTouchBaseService extends Service {
         etClose = (EditText) tomatoView.findViewById(R.id.et_close);
         etSetTitle = (EditText) tomatoView.findViewById(R.id.et_set_title);
         btnStart = (Button) tomatoView.findViewById(R.id.btn_start);
+        btnClose = (Button) tomatoView.findViewById(R.id.btn_close);
 
         //设置开始按钮
         btnStart.setOnClickListener(new View.OnClickListener() {
@@ -286,6 +288,14 @@ public class EasyTouchBaseService extends Service {
                 }
                 SpUtils.saveString(getApplicationContext(), SpUtils.KEY_TOMATO_TITLE, etSetTitle.getText().toString().trim());
                 startTomato();
+            }
+        });
+
+        //关闭番茄
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeTomato();
             }
         });
 
