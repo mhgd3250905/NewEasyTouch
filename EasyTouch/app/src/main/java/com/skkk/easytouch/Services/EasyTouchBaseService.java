@@ -2,6 +2,7 @@ package com.skkk.easytouch.Services;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
@@ -329,6 +330,7 @@ public class EasyTouchBaseService extends Service {
     /**
      * 初始化重力感应
      */
+    @SuppressLint("InvalidWakeLockTag")
     private void initSensorEvent() {
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         if (SpUtils.getBoolean(getApplicationContext(), SpUtils.KEY_IDEA_FUNC_GRAVITY_SENSOR, false)) {
@@ -388,7 +390,6 @@ public class EasyTouchBaseService extends Service {
     protected void enterBack() {
         vibrator.vibrate(vibrateLevel);
         monitorSystemAction(FloatService.getService(), AccessibilityService.GLOBAL_ACTION_BACK);
-
     }
 
     /**
@@ -455,6 +456,7 @@ public class EasyTouchBaseService extends Service {
         }
     }
 
+
     /**
      * 打开App选择界面
      *
@@ -469,7 +471,7 @@ public class EasyTouchBaseService extends Service {
         intent.putExtra(Configs.KEY_BALL_MENU_SELECT_APP_INDEX, finalIndex);
         intent.putExtra(Configs.KEY_TOUCH_TYPE, touchType.getValue());
         startActivity(intent);
-        stopSelf();
+//        stopSelf();
     }
 
     /**

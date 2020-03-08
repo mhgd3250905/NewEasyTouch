@@ -3,6 +3,7 @@ package com.skkk.easytouch;
 import android.Manifest;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.annotation.TargetApi;
+import android.app.NotificationManager;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -87,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
     SettingItemCheckableView itemCheckLockPermissions;
     @Bind(R.id.item_check_shotscreen_permissions)
     SettingItemCheckableView itemCheckShotscreenPermissions;
+    @Bind(R.id.item_check_audio_permissions)
+    SettingItemCheckableView itemCheckAudioPermissions;
     @Bind(R.id.item_check_shape_setting)
     SettingItemCheckableView itemCheckShapeSetting;
     @Bind(R.id.item_check_func_setting)
@@ -146,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
      * 是否正在展示SOP
      */
     private boolean isSopShow = false;
+    private NotificationManager notificationManager;
 
 
     @Override
@@ -228,6 +232,7 @@ public class MainActivity extends AppCompatActivity {
         updateFloatItemState();
         updateLockItemState();
         updateShotscreenItemState(false);
+        updateAudioItemState();
         updateTypeItemState();
         //如果需要展示新手说明，就不需要真是版本更新
         if (!isSopShow) {
@@ -287,6 +292,7 @@ public class MainActivity extends AppCompatActivity {
         //如果设备管理器尚未激活，这里会启动一个激活设备管理器的Intent,具体的表现就是第一次打开程序时，手机会弹出激活设备管理器的提示，激活即可。
         mAdminName = new ComponentName(this, AdminManageReceiver.class);
         mDPM = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (!mDPM.isAdminActive(mAdminName)) {
             settingsItemLock.setWarning("未开启，锁屏功能无法使用");
         } else {
@@ -308,6 +314,14 @@ public class MainActivity extends AppCompatActivity {
             itemCheckShotscreenPermissions.setCheckedWithAnim(ShotScreenUtils.checkServiceIsRun());
         } else {
             itemCheckShotscreenPermissions.setChecked(ShotScreenUtils.checkServiceIsRun());
+        }
+    }
+
+    private void updateAudioItemState() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            itemCheckAudioPermissions.setChecked(notificationManager.isNotificationPolicyAccessGranted());
+        } else {
+            itemCheckAudioPermissions.setChecked(true);
         }
     }
 
@@ -411,6 +425,19 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        itemCheckAudioPermissions.setOnItemClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+                        && !notificationManager.isNotificationPolicyAccessGranted()) {
+                    Intent intent = new Intent(
+                            Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+                    startActivity(intent);
+                }
+            }
+        });
+
         settingsItemShot.setSettingItemClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

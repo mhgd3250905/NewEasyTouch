@@ -66,7 +66,7 @@ public class AboutActivity extends AppCompatActivity {
                 type="QQ群号";
                 break;
             case R.id.settings_item_github:
-                mClipData =ClipData.newPlainText("Label", "https://github.com/mhgd3250905");
+                mClipData =ClipData.newPlainText("Label", "https://github.com/mhgd3250905/NewEasyTouch");
                 type="Github地址";
                break;
         }

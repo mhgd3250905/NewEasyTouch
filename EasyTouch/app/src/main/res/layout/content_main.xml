@@ -131,6 +131,22 @@
                     app:content="截屏功能"
                     app:titleIcon="@drawable/mian_item_title_icon_shotscreen"
                     app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginStart="40dp"
+                    android:background="@color/main_bg_light_gray_1" />
+
+                <com.skkk.easytouch.View.SettingItemCheckableView
+                    android:id="@id/item_check_audio_permissions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:checkedIcon="@drawable/main_item_conetnt_icon_checked"
+                    app:content="音量功能"
+                    app:titleIcon="@drawable/mian_item_title_icon_shotscreen"
+                    app:uncheckIcon="@drawable/main_item_conetnt_icon_uncheck" />
+
             </LinearLayout>
 
             <LinearLayout

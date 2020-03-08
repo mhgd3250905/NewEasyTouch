@@ -1254,7 +1254,7 @@ public class EasyTouchLinearService extends EasyTouchBaseService implements View
                                     hideMenuDetailContainer();
                                 }
                             }, false);
-                            PackageUtils.getInstance(getApplicationContext()).startAppActivity(appInfo);
+                            PackageUtils.getInstance(getApplicationContext()).startAppActivity(getApplicationContext(),appInfo);
                         }
                     });
                     ivApp.setOnLongClickListener(new View.OnLongClickListener() {

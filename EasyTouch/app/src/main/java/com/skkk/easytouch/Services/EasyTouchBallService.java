@@ -190,7 +190,6 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
         menuWidth = 200f;
 
 
-
         //设置悬浮窗的LP
         mParams = new WindowManager.LayoutParams();
         mParams.packageName = getPackageName();
@@ -988,7 +987,7 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
                                     hideMenuDetailContainer();
                                 }
                             }, false);
-                            PackageUtils.getInstance(getApplicationContext()).startAppActivity(appInfo);
+                            PackageUtils.getInstance(getApplicationContext()).startAppActivity(getApplicationContext(),appInfo);
                         }
                     });
                     ivApp.setOnLongClickListener(new View.OnLongClickListener() {
@@ -1046,8 +1045,8 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
      */
     private void initMneuDetailPayEvent() {
         /*
-        * 设置支付事件监听
-        * */
+         * 设置支付事件监听
+         * */
         containerMenuDetailPay.post(new Runnable() {
             @Override
             public void run() {
@@ -1115,7 +1114,8 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
             @Override
             public boolean onLongClick(View v) {
                 Log.i(TAG, "onLongClick: ");
-                vibrator.vibrate(vibrateLevel);
+                showVibrate();
+
                 if (!canMove) {
                     canMove = true;
                     if (!isMenuShow) {
@@ -1129,8 +1129,6 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
 
 
         touchView.setOnTouchListener(this);
-
-
 
 
         ballDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
@@ -1153,9 +1151,10 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
                 Log.i(TAG, "onSingleTapUp: ");
                 //震动30毫秒
                 if (!isMenuShow) {
-                    setupTomato();
+//                    setupTomato();
 //                  showTouchBall();
-//                    goOpEvent(FuncConfigs.VALUE_FUNC_OP_CLICK);
+                    goOpEvent(FuncConfigs.VALUE_FUNC_OP_CLICK);
+//                    Log.w(TAG, String.format("当前坐标：(%d,%d)", mParams.x, mParams.y));
 //                  shotScreen();
 //                    hideEasyTouchAndShowNotication();
                 }
@@ -1245,6 +1244,14 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
         ballDetector.setIsLongpressEnabled(false);
 
 
+    }
+
+    //显示震动
+    private void showVibrate() {
+        //震动两次：
+        vibrator.vibrate(new long[]{1000, 1000, 1000, 1000}, 3);
+        //取消震动
+        vibrator.cancel();
     }
 
     /**
@@ -1977,7 +1984,7 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
             handler.postDelayed(pressRunnable, 1000);
             handler.removeCallbacks(hideRunnable);
             //根据设置判断是否需要进行悬浮球自动异常
-            if(SpUtils.getBoolean(getApplicationContext(),Configs.KEY_TOUCH_BALL_AUTO_HIDE,false)) {
+            if (SpUtils.getBoolean(getApplicationContext(), Configs.KEY_TOUCH_BALL_AUTO_HIDE, false)) {
                 handler.postDelayed(hideRunnable, 3000);
             }
         }
@@ -2052,7 +2059,7 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
         try {
             windowManager.addView(touchView, mParams);
             isTouchShow = true;
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.i(TAG, "addView: view已经存在");
         }
 
@@ -2184,7 +2191,12 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
                 if (isMenuDetailShow) {
                     //移除二级菜单
                     try {
+//                        menuDetailView.setVisibility(View.VISIBLE);
+//                        containerMenuDetailApps.setVisibility(View.GONE);
+//                        containerMenuDetailPay.setVisibility(View.GONE);
+//                        containerMenuDetailVoice.setVisibility(View.GONE);
                         windowManager.removeView(menuDetailView);
+                        Log.d(TAG, "run: 移除二级菜单！");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -2227,7 +2239,7 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
 
         MyApplication.setTouchType(Configs.TouchType.NONE);
         //保存最后的Y坐标
-        SpUtils.saveFloat(getApplicationContext(),SpUtils.KEY_MOVE_LAST_Y,mParams.y);
+        SpUtils.saveFloat(getApplicationContext(), SpUtils.KEY_MOVE_LAST_Y, mParams.y);
 
         super.onDestroy();
     }
@@ -2349,6 +2361,7 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
         } else if (funcType == FuncConfigs.Func.HIDE_FLOAT.getValue()) {
             hideEasyTouchAndShowNotication();
         }
+//        vibrator.vibrate(new long[]{0, 100, 0, 0}, -1);
     }
 
     /**
@@ -2429,7 +2442,6 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
     }
 
 
-
     /**
      * 复写隐藏悬浮窗并发送广播方法：隐藏悬浮球
      */
@@ -2450,5 +2462,17 @@ public class EasyTouchBallService extends EasyTouchBaseService implements View.O
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void startSelectAppActivity(int finalIndex, int value, Configs.TouchType touchType) {
+        hideMenuDetailEnterAnim(menuDetailView, HIDE_MENU_DETAIL_SLOW, new Configs.OnAnimEndListener() {
+            @Override
+            public void onAnimEnd() {
+                hideMenuDetailContainer();
+                Log.d(TAG, "startSelectAppActivity: hideMenuDetailContainer");
+            }
+        }, true);
+        super.startSelectAppActivity(finalIndex, value, touchType);
     }
 }

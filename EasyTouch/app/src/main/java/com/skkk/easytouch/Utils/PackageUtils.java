@@ -8,6 +8,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import com.skkk.easytouch.Bean.AppInfoBean;
 
@@ -19,12 +20,14 @@ import java.util.List;
  * 作者 admin
  */
 /*
-* 
-* 描    述：包管理工具
-* 作    者：ksheng
-* 时    间：2017/12/3$ 19:30$.
-*/
+ *
+ * 描    述：包管理工具
+ * 作    者：ksheng
+ * 时    间：2017/12/3$ 19:30$.
+ */
 public class PackageUtils {
+    private static final String TAG = "PackageUtils";
+
     private static volatile PackageUtils instance;
     private static Context context;
     private Drawable iconDrawable;
@@ -54,10 +57,10 @@ public class PackageUtils {
         Intent shortcutsIntent = new Intent(Intent.ACTION_CREATE_SHORTCUT);
         List<ResolveInfo> shortcuts = context.getPackageManager().queryIntentActivities(
                 shortcutsIntent, 0);
-        List<AppInfoBean> appInfoBeanList=new ArrayList<>();
+        List<AppInfoBean> appInfoBeanList = new ArrayList<>();
         for (int i = 0; i < shortcuts.size(); i++) {
             PackageInfo pkg = null;
-            String appName="";
+            String appName = "";
             try {
                 pkg = context.getApplicationContext().
                         getPackageManager().getPackageInfo(shortcuts.get(i).activityInfo.packageName, 0);
@@ -137,9 +140,11 @@ public class PackageUtils {
      *
      * @param appInfoBean
      */
-    public void startAppActivity(AppInfoBean appInfoBean) {
+    public void startAppActivity(Context context,AppInfoBean appInfoBean) {
         //该应用的包名和主Activity
-        Intent intent = context.getPackageManager().getLaunchIntentForPackage(appInfoBean.getPkgName());
+        Log.d(TAG, "startAppActivity: " + appInfoBean.getPkgName());
+        Intent intent =context.getPackageManager().getLaunchIntentForPackage(appInfoBean.getPkgName());
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
@@ -152,10 +157,10 @@ public class PackageUtils {
         Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         List<ResolveInfo> resolveInfos = packageManager.queryIntentActivities(mainIntent, 0);
-        List<AppInfoBean> appInfoBeanList=new ArrayList<>();
+        List<AppInfoBean> appInfoBeanList = new ArrayList<>();
         for (int i = 0; i < resolveInfos.size(); i++) {
             PackageInfo pkg = null;
-            String appName="";
+            String appName = "";
             try {
                 pkg = context.getApplicationContext().
                         getPackageManager().getPackageInfo(resolveInfos.get(i).activityInfo.packageName, 0);
@@ -189,15 +194,16 @@ public class PackageUtils {
 
     /**
      * 判断是否存在某一个应用
+     *
      * @param context 上下文
      * @param pkgName 包名
      * @return 是否存在
      */
-    public static boolean checkAppExist(Context context,String pkgName) {
+    public static boolean checkAppExist(Context context, String pkgName) {
         PackageManager packageManager = context.getApplicationContext().getPackageManager();
         List<PackageInfo> packageInfoList = packageManager.getInstalledPackages(0);
         for (PackageInfo packageInfo : packageInfoList) {
-            if (packageInfo.packageName.equals(pkgName)){
+            if (packageInfo.packageName.equals(pkgName)) {
                 return true;
             }
         }
